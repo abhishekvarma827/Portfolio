@@ -2,7 +2,7 @@
 # 👋 Hi, I'm Abhishek Varma
 
 🎓 MS in VLSI and Microelectronics | Illinois Institute of Technology, Chicago (Graduated Spring 2025)  
-📍 San Jose, CA | avarma10@hawk.iit.edu | [(551) 347-6950](tel:+15513476950)  
+📍 San Jose, CA | avarma10@hawk.illinoistech.edu | [(551) 347-6950](tel:+15513476950)  
 🔗 [GitHub](https://github.com/abhishekvarma827) | [LinkedIn](https://www.linkedin.com/in/abhishekvarma10)
 
 ---
