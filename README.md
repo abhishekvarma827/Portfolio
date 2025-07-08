@@ -20,7 +20,7 @@
 ### 🧪 **Verification Intern**  
 *Maven Silicon VLSI Design & Training Center, Bangalore*  
 📆 April 2022 – May 2023  
-- Mentored 15+ trainees on functional verification, reducing ramp-up time by 25%  
+- Mentored 50+ trainees on functional verification, reducing ramp-up time by 25%  
 - Resolved UVM, Verilog & SystemVerilog bugs in verification environments  
 - Worked on protocol-level AXI and AHB to APB bridge verification  
 - Authored reusable training material and enhanced internal verification documentation  
