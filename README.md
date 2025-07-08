@@ -101,7 +101,7 @@
 
 ## 📄 Resume
 
-🔗 [Download My Resume (PDF)](https://github.com/abhishekvarma827/portfolio/blob/main/Abhishek_Varma_Resume.pdf)
+🔗 [Download My Resume (PDF)](https://drive.google.com/file/d/1XP1rTKtWYETedbxKggu2sc51Nq6ECcdu/view?usp=drive_link)
 
 ---
 
