@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhishek Varma | VLSI Design & Verification Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --secondary: #f7931e;
+            --accent: #ff0a54;
+            --electron-blue: #00d4ff;
+            --electron-cyan: #00fff7;
+            --dark: #0a0e17;
+            --darker: #050810;
+            --light: #e8f4f8;
+            --grid: rgba(255, 107, 53, 0.15);
+            --trace: rgba(247, 147, 30, 0.2);
+            --bg-primary: #050810;
+            --bg-secondary: #0a0e17;
+            --text-primary: #e8f4f8;
+            --text-secondary: rgba(232, 244, 248, 0.85);
+            --card-bg: rgba(10, 14, 23, 0.95);
+            --card-border: rgba(255, 107, 53, 0.3);
+            --section-bg: rgba(5, 8, 16, 0.8);
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Ensure content is above particles */
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .microchip {
+            z-index: 2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Circuit Board Background */
+        .circuit-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            background-color: var(--darker);
+            background-image: 
+                /* Main grid */
+                repeating-linear-gradient(0deg, transparent, transparent 50px, var(--grid) 50px, var(--grid) 51px),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, var(--grid) 50px, var(--grid) 51px),
+                /* Fine grid for transistor details */
+                repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(255, 107, 53, 0.08) 10px, rgba(255, 107, 53, 0.08) 10.5px),
+                repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 107, 53, 0.08) 10px, rgba(255, 107, 53, 0.08) 10.5px);
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        .circuit-bg::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Diagonal interconnects */
+                repeating-linear-gradient(45deg, transparent, transparent 80px, rgba(247, 147, 30, 0.12) 80px, rgba(247, 147, 30, 0.12) 81px),
+                repeating-linear-gradient(-45deg, transparent, transparent 120px, rgba(255, 10, 84, 0.08) 120px, rgba(255, 10, 84, 0.08) 121px),
+                /* Dense circuit patterns */
+                repeating-linear-gradient(30deg, transparent, transparent 40px, rgba(255, 107, 53, 0.06) 40px, rgba(255, 107, 53, 0.06) 41px),
+                repeating-linear-gradient(-30deg, transparent, transparent 60px, rgba(247, 147, 30, 0.05) 60px, rgba(247, 147, 30, 0.05) 61px);
+            animation: interconnectFlow 10s linear infinite;
+        }
+
+        .circuit-bg::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(247, 147, 30, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 10, 84, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 30% 60%, rgba(255, 107, 53, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 70% 40%, rgba(247, 147, 30, 0.1) 0%, transparent 45%);
+            animation: chipGlow 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes interconnectFlow {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(10px) translateY(10px); }
+        }
+
+        @keyframes chipGlow {
+            0% { opacity: 0.4; filter: blur(40px); }
+            100% { opacity: 0.7; filter: blur(60px); }
+        }
+
+        /* Floating Circuit Traces - Enhanced for chip interconnects */
+        .circuit-trace {
+            position: fixed;
+            width: 3px;
+            background: linear-gradient(180deg, transparent, var(--primary), var(--secondary), transparent);
+            animation: traceFlow 8s linear infinite;
+            z-index: 0;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .circuit-trace:nth-child(1) { left: 10%; height: 300px; animation-delay: 0s; }
+        .circuit-trace:nth-child(2) { left: 30%; height: 400px; animation-delay: 2s; }
+        .circuit-trace:nth-child(3) { left: 50%; height: 350px; animation-delay: 4s; }
+        .circuit-trace:nth-child(4) { left: 70%; height: 500px; animation-delay: 1s; }
+        .circuit-trace:nth-child(5) { left: 90%; height: 280px; animation-delay: 3s; }
+
+        /* Horizontal traces for chip routing */
+        .circuit-trace.horizontal {
+            width: 300px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--secondary), var(--primary), transparent);
+            animation: traceFlowHorizontal 6s linear infinite;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .circuit-trace.horizontal:nth-child(6) { top: 25%; left: -300px; animation-delay: 0s; }
+        .circuit-trace.horizontal:nth-child(7) { top: 45%; left: -300px; animation-delay: 1.5s; }
+        .circuit-trace.horizontal:nth-child(8) { top: 65%; left: -300px; animation-delay: 3s; }
+        .circuit-trace.horizontal:nth-child(9) { top: 85%; left: -300px; animation-delay: 4.5s; }
+
+        @keyframes traceFlow {
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes traceFlowHorizontal {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+
+        /* Logic Gates Animation */
+        .logic-gate {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            opacity: 0;
+            animation: gateActivate 3s ease-in-out infinite;
+            z-index: 0;
+            background: radial-gradient(circle at center, rgba(255, 107, 53, 0.15), transparent);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.4), inset 0 0 20px rgba(247, 147, 30, 0.2);
+        }
+
+        .logic-gate::before {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border: 2px solid var(--secondary);
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(247, 147, 30, 0.6);
+        }
+
+        .logic-gate::after {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            background: radial-gradient(circle, var(--accent), transparent);
+            border-radius: 50%;
+            animation: gatePulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes gatePulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .logic-gate:nth-child(10) { top: 20%; left: 15%; animation-delay: 0s; }
+        .logic-gate:nth-child(11) { top: 40%; left: 35%; animation-delay: 1s; }
+        .logic-gate:nth-child(12) { top: 60%; left: 55%; animation-delay: 2s; }
+        .logic-gate:nth-child(13) { top: 30%; left: 75%; animation-delay: 1.5s; }
+        .logic-gate:nth-child(14) { top: 70%; left: 25%; animation-delay: 0.5s; }
+        .logic-gate:nth-child(15) { top: 50%; left: 85%; animation-delay: 2.5s; }
+
+        @keyframes gateActivate {
+            0%, 100% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 0.9; transform: scale(1); box-shadow: 0 0 50px rgba(255, 107, 53, 0.8), inset 0 0 30px rgba(247, 147, 30, 0.4); }
+        }
+
+        /* Transistor symbols with electron flow */
+        .transistor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            opacity: 0;
+            animation: transistorPulse 2.5s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .transistor::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            top: 50%;
+            left: 0;
+            box-shadow: 0 0 15px var(--primary);
+            transform: translateY(-50%);
+        }
+
+        .transistor::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--secondary), var(--primary));
+            left: 50%;
+            top: 0;
+            box-shadow: 0 0 15px var(--secondary);
+            transform: translateX(-50%);
+        }
+
+        .transistor:nth-child(16) { top: 25%; left: 45%; animation-delay: 0s; }
+        .transistor:nth-child(17) { top: 45%; left: 65%; animation-delay: 0.5s; }
+        .transistor:nth-child(18) { top: 65%; left: 15%; animation-delay: 1s; }
+        .transistor:nth-child(19) { top: 35%; left: 85%; animation-delay: 1.5s; }
+        .transistor:nth-child(20) { top: 75%; left: 45%; animation-delay: 0.8s; }
+
+        @keyframes transistorPulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.9; filter: drop-shadow(0 0 20px var(--primary)); }
+        }
+
+        /* Blue Electron Flow - Glowing particles moving through transistors */
+        .data-pulse {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--electron-cyan), var(--electron-blue));
+            box-shadow: 0 0 20px var(--electron-blue), 0 0 40px var(--electron-cyan);
+            opacity: 0;
+            animation: electronFlow 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .data-pulse::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.4), transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: electronGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes electronGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+
+        .data-pulse:nth-child(21) { top: 20%; left: 20%; animation-delay: 0s; }
+        .data-pulse:nth-child(22) { top: 40%; left: 40%; animation-delay: 0.6s; }
+        .data-pulse:nth-child(23) { top: 60%; left: 60%; animation-delay: 1.2s; }
+        .data-pulse:nth-child(24) { top: 80%; left: 30%; animation-delay: 1.8s; }
+        .data-pulse:nth-child(25) { top: 30%; left: 70%; animation-delay: 2.4s; }
+
+        @keyframes electronFlow {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+            20% { opacity: 1; transform: translate(80px, 80px) scale(1); }
+            40% { opacity: 0.9; transform: translate(160px, 160px) scale(0.9); }
+            60% { opacity: 0.7; transform: translate(240px, 240px) scale(0.7); }
+            80% { opacity: 0.4; transform: translate(320px, 320px) scale(0.5); }
+            100% { opacity: 0; transform: translate(400px, 400px) scale(0.2); }
+        }
+
+        /* Additional electron particles for more density */
+        .electron-stream {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--electron-cyan);
+            box-shadow: 0 0 15px var(--electron-blue), 0 0 30px var(--electron-cyan);
+            opacity: 0;
+            animation: electronStream 2s linear infinite;
+            z-index: 0;
+        }
+
+        .electron-stream:nth-child(26) { top: 15%; left: 25%; animation-delay: 0s; }
+        .electron-stream:nth-child(27) { top: 35%; left: 50%; animation-delay: 0.4s; }
+        .electron-stream:nth-child(28) { top: 55%; left: 20%; animation-delay: 0.8s; }
+        .electron-stream:nth-child(29) { top: 25%; left: 80%; animation-delay: 1.2s; }
+        .electron-stream:nth-child(30) { top: 75%; left: 60%; animation-delay: 1.6s; }
+        .electron-stream:nth-child(31) { top: 45%; left: 10%; animation-delay: 0.3s; }
+        .electron-stream:nth-child(32) { top: 65%; left: 85%; animation-delay: 0.7s; }
+        .electron-stream:nth-child(33) { top: 10%; left: 55%; animation-delay: 1.1s; }
+        .electron-stream:nth-child(34) { top: 85%; left: 40%; animation-delay: 1.5s; }
+        .electron-stream:nth-child(35) { top: 50%; left: 75%; animation-delay: 1.9s; }
+
+        @keyframes electronStream {
+            0% { opacity: 0; transform: translateY(0) translateX(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(100px) translateX(50px); }
+        }
+
+        /* Central Microchip - 3D Isometric View */
+        .microchip {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) perspective(1200px) rotateX(55deg) rotateZ(-45deg);
+            width: 400px;
+            height: 400px;
+            z-index: 0;
+            animation: chipFloat 6s ease-in-out infinite;
+            pointer-events: none;
+            transform-style: preserve-3d;
+            isolation: isolate;
+        }
+
+        @keyframes chipFloat {
+            0%, 100% { 
+                opacity: 0.7; 
+                transform: translate(-50%, -50%) perspective(1200px) rotateX(55deg) rotateZ(-45deg) translateZ(0); 
+            }
+            50% { 
+                opacity: 0.85; 
+                transform: translate(-50%, -50%) perspective(1200px) rotateX(55deg) rotateZ(-45deg) translateZ(15px); 
+            }
+        }
+
+        /* PCB Base Layer */
+        .chip-pcb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(-40px);
+            width: 340px;
+            height: 340px;
+            background: linear-gradient(135deg, #0a3d0a 0%, #0d4d0d 50%, #063006 100%);
+            border-radius: 8px;
+            box-shadow: 
+                0 40px 60px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+        }
+
+        /* PCB Circuit traces */
+        .chip-pcb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(255, 215, 0, 0.15) 15px, rgba(255, 215, 0, 0.15) 16px),
+                repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255, 215, 0, 0.15) 15px, rgba(255, 215, 0, 0.15) 16px);
+            border-radius: 8px;
+        }
+
+        /* Chip Body - Main processor package with 3D depth */
+        .chip-body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(0);
+            width: 260px;
+            height: 260px;
+            background: linear-gradient(135deg, #2a2a35 0%, #1a1a25 50%, #252530 100%);
+            border-radius: 12px;
+            box-shadow: 
+                0 0 60px rgba(0, 212, 255, 0.2),
+                0 0 100px rgba(255, 107, 53, 0.15),
+                0 25px 50px rgba(0, 0, 0, 0.7),
+                inset 0 2px 0 rgba(255, 255, 255, 0.15),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 107, 53, 0.5);
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        /* 3D extrusion effect - side faces */
+        .chip-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(247, 147, 30, 0.2), rgba(255, 10, 84, 0.2));
+            border-radius: 12px;
+            transform: translateZ(-20px);
+            box-shadow: 
+                -15px 15px 0 rgba(20, 20, 30, 0.9),
+                -30px 30px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Heat spreader / IHS layer */
+        .chip-ihs {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(8px);
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #4a4a55 0%, #3a3a45 50%, #2a2a35 100%);
+            border-radius: 8px;
+            box-shadow: 
+                inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+                0 5px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(100, 100, 110, 0.5);
+            transform-style: preserve-3d;
+        }
+
+        /* Inner die area - TALL 3D Tower Chip like reference */
+        .chip-die {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(12px);
+            width: 120px;
+            height: 120px;
+            background: transparent;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        /* 3D Die - Top face (visible top with neural network) */
+        .die-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a1a25 0%, #0d2030 50%, #0a1520 100%);
+            border: 2px solid rgba(0, 212, 255, 0.6);
+            transform: translateZ(120px);
+            transform-style: flat;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 212, 255, 0.4),
+                0 0 30px rgba(0, 212, 255, 0.5),
+                0 0 60px rgba(0, 212, 255, 0.3),
+                0 0 80px rgba(0, 255, 247, 0.2);
+        }
+
+        /* 3D Die - Left side face - TALL */
+        .die-side-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(180deg, 
+                #0a1a10 0%, 
+                #0d2515 15%,
+                #103020 30%, 
+                #0d2515 45%,
+                #103520 60%,
+                #0d2515 75%,
+                #0a1a10 100%);
+            transform: rotateY(-90deg) translateZ(0px);
+            transform-origin: left center;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            overflow: hidden;
+        }
+
+        /* 3D Die - Right side face - TALL */
+        .die-side-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(180deg, 
+                #0a1a10 0%, 
+                #0d2515 15%,
+                #103020 30%, 
+                #0d2515 45%,
+                #103520 60%,
+                #0d2515 75%,
+                #0a1a10 100%);
+            transform: rotateY(90deg) translateZ(0px);
+            transform-origin: right center;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            overflow: hidden;
+        }
+
+        /* 3D Die - Front side face - TALL */
+        .die-side-front {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(180deg, 
+                #0a1510 0%, 
+                #0d2015 15%,
+                #102a20 30%, 
+                #0d2515 45%,
+                #103020 60%,
+                #0d2015 75%,
+                #0a1510 100%);
+            transform: rotateX(90deg) translateZ(0px);
+            transform-origin: bottom center;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            overflow: hidden;
+        }
+
+        /* 3D Die - Back side face - TALL */
+        .die-side-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(180deg, 
+                #0a1510 0%, 
+                #0d2015 15%,
+                #102a20 30%, 
+                #0d2515 45%,
+                #103020 60%,
+                #0d2015 75%,
+                #0a1510 100%);
+            transform: rotateX(-90deg) translateZ(0px);
+            transform-origin: top center;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            overflow: hidden;
+        }
+
+        /* Layer separator lines - glowing horizontal bands */
+        .layer-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 255, 136, 0.4) 10%,
+                rgba(0, 255, 200, 0.8) 30%,
+                rgba(0, 212, 255, 0.9) 50%,
+                rgba(0, 255, 200, 0.8) 70%,
+                rgba(0, 255, 136, 0.4) 90%,
+                transparent 100%);
+            box-shadow: 
+                0 0 8px rgba(0, 255, 136, 0.6),
+                0 0 15px rgba(0, 212, 255, 0.4);
+            animation: layerPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes layerPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Position layer lines on sides */
+        .die-side-left .layer-line:nth-of-type(1) { top: 15px; animation-delay: 0s; }
+        .die-side-left .layer-line:nth-of-type(2) { top: 35px; animation-delay: 0.2s; }
+        .die-side-left .layer-line:nth-of-type(3) { top: 55px; animation-delay: 0.4s; }
+        .die-side-left .layer-line:nth-of-type(4) { top: 75px; animation-delay: 0.6s; }
+        .die-side-left .layer-line:nth-of-type(5) { top: 95px; animation-delay: 0.8s; }
+
+        .die-side-right .layer-line:nth-of-type(1) { top: 15px; animation-delay: 0.1s; }
+        .die-side-right .layer-line:nth-of-type(2) { top: 35px; animation-delay: 0.3s; }
+        .die-side-right .layer-line:nth-of-type(3) { top: 55px; animation-delay: 0.5s; }
+        .die-side-right .layer-line:nth-of-type(4) { top: 75px; animation-delay: 0.7s; }
+        .die-side-right .layer-line:nth-of-type(5) { top: 95px; animation-delay: 0.9s; }
+
+        .die-side-front .layer-line:nth-of-type(1) { top: 15px; animation-delay: 0.15s; }
+        .die-side-front .layer-line:nth-of-type(2) { top: 35px; animation-delay: 0.35s; }
+        .die-side-front .layer-line:nth-of-type(3) { top: 55px; animation-delay: 0.55s; }
+        .die-side-front .layer-line:nth-of-type(4) { top: 75px; animation-delay: 0.75s; }
+        .die-side-front .layer-line:nth-of-type(5) { top: 95px; animation-delay: 0.95s; }
+
+        .die-side-back .layer-line:nth-of-type(1) { top: 15px; animation-delay: 0.05s; }
+        .die-side-back .layer-line:nth-of-type(2) { top: 35px; animation-delay: 0.25s; }
+        .die-side-back .layer-line:nth-of-type(3) { top: 55px; animation-delay: 0.45s; }
+        .die-side-back .layer-line:nth-of-type(4) { top: 75px; animation-delay: 0.65s; }
+        .die-side-back .layer-line:nth-of-type(5) { top: 95px; animation-delay: 0.85s; }
+
+        /* Vertical circuit traces - orange/gold */
+        .side-line {
+            position: absolute;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                rgba(255, 165, 0, 0.5) 10%,
+                rgba(255, 200, 50, 0.8) 50%,
+                rgba(255, 165, 0, 0.5) 90%,
+                transparent 100%);
+            box-shadow: 0 0 6px rgba(255, 165, 0, 0.5);
+        }
+
+        .side-line.v {
+            width: 2px;
+            height: 100%;
+        }
+
+        .side-line.h {
+            width: 100%;
+            height: 2px;
+        }
+
+        /* Vertical lines positioning */
+        .die-side-left .side-line.v:nth-of-type(6) { left: 20px; }
+        .die-side-left .side-line.v:nth-of-type(7) { left: 50px; }
+        .die-side-left .side-line.v:nth-of-type(8) { left: 80px; }
+        .die-side-left .side-line.v:nth-of-type(9) { left: 100px; }
+
+        .die-side-right .side-line.v:nth-of-type(6) { left: 20px; }
+        .die-side-right .side-line.v:nth-of-type(7) { left: 50px; }
+        .die-side-right .side-line.v:nth-of-type(8) { left: 80px; }
+        .die-side-right .side-line.v:nth-of-type(9) { left: 100px; }
+
+        .die-side-front .side-line.v:nth-of-type(6) { left: 20px; }
+        .die-side-front .side-line.v:nth-of-type(7) { left: 50px; }
+        .die-side-front .side-line.v:nth-of-type(8) { left: 80px; }
+        .die-side-front .side-line.v:nth-of-type(9) { left: 100px; }
+
+        .die-side-back .side-line.v:nth-of-type(6) { left: 20px; }
+        .die-side-back .side-line.v:nth-of-type(7) { left: 50px; }
+        .die-side-back .side-line.v:nth-of-type(8) { left: 80px; }
+        .die-side-back .side-line.v:nth-of-type(9) { left: 100px; }
+
+        /* Orange/Gold electrons flowing on vertical lines */
+        .side-electron {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #ffdd00 0%, #ff9500 50%, #ff6b00 100%);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 4px #ffdd00) drop-shadow(0 0 8px #ff9500) drop-shadow(0 0 12px #ff6b00);
+            opacity: 0;
+        }
+
+        /* Left side electrons - flowing down */
+        .die-side-left .side-electron {
+            animation: electronFlowDown 1.8s linear infinite;
+        }
+
+        .die-side-left .side-electron:nth-of-type(10) { left: 19px; animation-delay: 0s; }
+        .die-side-left .side-electron:nth-of-type(11) { left: 49px; animation-delay: 0.3s; }
+        .die-side-left .side-electron:nth-of-type(12) { left: 79px; animation-delay: 0.6s; }
+        .die-side-left .side-electron:nth-of-type(13) { left: 99px; animation-delay: 0.9s; }
+        .die-side-left .side-electron:nth-of-type(14) { left: 34px; animation-delay: 1.2s; }
+        .die-side-left .side-electron:nth-of-type(15) { left: 64px; animation-delay: 1.5s; }
+
+        /* Right side electrons - flowing up */
+        .die-side-right .side-electron {
+            animation: electronFlowUp 1.8s linear infinite;
+        }
+
+        .die-side-right .side-electron:nth-of-type(10) { left: 19px; animation-delay: 0.1s; }
+        .die-side-right .side-electron:nth-of-type(11) { left: 49px; animation-delay: 0.4s; }
+        .die-side-right .side-electron:nth-of-type(12) { left: 79px; animation-delay: 0.7s; }
+        .die-side-right .side-electron:nth-of-type(13) { left: 99px; animation-delay: 1s; }
+        .die-side-right .side-electron:nth-of-type(14) { left: 34px; animation-delay: 1.3s; }
+        .die-side-right .side-electron:nth-of-type(15) { left: 64px; animation-delay: 1.6s; }
+
+        /* Front side electrons - flowing down */
+        .die-side-front .side-electron {
+            animation: electronFlowDown 1.8s linear infinite;
+        }
+
+        .die-side-front .side-electron:nth-of-type(10) { left: 19px; animation-delay: 0.15s; }
+        .die-side-front .side-electron:nth-of-type(11) { left: 49px; animation-delay: 0.45s; }
+        .die-side-front .side-electron:nth-of-type(12) { left: 79px; animation-delay: 0.75s; }
+        .die-side-front .side-electron:nth-of-type(13) { left: 99px; animation-delay: 1.05s; }
+        .die-side-front .side-electron:nth-of-type(14) { left: 34px; animation-delay: 1.35s; }
+        .die-side-front .side-electron:nth-of-type(15) { left: 64px; animation-delay: 1.65s; }
+
+        /* Back side electrons - flowing up */
+        .die-side-back .side-electron {
+            animation: electronFlowUp 1.8s linear infinite;
+        }
+
+        .die-side-back .side-electron:nth-of-type(10) { left: 19px; animation-delay: 0.05s; }
+        .die-side-back .side-electron:nth-of-type(11) { left: 49px; animation-delay: 0.35s; }
+        .die-side-back .side-electron:nth-of-type(12) { left: 79px; animation-delay: 0.65s; }
+        .die-side-back .side-electron:nth-of-type(13) { left: 99px; animation-delay: 0.95s; }
+        .die-side-back .side-electron:nth-of-type(14) { left: 34px; animation-delay: 1.25s; }
+        .die-side-back .side-electron:nth-of-type(15) { left: 64px; animation-delay: 1.55s; }
+
+        @keyframes electronFlowDown {
+            0% { top: -10px; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 130px; opacity: 0; }
+        }
+
+        @keyframes electronFlowUp {
+            0% { top: 130px; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: -10px; opacity: 0; }
+        }
+
+        /* Green/Cyan pulse glow effect on side faces */
+        .die-side-left::after,
+        .die-side-right::after,
+        .die-side-front::after,
+        .die-side-back::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            animation: sidePulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sidePulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Neural network SVG container */
+        .neural-network {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .neural-network svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Neural connection lines */
+        .neural-line {
+            stroke: rgba(0, 212, 255, 0.3);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .neural-line-active {
+            stroke: #00d4ff;
+            stroke-width: 1.5;
+            fill: none;
+            filter: drop-shadow(0 0 3px #00d4ff);
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: neuralPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes neuralPulse {
+            0% { stroke-dashoffset: 200; opacity: 0; }
+            10% { opacity: 1; }
+            50% { stroke-dashoffset: 0; opacity: 1; }
+            90% { opacity: 1; }
+            100% { stroke-dashoffset: -200; opacity: 0; }
+        }
+
+        /* Neural nodes */
+        .neural-node {
+            fill: rgba(0, 212, 255, 0.4);
+            filter: drop-shadow(0 0 4px #00d4ff);
+        }
+
+        .neural-node-glow {
+            fill: #00d4ff;
+            filter: drop-shadow(0 0 8px #00d4ff) drop-shadow(0 0 15px #00fff7);
+            animation: nodeGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes nodeGlow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* Chip Pins - Gold colored, static (no electrons) */
+        .chip-pin {
+            position: absolute;
+            background: linear-gradient(90deg, #8B7355, #D4AF37, #C5A028, #D4AF37, #8B7355);
+            box-shadow: 
+                0 0 8px rgba(212, 175, 55, 0.5),
+                0 3px 6px rgba(0, 0, 0, 0.4);
+            border-radius: 1px;
+            transform-style: preserve-3d;
+        }
+
+        /* Top pins */
+        .chip-pin.top { 
+            top: -25px; 
+            width: 20px;
+            height: 18px;
+            transform: rotateX(-30deg);
+        }
+        .chip-pin.top:nth-of-type(1) { left: 35px; }
+        .chip-pin.top:nth-of-type(2) { left: 70px; }
+        .chip-pin.top:nth-of-type(3) { left: 105px; }
+        .chip-pin.top:nth-of-type(4) { left: 140px; }
+        .chip-pin.top:nth-of-type(5) { left: 175px; }
+        .chip-pin.top:nth-of-type(6) { left: 210px; }
+
+        /* Bottom pins */
+        .chip-pin.bottom { 
+            bottom: -25px;
+            width: 20px;
+            height: 18px;
+            transform: rotateX(30deg);
+        }
+        .chip-pin.bottom:nth-of-type(7) { left: 35px; }
+        .chip-pin.bottom:nth-of-type(8) { left: 70px; }
+        .chip-pin.bottom:nth-of-type(9) { left: 105px; }
+        .chip-pin.bottom:nth-of-type(10) { left: 140px; }
+        .chip-pin.bottom:nth-of-type(11) { left: 175px; }
+        .chip-pin.bottom:nth-of-type(12) { left: 210px; }
+
+        /* Left pins */
+        .chip-pin.left { 
+            left: -25px; 
+            width: 18px; 
+            height: 20px;
+            transform: rotateY(30deg);
+        }
+        .chip-pin.left:nth-of-type(13) { top: 35px; }
+        .chip-pin.left:nth-of-type(14) { top: 70px; }
+        .chip-pin.left:nth-of-type(15) { top: 105px; }
+        .chip-pin.left:nth-of-type(16) { top: 140px; }
+        .chip-pin.left:nth-of-type(17) { top: 175px; }
+        .chip-pin.left:nth-of-type(18) { top: 210px; }
+
+        /* Right pins */
+        .chip-pin.right { 
+            right: -25px; 
+            width: 18px; 
+            height: 20px;
+            transform: rotateY(-30deg);
+        }
+        .chip-pin.right:nth-of-type(19) { top: 35px; }
+        .chip-pin.right:nth-of-type(20) { top: 70px; }
+        .chip-pin.right:nth-of-type(21) { top: 105px; }
+        .chip-pin.right:nth-of-type(22) { top: 140px; }
+        .chip-pin.right:nth-of-type(23) { top: 175px; }
+        .chip-pin.right:nth-of-type(24) { top: 210px; }
+
+        /* Internal Chip Details - hidden, replaced by neural network */
+        .chip-internal {
+            display: none;
+        }
+
+        /* Ambient glow under the chip */
+        .chip-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(-50px);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(ellipse, rgba(0, 212, 255, 0.3) 0%, rgba(255, 107, 53, 0.2) 40%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: ambientGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes ambientGlow {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) translateZ(-50px) scale(1); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) translateZ(-50px) scale(1.1); }
+        }
+
+        /* Circuit traces on the PCB around chip */
+        .pcb-traces {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .pcb-trace {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+            height: 2px;
+        }
+
+        .pcb-trace.v {
+            width: 2px;
+            height: auto;
+            background: linear-gradient(180deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+        }
+
+        /* Flowing data particles inside die */
+        .data-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00fff7;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 4px #00fff7);
+            animation: dataFlow 2s linear infinite;
+        }
+
+        @keyframes dataFlow {
+            0% { 
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translate(var(--tx, 50px), var(--ty, 50px)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--grid);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Modern BJT Transistor Logo */
+        .transistor-logo {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            margin-right: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .transistor-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .transistor-logo .bjt-circle {
+            fill: none;
+            stroke: #ff6b35;
+            stroke-width: 2.5;
+            filter: drop-shadow(0 0 4px rgba(255, 107, 53, 0.5));
+        }
+
+        .transistor-logo .bjt-base {
+            fill: none;
+            stroke: #ff6b35;
+            stroke-width: 2.5;
+        }
+
+        .transistor-logo .bjt-emitter {
+            fill: none;
+            stroke: #f7931e;
+            stroke-width: 2.5;
+        }
+
+        .transistor-logo .bjt-collector {
+            fill: none;
+            stroke: #f7931e;
+            stroke-width: 2.5;
+        }
+
+        .transistor-logo .bjt-arrow {
+            fill: #f7931e;
+            stroke: none;
+        }
+
+        /* Gate glow animation */
+        .transistor-logo .bjt-base-line {
+            animation: baseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes baseGlow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 2px #ff6b35);
+                stroke: #ff6b35;
+            }
+            30%, 50% { 
+                filter: drop-shadow(0 0 10px #ff6b35) drop-shadow(0 0 20px #f7931e);
+                stroke: #ffd700;
+            }
+        }
+
+        /* Electron flow animation - starts after gate glow */
+        .transistor-logo .electron {
+            fill: #00d4ff;
+            filter: drop-shadow(0 0 4px #00d4ff);
+            opacity: 0;
+        }
+
+        .transistor-logo .electron-1 {
+            animation: electronFlowLogo 2s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        .transistor-logo .electron-2 {
+            animation: electronFlowLogo 2s linear infinite;
+            animation-delay: 0.8s;
+        }
+
+        .transistor-logo .electron-3 {
+            animation: electronFlowLogo 2s linear infinite;
+            animation-delay: 1.1s;
+        }
+
+        @keyframes electronFlowLogo {
+            0%, 25% { opacity: 0; }
+            30% { opacity: 1; transform: translate(0, 0); }
+            70% { opacity: 1; transform: translate(8px, 12px); }
+            75%, 100% { opacity: 0; transform: translate(10px, 15px); }
+        }
+
+        .name-with-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .name-section h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(247, 147, 30, 0.9)); }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .contact-info a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary);
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .status-badge {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+            animation: badgePulse 2s ease-in-out infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(247, 147, 30, 0.7); }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--grid);
+            animation: fadeInUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.1s; }
+        section:nth-child(3) { animation-delay: 0.2s; }
+        section:nth-child(4) { animation-delay: 0.3s; }
+        section:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            animation: lineGrow 1.5s ease-out;
+        }
+
+        @keyframes lineGrow {
+            from { width: 0; }
+            to { width: 60%; }
+        }
+
+        /* Experience Cards */
+        .experience-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .experience-card {
+            background: rgba(10, 14, 23, 0.6);
+            border: 1px solid var(--trace);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .experience-card:hover {
+            transform: translateX(10px);
+            border-left-color: var(--secondary);
+            box-shadow: -5px 5px 30px rgba(247, 147, 30, 0.3);
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.08));
+            transition: width 0.4s ease;
+            pointer-events: none;
+        }
+
+        .experience-card:hover::before {
+            width: 100%;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .job-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .job-date {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .company {
+            font-size: 1.1rem;
+            color: var(--light);
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .job-description {
+            margin-top: 1rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .job-description a {
+            position: relative;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        .job-description li {
+            margin-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: rgba(232, 244, 248, 0.85);
+            line-height: 1.7;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-category {
+            background: rgba(10, 14, 23, 0.4);
+            border: 1px solid var(--trace);
+            padding: 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .skill-category:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-category:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .skill-category h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .skill-category p {
+            color: rgba(232, 244, 248, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: rgba(10, 14, 23, 0.5);
+            border: 1px solid var(--trace);
+            padding: 1.8rem;
+            position: relative;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            transition: height 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            height: 100%;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+            box-shadow: 0 10px 50px rgba(255, 107, 53, 0.25);
+        }
+
+        .project-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+            border-bottom: 1px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .project-link:hover {
+            color: var(--light);
+            border-bottom-color: var(--light);
+        }
+
+        .project-link:active {
+            color: var(--secondary);
+        }
+
+        .project-description {
+            color: rgba(232, 244, 248, 0.85);
+            line-height: 1.8;
+            margin-top: 1rem;
+        }
+
+        /* Education */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .education-card {
+            background: rgba(10, 14, 23, 0.4);
+            border: 1px solid var(--trace);
+            border-top: 3px solid var(--secondary);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            border-top-color: var(--primary);
+            box-shadow: 0 -5px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .degree {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .institution {
+            font-size: 1.1rem;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-details {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: rgba(232, 244, 248, 0.7);
+        }
+
+        .coursework {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--grid);
+            color: rgba(232, 244, 248, 0.7);
+            line-height: 1.7;
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .cert-card {
+            background: rgba(10, 14, 23, 0.3);
+            border-left: 3px solid var(--primary);
+            padding: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .cert-card:hover {
+            background: rgba(10, 14, 23, 0.6);
+            border-left-width: 6px;
+            border-left-color: var(--secondary);
+            padding-left: 1.5rem;
+        }
+
+        .cert-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .cert-org {
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-date {
+            color: rgba(232, 244, 248, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--grid);
+            margin-top: 2rem;
+        }
+
+        .footer-text {
+            color: rgba(232, 244, 248, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .cert-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .name-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+            }
+
+            .status-badge {
+                align-self: flex-start;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cert-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .job-header {
+                flex-direction: column;
+            }
+        }
+
+        /* Scroll Animation */
+        /* Top Progress Bar */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b35, #f7931e, #ff0a54);
+            width: 0%;
+            z-index: 99999;
+            box-shadow: 0 0 10px #ff6b35, 0 0 20px #f7931e;
+            transition: width 0.05s linear;
+        }
+
+        /* Simple Scroll-to-Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid #ff6b35;
+            color: #ff6b35;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-to-top:hover {
+            background: rgba(255, 107, 53, 0.1);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Particle Background Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">↑</button>
+    
+    <div class="circuit-bg"></div>
+    
+    <!-- Vertical traces -->
+    <div class="circuit-trace"></div>
+    <div class="circuit-trace"></div>
+    <div class="circuit-trace"></div>
+    <div class="circuit-trace"></div>
+    <div class="circuit-trace"></div>
+    
+    <!-- Horizontal traces -->
+    <div class="circuit-trace horizontal"></div>
+    <div class="circuit-trace horizontal"></div>
+    <div class="circuit-trace horizontal"></div>
+    <div class="circuit-trace horizontal"></div>
+    
+    <!-- Logic gates -->
+    <div class="logic-gate"></div>
+    <div class="logic-gate"></div>
+    <div class="logic-gate"></div>
+    <div class="logic-gate"></div>
+    <div class="logic-gate"></div>
+    <div class="logic-gate"></div>
+    
+    <!-- Transistors -->
+    <div class="transistor"></div>
+    <div class="transistor"></div>
+    <div class="transistor"></div>
+    <div class="transistor"></div>
+    <div class="transistor"></div>
+    
+    <!-- Data pulses -->
+    <div class="data-pulse"></div>
+    <div class="data-pulse"></div>
+    <div class="data-pulse"></div>
+    <div class="data-pulse"></div>
+    <div class="data-pulse"></div>
+    
+    <!-- Electron streams -->
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+    <div class="electron-stream"></div>
+
+    <!-- Central Microchip - 3D Isometric View -->
+    <div class="microchip">
+        <!-- Ambient glow -->
+        <div class="chip-glow"></div>
+        
+        <!-- PCB Base -->
+        <div class="chip-pcb"></div>
+        
+        <div class="chip-body">
+            <!-- Top Pins (6 pins) -->
+            <div class="chip-pin top"></div>
+            <div class="chip-pin top"></div>
+            <div class="chip-pin top"></div>
+            <div class="chip-pin top"></div>
+            <div class="chip-pin top"></div>
+            <div class="chip-pin top"></div>
+            
+            <!-- Bottom Pins (6 pins) -->
+            <div class="chip-pin bottom"></div>
+            <div class="chip-pin bottom"></div>
+            <div class="chip-pin bottom"></div>
+            <div class="chip-pin bottom"></div>
+            <div class="chip-pin bottom"></div>
+            <div class="chip-pin bottom"></div>
+            
+            <!-- Left Pins (6 pins) -->
+            <div class="chip-pin left"></div>
+            <div class="chip-pin left"></div>
+            <div class="chip-pin left"></div>
+            <div class="chip-pin left"></div>
+            <div class="chip-pin left"></div>
+            <div class="chip-pin left"></div>
+            
+            <!-- Right Pins (6 pins) -->
+            <div class="chip-pin right"></div>
+            <div class="chip-pin right"></div>
+            <div class="chip-pin right"></div>
+            <div class="chip-pin right"></div>
+            <div class="chip-pin right"></div>
+            <div class="chip-pin right"></div>
+
+            <!-- Heat Spreader / IHS -->
+            <div class="chip-ihs"></div>
+
+            <!-- Inner Die with Neural Network and 3D Side Faces - TALL TOWER -->
+            <div class="chip-die">
+                <!-- 3D Side Faces with Layer Lines and Gold Electrons -->
+                
+                <!-- Left Side Face -->
+                <div class="die-side-left">
+                    <!-- Glowing layer separator lines -->
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <!-- Gold vertical circuit lines -->
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <!-- Gold electrons flowing down -->
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                </div>
+                
+                <!-- Right Side Face -->
+                <div class="die-side-right">
+                    <!-- Glowing layer separator lines -->
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <!-- Gold vertical circuit lines -->
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <!-- Gold electrons flowing up -->
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                </div>
+                
+                <!-- Front Side Face -->
+                <div class="die-side-front">
+                    <!-- Glowing layer separator lines -->
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <!-- Gold vertical circuit lines -->
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <!-- Gold electrons flowing down -->
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                </div>
+                
+                <!-- Back Side Face -->
+                <div class="die-side-back">
+                    <!-- Glowing layer separator lines -->
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <div class="layer-line"></div>
+                    <!-- Gold vertical circuit lines -->
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <div class="side-line v"></div>
+                    <!-- Gold electrons flowing up -->
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                    <div class="side-electron"></div>
+                </div>
+                
+                <!-- Top Face with Neural Network (Cyan electrons) -->
+                <div class="die-top">
+                    <div class="neural-network">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background grid pattern -->
+                            <defs>
+                                <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+                                    <path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(0, 212, 255, 0.15)" stroke-width="0.5"/>
+                                </pattern>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <rect width="120" height="120" fill="url(#smallGrid)"/>
+                            
+                            <!-- Neural network connections - Layer 1 to Layer 2 -->
+                            <line class="neural-line" x1="15" y1="25" x2="45" y2="20"/>
+                            <line class="neural-line" x1="15" y1="25" x2="45" y2="40"/>
+                            <line class="neural-line" x1="15" y1="25" x2="45" y2="60"/>
+                            <line class="neural-line" x1="15" y1="60" x2="45" y2="40"/>
+                            <line class="neural-line" x1="15" y1="60" x2="45" y2="60"/>
+                            <line class="neural-line" x1="15" y1="60" x2="45" y2="80"/>
+                            <line class="neural-line" x1="15" y1="95" x2="45" y2="80"/>
+                            <line class="neural-line" x1="15" y1="95" x2="45" y2="100"/>
+                            
+                            <!-- Layer 2 to Layer 3 -->
+                            <line class="neural-line" x1="45" y1="20" x2="75" y2="35"/>
+                            <line class="neural-line" x1="45" y1="40" x2="75" y2="35"/>
+                            <line class="neural-line" x1="45" y1="40" x2="75" y2="60"/>
+                            <line class="neural-line" x1="45" y1="60" x2="75" y2="60"/>
+                            <line class="neural-line" x1="45" y1="80" x2="75" y2="60"/>
+                            <line class="neural-line" x1="45" y1="80" x2="75" y2="85"/>
+                            <line class="neural-line" x1="45" y1="100" x2="75" y2="85"/>
+                            
+                            <!-- Layer 3 to Layer 4 -->
+                            <line class="neural-line" x1="75" y1="35" x2="105" y2="45"/>
+                            <line class="neural-line" x1="75" y1="60" x2="105" y2="45"/>
+                            <line class="neural-line" x1="75" y1="60" x2="105" y2="75"/>
+                            <line class="neural-line" x1="75" y1="85" x2="105" y2="75"/>
+                            
+                            <!-- Animated active lines (data flowing) -->
+                            <line class="neural-line-active" x1="15" y1="25" x2="45" y2="40" style="animation-delay: 0s;"/>
+                            <line class="neural-line-active" x1="45" y1="40" x2="75" y2="60" style="animation-delay: 0.5s;"/>
+                            <line class="neural-line-active" x1="75" y1="60" x2="105" y2="45" style="animation-delay: 1s;"/>
+                            
+                            <line class="neural-line-active" x1="15" y1="60" x2="45" y2="80" style="animation-delay: 0.3s;"/>
+                            <line class="neural-line-active" x1="45" y1="80" x2="75" y2="85" style="animation-delay: 0.8s;"/>
+                            <line class="neural-line-active" x1="75" y1="85" x2="105" y2="75" style="animation-delay: 1.3s;"/>
+                            
+                            <line class="neural-line-active" x1="15" y1="95" x2="45" y2="100" style="animation-delay: 0.6s;"/>
+                            <line class="neural-line-active" x1="45" y1="20" x2="75" y2="35" style="animation-delay: 1.1s;"/>
+                            <line class="neural-line-active" x1="75" y1="35" x2="105" y2="45" style="animation-delay: 1.6s;"/>
+                            
+                            <!-- Neural nodes - Layer 1 (Input) -->
+                            <circle class="neural-node" cx="15" cy="25" r="4"/>
+                            <circle class="neural-node" cx="15" cy="60" r="4"/>
+                            <circle class="neural-node" cx="15" cy="95" r="4"/>
+                            
+                            <!-- Neural nodes - Layer 2 -->
+                            <circle class="neural-node" cx="45" cy="20" r="3"/>
+                            <circle class="neural-node" cx="45" cy="40" r="3"/>
+                            <circle class="neural-node" cx="45" cy="60" r="3"/>
+                            <circle class="neural-node" cx="45" cy="80" r="3"/>
+                            <circle class="neural-node" cx="45" cy="100" r="3"/>
+                            
+                            <!-- Neural nodes - Layer 3 -->
+                            <circle class="neural-node" cx="75" cy="35" r="3"/>
+                            <circle class="neural-node" cx="75" cy="60" r="3"/>
+                            <circle class="neural-node" cx="75" cy="85" r="3"/>
+                            
+                            <!-- Neural nodes - Layer 4 (Output) -->
+                            <circle class="neural-node" cx="105" cy="45" r="4"/>
+                            <circle class="neural-node" cx="105" cy="75" r="4"/>
+                            
+                            <!-- Glowing active nodes (Cyan) -->
+                            <circle class="neural-node-glow" cx="15" cy="25" r="3" style="animation-delay: 0s;"/>
+                            <circle class="neural-node-glow" cx="45" cy="40" r="2.5" style="animation-delay: 0.5s;"/>
+                            <circle class="neural-node-glow" cx="75" cy="60" r="2.5" style="animation-delay: 1s;"/>
+                            <circle class="neural-node-glow" cx="105" cy="45" r="3" style="animation-delay: 1.5s;"/>
+                            
+                            <circle class="neural-node-glow" cx="15" cy="60" r="3" style="animation-delay: 0.3s;"/>
+                            <circle class="neural-node-glow" cx="45" cy="80" r="2.5" style="animation-delay: 0.8s;"/>
+                            <circle class="neural-node-glow" cx="75" cy="85" r="2.5" style="animation-delay: 1.3s;"/>
+                            <circle class="neural-node-glow" cx="105" cy="75" r="3" style="animation-delay: 1.8s;"/>
+                            
+                            <circle class="neural-node-glow" cx="15" cy="95" r="3" style="animation-delay: 0.6s;"/>
+                            <circle class="neural-node-glow" cx="45" cy="100" r="2.5" style="animation-delay: 1.1s;"/>
+                            
+                            <!-- Floating data particles (Cyan electrons on top) -->
+                            <circle class="data-particle" cx="30" cy="32" r="2" style="--tx: 50px; --ty: 20px; animation-delay: 0s;"/>
+                            <circle class="data-particle" cx="60" cy="50" r="2" style="--tx: 35px; --ty: 25px; animation-delay: 0.4s;"/>
+                            <circle class="data-particle" cx="30" cy="75" r="2" style="--tx: 45px; --ty: 12px; animation-delay: 0.8s;"/>
+                            <circle class="data-particle" cx="60" cy="72" r="2" style="--tx: 38px; --ty: 20px; animation-delay: 1.2s;"/>
+                            <circle class="data-particle" cx="90" cy="55" r="2" style="--tx: 20px; --ty: 30px; animation-delay: 1.6s;"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="name-section">
+                    <h1>ABHISHEK VARMA</h1>
+                    <p class="tagline">VLSI Design & Verification Engineer</p>
+                    <div class="contact-info">
+                        <a href="tel:+15513476950">📞 (551) 347-6950</a>
+                        <a href="mailto:avarma10@hawk.illinoistech.edu">✉️ avarma10@hawk.illinoistech.edu</a>
+                        <a href="https://github.com/abhishekvarma827" target="_blank">💻 GitHub</a>
+                        <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">🔗 LinkedIn</a>
+                        <span style="color: rgba(232, 244, 248, 0.7);">📍 San Jose, CA 95112</span>
+                    </div>
+                </div>
+                <div class="status-badge">
+                    Open to Opportunities
+                </div>
+            </div>
+        </header>
+
+        <section id="about">
+            <h2 class="section-title">ABOUT MYSELF</h2>
+            <p style="font-size: 1.1rem; line-height: 1.9; color: rgba(232, 244, 248, 0.85); max-width: 900px;">
+                Graduate student specializing in VLSI Design and Microelectronics with expertise in functional verification, RTL design, and ASIC development. Proven track record of delivering high-coverage UVM testbenches, optimizing verification workflows, and implementing low-power design techniques for complex digital systems. Passionate about pushing the boundaries of semiconductor technology through innovative verification methodologies and cutting-edge design practices.
+            </p>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title">EDUCATION</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3 class="degree">Master of Applied Science</h3>
+                    <p class="institution">Illinois Institute of Technology | Chicago, Illinois</p>
+                    <div class="education-details">
+                        <span>VLSI and Microelectronics</span>
+                        <span>GPA: 3.60/4.0</span>
+                        <span>August 2023 - June 2025</span>
+                    </div>
+                    <p class="coursework">
+                        <strong>Coursework:</strong> Introduction to VLSI Design, Advanced VLSI Design, High Performance VLSI Design, Computer Architecture, Hardware Acceleration for ML
+                    </p>
+                </div>
+
+                <div class="education-card">
+                    <h3 class="degree">Bachelor of Technology</h3>
+                    <p class="institution">Shri Vaishnav Institute of Technology & Science | Indore, India</p>
+                    <div class="education-details">
+                        <span>Electrical Engineering</span>
+                        <span>GPA: 3.44/4.0</span>
+                        <span>July 2018 - August 2021</span>
+                    </div>
+                    <p class="coursework">
+                        <strong>Coursework:</strong> Circuit Theory, Analog & Digital Electronics, Microprocessor & Microcontroller, Artificial Neural Network, Data Structure & Algorithm
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title">WORK EXPERIENCE</h2>
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Verification Engineer</h3>
+                            <p class="company">Aceic Design Technologies | Bangalore, India</p>
+                        </div>
+                        <span class="job-date">July 2022 - August 2023</span>
+                    </div>
+                    <div class="job-description">
+                        <p><strong>Verification of AMBA AHB to APB Bridge</strong>
+                            <a href="https://drive.google.com/file/d/110jfV7fruTVrtDb0tgiRLYPC1n3SeUTm/view" class="project-link" target="_blank">View Report →</a>
+                        </p>
+                        <ul>
+                            <li>Developed robust UVM-based verification environment targeting bridge IP with pipelined slave interface, incorporating interface monitors, scoreboards, assertions (SVA), and functional coverage</li>
+                            <li>Authored GNU Makefile-driven automation framework to compile RTL, run regressions, collect functional/assertion coverage, and generate HTML reports in QuestaSim</li>
+                            <li>Achieved 99.8% functional coverage using targeted covergroups and advanced constrained-random testing</li>
+                        </ul>
+                        <p style="margin-top: 1.5rem;"><strong>Design & Verification of ROUTER 1X3</strong>
+                            <a href="https://drive.google.com/file/d/1844XedBkcDfjt081OaUKZl2jiM-iHI5U/view" class="project-link" target="_blank">View Report →</a>
+                        </p>
+                        <ul>
+                            <li>Designed RTL for 8-bit packet-based Router with one input and three output ports using Verilog, integrating FSM-based control logic, FIFO buffers, synchronizers, and configurable registers</li>
+                            <li>Built complete UVM testbench with reusable sequences and agents to inject variable-length packets with protocol-specific headers</li>
+                            <li>Achieved 98.6% functional coverage using functional constraints, assertion-based verification (SVA), and dynamic test case generation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Verification Intern</h3>
+                            <p class="company">Maven Silicon VLSI Design | Bangalore, India</p>
+                        </div>
+                        <span class="job-date">January 2022 - June 2022</span>
+                    </div>
+                    <div class="job-description">
+                        <ul>
+                            <li>Spearheaded onboarding for 150+ new trainees in functional verification by developing custom UVM labs, simplified pseudocode templates, and guided debugging exercises</li>
+                            <li>Reduced ramp-up time by 25% and increased training satisfaction through innovative training materials</li>
+                            <li>Debugged and enhanced testbenches written in Verilog, SystemVerilog, and UVM targeting AXI4 and AHB-to-APB bridge protocols</li>
+                            <li>Improved test coverage by 30% through directed and random testing, contributing to protocol-level scenario planning and coverage closure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title">FEATURED PROJECTS</h2>
+            <div class="projects-grid">
+                <div class="project-card" style="border: 2px solid var(--primary); background: rgba(0, 255, 136, 0.05);">
+                    <h3 class="project-title">⭐ AI-Powered RTL Assertion Generator | Pre-Silicon Verification Tool
+                        <a href="https://abhishekvarma827.github.io/Report/" class="project-link" target="_blank">View Demo →</a>
+                    </h3>
+                    <p class="project-description">
+                        Built an AI-powered RTL verification tool that reduces pre-silicon effort by 70-80% through automated SVA generation (protocol, timing, data-integrity, reset, functional), integrated testbench creation, coverage analysis, and direct waveform-viewable, simulation-ready assertions. Designed intelligent RTL parser with signal classification and multi-category assertion engine, validated on digital blocks (Adder, Counter, FSM, FIFO) with 70-90% port coverage, production-grade verification outputs and actionable recommendations for verification improvement.
+                    </p>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">Low Power Technique application for CNN Accelerator of Object Detection System on PYNQZ2 FPGA Board
+                        <a href="https://drive.google.com/file/d/13e7gZygi_fYiQF_UE5tT1DEb2mfXze9a/view" class="project-link" target="_blank">View Report →</a>
+                    </h3>
+                    <p class="project-description">
+                        Developed custom CNN accelerator on Xilinx PYNQ-Z2 FPGA, integrating Bus Specific Clock Gating (BSC) and Local Explicit Clock Gating (LECG) into the MAC unit using Vivado Design Suite. Generated modified bitstream and interfaced with Python-based object detection pipeline in Jupyter Notebook, achieving 4.157% (BSC) and 11.5561% (LECG) power reduction without compromising inference throughput or detection accuracy.
+                    </p>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">Designed 32-Bit Pipelined CPU by using different ALU Architecture
+                        <a href="https://drive.google.com/file/d/1IQDG3aYIbE8qYIAKZS5zJZDNW1KmSgG7/view" class="project-link" target="_blank">View Report →</a>
+                    </h3>
+                    <p class="project-description">
+                        Designed CPU with modular ALU in Verilog, integrating multiple adders and hierarchical comparator for delay-area evaluation. Verified in Xcelium/SimVision, synthesized with Design Compiler, and completed P&R in Innovus. Analyzed functional, timing, and area metrics using gscl45nm libraries.
+                    </p>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">Design and Implementation 6T SRAM cell Design
+                        <a href="https://drive.google.com/file/d/1JAt-5ytS12T5aBejYa98nu4C0yqkNf8_/view" class="project-link" target="_blank">View Report →</a>
+                    </h3>
+                    <p class="project-description">
+                        Designed and optimized 6T SRAM cell in Cadence Virtuoso, performing PVT-corner stability checks and HSPICE simulations (DC, transient, parametric) to analyze read/write robustness, noise margins, leakage, delay, and dynamic power, refining SPICE netlist using Cscope waveform.
+                    </p>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">Design and Functional Verification of Dual Port RAM</h3>
+                    <p class="project-description">
+                        Designed synchronous Dual-Port RAM with independent read/write ports and developed UVM testbench in QuestaSim, achieving 100% functional coverage using constrained-random stimulus and SVA while validating corner cases like same-address simultaneous read/write for timing and coherency.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title">TECHNICAL CAPABILITIES</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Hardware Description</h3>
+                    <p>Verilog, SystemVerilog | Universal Verification Methodology (UVM), PyUVM</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>FPGA & Simulation</h3>
+                    <p>AMD Vivado/Vitis, Siemens Modelsim/Questasim, Cadence Virtuoso & Xcelium, Quartus Prime</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Core Competencies</h3>
+                    <p>Digital Logic Design, Logic Verification, Functional/Code Coverage, SystemVerilog Assertions, Constraint Writing, Low Power Design, ASIC & FPGA Design</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Physical Design</h3>
+                    <p>Static Timing Analysis, Clock Tree Synthesis, Clock Domain Crossing, Unified Power Format, DRC, LVS, SPICE Simulations</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>EDA Tools</h3>
+                    <p>Synopsys Formality, HSPICE, Design Compiler, Innovus</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Programming & Scripting</h3>
+                    <p>C, C++, Python, Cocotb, TCL, Makefile, RISC-V Assembly</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Bus Protocols</h3>
+                    <p>AMBA AHB, APB, AXI, SPI, I2C, UART</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Architecture & Systems</h3>
+                    <p>Computer Architecture, Silicon Validation, Hardware Acceleration for ML, Object-Oriented Programming</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <h2 class="section-title">CERTIFICATIONS</h2>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h3 class="cert-title">Advanced VLSI Design & Verification</h3>
+                    <p class="cert-org">Maven Silicon VLSI Design | Bangalore, India</p>
+                    <p class="cert-date">July 2021 - December 2021</p>
+                </div>
+                <div class="cert-card">
+                    <h3 class="cert-title">Cadence: RTL-to-GDSII Flow
+                        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" class="project-link" target="_blank" style="font-size: 0.8rem;">View Certificate →</a>
+                    </h3>
+                    <p class="cert-org">Cadence Design Systems</p>
+                </div>
+                <div class="cert-card">
+                    <h3 class="cert-title">SystemVerilog Assertions</h3>
+                    <p class="cert-org">Cadence Design Systems</p>
+                </div>
+                <div class="cert-card">
+                    <h3 class="cert-title">SystemVerilog Accelerated Verification with UVM</h3>
+                    <p class="cert-org">Cadence Design Systems</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p class="footer-text">Abhishek Varma</p>
+            <div class="footer-links">
+                <a href="mailto:avarma10@hawk.illinoistech.edu">Contact</a>
+                <a href="https://github.com/abhishekvarma827" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">LinkedIn</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== PARTICLE BACKGROUND ====================
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let isMouseMoving = false;
+        let mouseTimeout;
+        
+        // Particle colors
+        const particleColors = ['#ff6b35', '#f7931e', '#00d4ff', '#00fff7', '#ff0a54'];
+        
+        // Resize canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Particle class
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.baseSize = this.size;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
+                this.alpha = Math.random() * 0.5 + 0.2;
+                this.baseAlpha = this.alpha;
+                this.pulseSpeed = Math.random() * 0.02 + 0.01;
+                this.pulseOffset = Math.random() * Math.PI * 2;
+            }
+            
+            update() {
+                // Base movement
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Mouse interaction - particles are attracted/repelled by mouse
+                if (isMouseMoving) {
+                    const dx = mouseX - this.x;
+                    const dy = mouseY - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 150;
+                    
+                    if (distance < maxDistance) {
+                        const force = (maxDistance - distance) / maxDistance;
+                        const angle = Math.atan2(dy, dx);
+                        
+                        // Particles gently move away from cursor
+                        this.x -= Math.cos(angle) * force * 2;
+                        this.y -= Math.sin(angle) * force * 2;
+                        
+                        // Increase size and brightness near cursor
+                        this.size = this.baseSize + force * 3;
+                        this.alpha = Math.min(1, this.baseAlpha + force * 0.5);
+                    } else {
+                        this.size = this.baseSize;
+                        this.alpha = this.baseAlpha;
+                    }
+                } else {
+                    // Gentle pulsing when mouse not moving
+                    const pulse = Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset);
+                    this.size = this.baseSize + pulse * 0.5;
+                    this.alpha = this.baseAlpha + pulse * 0.1;
+                }
+                
+                // Wrap around edges
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.alpha;
+                ctx.fill();
+                
+                // Add glow effect
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        // Create particles
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+            for (let i = 0; i < Math.min(particleCount, 100); i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        initParticles();
+        window.addEventListener('resize', initParticles);
+        
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            isMouseMoving = true;
+            
+            clearTimeout(mouseTimeout);
+            mouseTimeout = setTimeout(() => {
+                isMouseMoving = false;
+            }, 100);
+        });
+        
+        // Draw connections between nearby particles
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 120) {
+                        const alpha = (1 - distance / 120) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = particles[i].color;
+                        ctx.globalAlpha = alpha;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
+                    }
+                }
+            }
+        }
+        
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw connections first (behind particles)
+            drawConnections();
+            
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+
+        // ==================== SCROLL PROGRESS ====================
+        // Simple and reliable scroll progress bar
+        window.addEventListener('scroll', function() {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrollPercent + '%';
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListe
