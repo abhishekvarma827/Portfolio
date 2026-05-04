@@ -1990,24 +1990,13 @@
                             <h3 class="job-title">Verification Engineer</h3>
                             <p class="company">Aceic Design Technologies | Bangalore, India</p>
                         </div>
-                        <span class="job-date">July 2022 - August 2023</span>
+                        <span class="job-date">July 2021 - August 2023</span>
                     </div>
                     <div class="job-description">
-                        <p><strong>Verification of AMBA AHB to APB Bridge</strong>
-                            <a href="https://drive.google.com/file/d/110jfV7fruTVrtDb0tgiRLYPC1n3SeUTm/view" class="project-link" target="_blank">View Report →</a>
-                        </p>
                         <ul>
-                            <li>Developed robust UVM-based verification environment targeting bridge IP with pipelined slave interface, incorporating interface monitors, scoreboards, assertions (SVA), and functional coverage</li>
-                            <li>Authored GNU Makefile-driven automation framework to compile RTL, run regressions, collect functional/assertion coverage, and generate HTML reports in QuestaSim</li>
-                            <li>Achieved 99.8% functional coverage using targeted covergroups and advanced constrained-random testing</li>
-                        </ul>
-                        <p style="margin-top: 1.5rem;"><strong>Design & Verification of ROUTER 1X3</strong>
-                            <a href="https://drive.google.com/file/d/1844XedBkcDfjt081OaUKZl2jiM-iHI5U/view" class="project-link" target="_blank">View Report →</a>
-                        </p>
-                        <ul>
-                            <li>Designed RTL for 8-bit packet-based Router with one input and three output ports using Verilog, integrating FSM-based control logic, FIFO buffers, synchronizers, and configurable registers</li>
-                            <li>Built complete UVM testbench with reusable sequences and agents to inject variable-length packets with protocol-specific headers</li>
-                            <li>Achieved 98.6% functional coverage using functional constraints, assertion-based verification (SVA), and dynamic test case generation</li>
+                            <li>Architected end-to-end UVM-based verification infrastructure for AMBA AHB-to-APB Bridge, AXI4 Interconnect, SPI Master/Slave, and UART blocks; developed 30+ reusable VIP components including protocol-aware monitors, TLM analysis ports, predictive scoreboards, and golden reference models covering AHB address/data phase decoupling, APB setup/enable sequencing, AXI out-of-order write reordering, SPI CPOL/CPHA modes, and UART baud-rate generation with parity error detection across 200+ test scenarios</li>
+                            <li>Implemented 50+ functional covergroups and SVA assertions for protocol compliance, timing constraints, corner-case validation, and cross-protocol interaction across all four protocol VIPs; achieved 99.8% functional coverage and 100% assertion closure through covergroup optimization and coverage-driven CRV stimulus generation, reducing verification cycle time by 40% in QuestaSim</li>
+                            <li>Developed comprehensive regression automation pipeline using GNU Makefile scripting, orchestrating RTL compilation, 500+ test case execution, UCDB merging, and HTML coverage report generation for AHB, AXI4, SPI, and UART protocol VIPs; identified and resolved 20+ RTL protocol bugs through SVA-based assertion failure triage, waveform forensics, and directed test injection in QuestaSim, achieving 100% protocol specification compliance and functional sign-off closure across all verification milestones</li>
                         </ul>
                     </div>
                 </div>
