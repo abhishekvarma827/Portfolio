@@ -1990,7 +1990,7 @@
                             <h3 class="job-title">Verification Engineer</h3>
                             <p class="company">Aceic Design Technologies | Bangalore, India</p>
                         </div>
-                        <span class="job-date">July 2021 - August 2023</span>
+                        <span class="job-date">July 2022 - August 2023</span>
                     </div>
                     <div class="job-description">
                         <p><strong>Verification of AMBA AHB to APB Bridge</strong>
@@ -2008,6 +2008,22 @@
                             <li>Designed RTL for 8-bit packet-based Router with one input and three output ports using Verilog, integrating FSM-based control logic, FIFO buffers, synchronizers, and configurable registers</li>
                             <li>Built complete UVM testbench with reusable sequences and agents to inject variable-length packets with protocol-specific headers</li>
                             <li>Achieved 98.6% functional coverage using functional constraints, assertion-based verification (SVA), and dynamic test case generation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Research Assistant</h3>
+                            <p class="company">Illinois Institute of Technology — VLSI & SoC Laboratory (Prof. Erdal Oruklu) | Chicago, IL</p>
+                        </div>
+                        <span class="job-date">June 2025 - August 2025</span>
+                    </div>
+                    <div class="job-description">
+                        <ul>
+                            <li>Conducted literature review and documentation for FPGA-based CNN accelerator project, analyzing architectures including AlexNet and VGG-16 for ultrasonic Non-Destructive Evaluation (NDE) applications</li>
+                            <li>Assisted in experimental setup and data collection for ultrasonic flaw detection using Wavelet Packet Decomposition, supporting validation and benchmarking of the Ultra-LeNet model on Zynq FPGA platform</li>
                         </ul>
                     </div>
                 </div>
@@ -2049,7 +2065,7 @@
                         <a href="https://drive.google.com/file/d/13e7gZygi_fYiQF_UE5tT1DEb2mfXze9a/view" class="project-link" target="_blank">View Report →</a>
                     </h3>
                     <p class="project-description">
-                        Developed custom CNN accelerator on Xilinx PYNQ-Z2 FPGA, integrating Bus Specific Clock Gating (BSC) and Local Explicit Clock Gating (LECG) into the MAC unit using Vivado Design Suite. Generated modified bitstream and interfaced with Python-based object detection pipeline in Jupyter Notebook, achieving 4.157% (BSC) and 11.5561% (LECG) power reduction without compromising inference throughput or detection accuracy.
+                        Designed and implemented a ResNet-20 CNN inference accelerator on Xilinx PYNQ-Z2 FPGA featuring a systolic array datapath with AXI-interconnected compute modules (AXIWrapperTCU, Decoder, AccumulatorWithALUArray); surgically modified the MAC unit's register logic to integrate Bus Specific Clock Gating (BSC) and Local Explicit Clock Gating (LECG) low-power techniques, synthesizing and validating three distinct bitstream variants using Vivado Design Suite. Deployed and validated end-to-end forward-pass inference across 10 CIFAR-10 object classes via a Python/Jupyter Notebook PYNQ overlay pipeline on physical hardware, achieving <strong>4.157% (BSC)</strong> and <strong>11.556% (LECG)</strong> dynamic power reduction over the unoptimized baseline with no measurable degradation in per-image inference latency (~0.12–0.14 s) or classification accuracy.
                     </p>
                 </div>
 
@@ -2068,6 +2084,15 @@
                     </h3>
                     <p class="project-description">
                         Designed and optimized 6T SRAM cell in Cadence Virtuoso, performing PVT-corner stability checks and HSPICE simulations (DC, transient, parametric) to analyze read/write robustness, noise margins, leakage, delay, and dynamic power, refining SPICE netlist using Cscope waveform.
+                    </p>
+                </div>
+
+                <div class="project-card">
+                    <h3 class="project-title">PicoRV32 RV32I — AI-Generated UVM Verification Environment
+                        <a href="https://github.com/abhishekvarma827" class="project-link" target="_blank">View on GitHub →</a>
+                    </h3>
+                    <p class="project-description">
+                        Architected a fully AI-generated UVM verification environment for the PicoRV32 RV32I RISC-V core, encompassing a reactive slave driver, shadow-memory scoreboard, and 4 functional covergroups. Executed a 9-test regression suite with multi-seed UCDB merging in QuestaSim, achieving 99.25% coverage closure across 258 bins.
                     </p>
                 </div>
 
@@ -2120,7 +2145,12 @@
 
                 <div class="skill-category">
                     <h3>Architecture & Systems</h3>
-                    <p>Computer Architecture, Silicon Validation, Hardware Acceleration for ML, Object-Oriented Programming</p>
+                    <p>Computer Architecture, Silicon Validation, Hardware Acceleration for ML, Systolic Array Datapaths, RISC-V, Object-Oriented Programming</p>
+                </div>
+
+                <div class="skill-category">
+                    <h3>ML Acceleration & Inference</h3>
+                    <p>CNN Accelerator Design, ResNet/AlexNet/VGG Architectures, CIFAR-10 Inference, PYNQ Overlay Framework, Jupyter Notebook, Low-Precision Arithmetic (INT, FP), Wavelet Packet Decomposition, Non-Destructive Evaluation (NDE)</p>
                 </div>
             </div>
         </section>
