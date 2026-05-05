@@ -7,23 +7,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- Three.js importmap -->
 <script type="importmap">
 {"imports":{
   "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
   "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
 }}
 </script>
-
-<!-- GSAP + ScrollTrigger (global) -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
 <style>
 :root{
-  --bg:#04070d;--bg1:#080d18;--bg2:#0c1422;
-  --bgc:rgba(6,10,18,0.82);
+  --bg:#030608;--bg1:#070c14;--bg2:#0a1120;
+  --bgc:rgba(3,6,8,0.86);
   --cu:#c87828;--cu-b:#e8943a;--cu-d:rgba(200,120,40,0.12);--cu-g:rgba(200,120,40,0.4);
   --gd:#e0b030;
   --blu:#3a8fd4;--blu-g:rgba(58,143,212,0.45);
@@ -39,213 +34,191 @@ html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--cu) var(-
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--blu),var(--cu));border-radius:2px}
 body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hidden;line-height:1.6;cursor:none}
 
-/* ── 3D CANVAS (fills background) ── */
-#threeCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+#threeCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
 
-/* ── LOADER ── */
-#loader{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;transition:opacity 1s ease,visibility 1s ease}
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;transition:opacity 1.1s ease,visibility 1.1s ease}
 #loader.out{opacity:0;visibility:hidden;pointer-events:none}
-.ld-ring{position:relative;width:70px;height:70px}
+.ld-ring{position:relative;width:72px;height:72px}
 .ld-ring svg{width:100%;height:100%}
-.ld-ring .spin1{animation:sp1 1.6s linear infinite}
-.ld-ring .spin2{animation:sp1 1.1s linear infinite reverse}
-@keyframes sp1{to{transform-origin:35px 35px;transform:rotate(360deg)}}
-.ld-txt{font-family:var(--fmon);font-size:.68rem;color:var(--blu);letter-spacing:4px;text-transform:uppercase;animation:ldbl 1.4s step-end infinite}
-@keyframes ldbl{0%,100%{opacity:1}50%{opacity:.3}}
-.ld-sub{font-family:var(--fmon);font-size:.56rem;color:var(--tx-f);letter-spacing:3px;text-transform:uppercase}
+.ld-ring .s1{animation:rot 1.6s linear infinite}
+.ld-ring .s2{animation:rot 1.0s linear infinite reverse}
+@keyframes rot{to{transform-origin:36px 36px;transform:rotate(360deg)}}
+.ld-txt{font-family:var(--fmon);font-size:.68rem;color:var(--blu);letter-spacing:4px;text-transform:uppercase;animation:blink 1.4s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.ld-sub{font-family:var(--fmon);font-size:.55rem;color:var(--tx-f);letter-spacing:3px}
 .ld-bar{width:220px;height:1px;background:rgba(255,255,255,.06);overflow:hidden}
-.ld-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));box-shadow:0 0 8px var(--blu-g);animation:ldfill 2.8s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes ldfill{to{width:100%}}
+.ld-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));animation:lfill 3.0s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes lfill{to{width:100%}}
 
-/* ── CURSOR ── */
+/* CURSOR */
 #cDot{position:fixed;width:6px;height:6px;background:var(--cu);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--cu-g);transition:width .2s,height .2s}
 #cRing{position:fixed;width:30px;height:30px;border:1px solid rgba(200,120,40,.4);border-radius:50%;pointer-events:none;z-index:99997;transform:translate(-50%,-50%);transition:width .28s,height .28s,border-color .28s}
-
-/* ── SCROLL BAR ── */
 #sBar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu),var(--gd));z-index:99996;box-shadow:0 0 6px var(--blu-g);transition:width .06s linear}
 
-/* ── CHIP STATUS HUD ── */
-#chipHud{
-  position:fixed;bottom:2rem;right:2rem;z-index:100;
-  font-family:var(--fmon);font-size:.58rem;letter-spacing:3px;
-  text-transform:uppercase;color:var(--blu);text-shadow:0 0 10px var(--blu-g);
-  opacity:0;transition:opacity .5s;
-  display:flex;flex-direction:column;align-items:flex-end;gap:.3rem;
-}
+/* HUD */
+#chipHud{position:fixed;bottom:2rem;right:2rem;z-index:100;font-family:var(--fmon);font-size:.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--blu);text-shadow:0 0 10px var(--blu-g);opacity:0;transition:opacity .5s;display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
 #chipHud.show{opacity:1}
 #chipHud.powered{color:var(--sig);text-shadow:0 0 12px var(--sig-g)}
-.hud-bar{width:120px;height:1px;background:rgba(255,255,255,.08);overflow:hidden}
-.hud-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));box-shadow:0 0 4px var(--blu-g);transition:width .1s linear}
+.hud-bar{width:110px;height:1px;background:rgba(255,255,255,.08);overflow:hidden}
+.hud-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));transition:width .1s linear}
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:1.3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease}
-nav.sc{background:rgba(4,7,13,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--bd);padding:.85rem 2.5rem}
-.n-logo{font-family:var(--fdis);font-size:1.15rem;font-weight:700;color:var(--cu);text-decoration:none;letter-spacing:3px;text-shadow:0 0 16px var(--cu-g);display:flex;flex-direction:column;line-height:1.1}
-.n-logo small{font-family:var(--fmon);font-size:.48rem;color:var(--tx-f);letter-spacing:5px;text-shadow:none}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:1.3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd);padding:.8rem 2.5rem}
+.n-logo{font-family:var(--fdis);font-size:1.15rem;font-weight:700;color:var(--cu);text-decoration:none;letter-spacing:3px;text-shadow:0 0 18px var(--cu-g);display:flex;flex-direction:column;line-height:1.1}
+.n-logo small{font-family:var(--fmon);font-size:.47rem;color:var(--tx-f);letter-spacing:5px;text-shadow:none}
 .n-links{display:flex;gap:2rem;list-style:none}
-.n-links a{font-family:var(--fmon);font-size:.7rem;color:var(--tx-d);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative}
+.n-links a{font-family:var(--fmon);font-size:.68rem;color:var(--tx-d);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative}
 .n-links a:hover{color:var(--cu)}
 .n-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--cu);transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .n-links a:hover::after{transform:scaleX(1)}
-.n-badge{font-family:var(--fmon);font-size:.6rem;padding:.28rem .75rem;border:1px solid var(--sig);color:var(--sig);letter-spacing:2px;text-transform:uppercase;position:relative;overflow:hidden}
-.n-badge::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,116,.12),transparent);animation:shimmer 2.6s linear infinite}
-@keyframes shimmer{to{left:100%}}
+.n-badge{font-family:var(--fmon);font-size:.58rem;padding:.26rem .7rem;border:1px solid var(--sig);color:var(--sig);letter-spacing:2px;text-transform:uppercase;position:relative;overflow:hidden}
+.n-badge::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,116,.1),transparent);animation:shim 2.8s linear infinite}
+@keyframes shim{to{left:100%}}
 
-/* ── MAIN CONTENT ── */
+/* LAYOUT */
 #main{position:relative;z-index:2}
+.sec-inner{max-width:900px;padding:0 2rem}
 
-/* ── HERO ── */
-#hero{
-  min-height:100vh;display:flex;align-items:flex-end;justify-content:flex-start;
-  padding:0 0 8vh 5vw;
-  /* gradient to keep text readable over 3D */
-  background:linear-gradient(135deg,rgba(4,7,13,0.72) 0%,rgba(4,7,13,0.3) 50%,transparent 100%);
-}
-.hero-inner{max-width:620px}
-.h-pre{font-family:var(--fmon);font-size:.66rem;color:var(--blu);letter-spacing:5px;text-transform:uppercase;margin-bottom:1.2rem;opacity:0;animation:fup .8s ease forwards 3s}
-.h-name{font-family:var(--fdis);font-size:clamp(2.6rem,6vw,5.2rem);font-weight:700;line-height:1;margin-bottom:1rem;opacity:0;animation:fup .8s ease forwards 3.3s}
-.h-name .first{color:var(--tx);display:block}
-.h-name .last{color:var(--cu);text-shadow:0 0 30px var(--cu-g);display:block}
-.h-role{font-family:var(--fmon);font-size:clamp(.78rem,1.8vw,.95rem);color:var(--tx-d);margin-bottom:1.8rem;min-height:1.5em;opacity:0;animation:fup .8s ease forwards 3.6s}
-.h-role .blink{display:inline-block;width:2px;height:.9em;background:var(--cu);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.h-info{display:flex;gap:1.3rem;flex-wrap:wrap;margin-bottom:2rem;opacity:0;animation:fup .8s ease forwards 3.9s}
-.h-info a,.h-info span{font-family:var(--fmon);font-size:.7rem;color:var(--tx-f);text-decoration:none;letter-spacing:1px;transition:color .3s}
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:0 2rem}
+.hero-inner{max-width:700px;margin:0 auto}
+.h-pre{font-family:var(--fmon);font-size:.62rem;color:var(--sig);letter-spacing:5px;text-transform:uppercase;margin-bottom:1.2rem;opacity:.85}
+.h-name{font-family:var(--fdis);font-size:clamp(3rem,9vw,6.5rem);font-weight:700;line-height:.92;letter-spacing:2px;margin-bottom:1rem}
+.h-name .first{display:block;color:var(--tx);text-shadow:0 0 60px rgba(184,204,184,0.15)}
+.h-name .last{display:block;color:var(--cu);text-shadow:0 0 40px var(--cu-g),0 0 80px rgba(200,120,40,.2)}
+.h-role{font-family:var(--fmon);font-size:clamp(.7rem,1.4vw,.9rem);color:var(--blu);letter-spacing:3px;margin-bottom:2rem;min-height:1.4em}
+.blink{display:inline-block;width:2px;height:.9em;background:var(--cu);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:middle}
+.h-info{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;margin-bottom:2rem}
+.h-info a,.h-info span{font-family:var(--fmon);font-size:.66rem;color:var(--tx-d);text-decoration:none;letter-spacing:1px;transition:color .3s}
 .h-info a:hover{color:var(--cu)}
-.h-stats{display:flex;gap:2.5rem;flex-wrap:wrap;margin-bottom:2rem;opacity:0;animation:fup .8s ease forwards 4.2s}
-.hs-n{font-family:var(--fdis);font-size:1.8rem;font-weight:700;color:var(--cu);text-shadow:0 0 18px var(--cu-g);display:block}
-.hs-l{font-family:var(--fmon);font-size:.6rem;color:var(--tx-f);letter-spacing:2px;text-transform:uppercase}
-.h-btns{display:flex;gap:.9rem;flex-wrap:wrap;opacity:0;animation:fup .8s ease forwards 4.5s}
-.btn-p{font-family:var(--fmon);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;padding:.75rem 1.7rem;background:var(--cu);color:#000;text-decoration:none;font-weight:600;transition:all .3s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.btn-p:hover{background:var(--cu-b);box-shadow:0 0 22px var(--cu-g)}
-.btn-s{font-family:var(--fmon);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;padding:.75rem 1.7rem;border:1px solid var(--cu);color:var(--cu);text-decoration:none;transition:all .3s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.btn-s:hover{background:var(--cu-d);box-shadow:0 0 16px var(--cu-g)}
-@keyframes fup{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.h-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;padding:1.2rem 1.5rem;border:1px solid var(--bd);background:rgba(255,255,255,.02);position:relative}
+.h-stats::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
+.h-stats > div{display:flex;flex-direction:column;gap:.2rem}
+.hs-n{font-family:var(--fdis);font-size:1.8rem;font-weight:700;color:var(--cu);line-height:1;text-shadow:0 0 20px var(--cu-g)}
+.hs-l{font-family:var(--fmon);font-size:.58rem;color:var(--tx-f);letter-spacing:2px;text-transform:uppercase}
+.h-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-p{display:inline-block;font-family:var(--fmon);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;padding:.7rem 1.8rem;background:var(--cu);color:#030608;text-decoration:none;font-weight:700;transition:all .3s;position:relative;overflow:hidden}
+.btn-p:hover{background:var(--cu-b);transform:translateY(-2px)}
+.btn-s{display:inline-block;font-family:var(--fmon);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;padding:.68rem 1.8rem;border:1px solid rgba(58,143,212,.4);color:var(--blu);text-decoration:none;transition:all .3s}
+.btn-s:hover{border-color:var(--cu);color:var(--cu)}
 
-/* ── CONTENT SECTIONS ── */
-.sec{padding:5rem 0;position:relative}
-.sec-inner{
-  max-width:700px;margin:0 auto;padding:3rem 3rem 3.5rem;
-  background:var(--bgc);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--bd);position:relative;overflow:hidden;
-}
-.sec-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blu),var(--cu),transparent)}
-.sec-inner::after{content:'';position:absolute;bottom:0;right:0;width:60px;height:60px;background:var(--cu-d);clip-path:polygon(100% 0,100% 100%,0 100%)}
+/* SECTIONS */
+.sec{padding:5rem 2rem;position:relative;z-index:2}
 .sec-hd{margin-bottom:2.5rem}
-.sec-tag{font-family:var(--fmon);font-size:.63rem;color:var(--sig);letter-spacing:4px;text-transform:uppercase;margin-bottom:.65rem;display:flex;align-items:center;gap:.65rem;opacity:0;transform:translateY(16px);transition:all .55s ease}
+.sec-tag{font-family:var(--fmon);font-size:.62rem;color:var(--sig);letter-spacing:4px;text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:.6rem;opacity:0;transform:translateY(14px);transition:all .55s}
 .sec-tag.vis{opacity:1;transform:translateY(0)}
-.sec-tag::after{content:'';flex:0 0 36px;height:1px;background:var(--sig);opacity:.3}
-.sec-title{font-family:var(--fdis);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;line-height:1.1;opacity:0;transform:translateY(16px);transition:all .55s ease .1s}
+.sec-tag::after{content:'';flex:0 0 32px;height:1px;background:var(--sig);opacity:.3}
+.sec-title{font-family:var(--fdis);font-size:clamp(1.5rem,3.2vw,2.3rem);font-weight:700;line-height:1.1;opacity:0;transform:translateY(14px);transition:all .55s .1s}
 .sec-title.vis{opacity:1;transform:translateY(0)}
 .hl{color:var(--cu);text-shadow:0 0 18px var(--cu-g)}
 
-/* ── ABOUT ── */
+/* ABOUT */
 .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:start}
-.about-text p{color:var(--tx-d);line-height:1.9;font-size:.92rem;margin-bottom:1rem}
+.about-text p{color:var(--tx-d);line-height:1.9;font-size:.9rem;margin-bottom:.9rem}
 .about-text strong{color:var(--cu)}
-.about-panel{border:1px solid var(--bd);padding:1.3rem;position:relative;overflow:hidden;background:rgba(255,255,255,.02)}
+.about-panel{border:1px solid var(--bd);padding:1.3rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden}
 .about-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd))}
-.info-row{display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-family:var(--fmon);font-size:.73rem}
+.info-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-family:var(--fmon);font-size:.71rem}
 .info-row:last-child{border-bottom:none}
 .info-row .lbl{color:var(--tx-f)}
 .info-row .val{color:var(--cu);text-align:right}
 
-/* ── TIMELINE ── */
+/* TIMELINE */
 .tl{position:relative;padding-left:1.6rem}
 .tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--cu),var(--gd),transparent);opacity:.3}
-.ti{position:relative;padding:0 0 2.2rem 2.2rem;opacity:0;transform:translateX(-16px);transition:all .6s ease}
+.ti{position:relative;padding:0 0 2rem 2rem;opacity:0;transform:translateX(-14px);transition:all .6s}
 .ti.vis{opacity:1;transform:translateX(0)}
 .ti-dot{position:absolute;left:-5px;top:8px;width:10px;height:10px;border:2px solid var(--cu);background:var(--bg);box-shadow:0 0 8px var(--cu-g)}
-.ti-card{border:1px solid var(--bd);padding:1.3rem;position:relative;overflow:hidden;transition:all .35s;background:rgba(255,255,255,.02)}
+.ti-card{border:1px solid var(--bd);padding:1.3rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .35s}
 .ti-card:hover{border-color:var(--bd-h);transform:translateX(4px)}
 .ti-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--cu),var(--gd))}
-.ti-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.28rem;flex-wrap:wrap;gap:.4rem}
+.ti-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.25rem;flex-wrap:wrap;gap:.4rem}
 .ti-role{font-family:var(--fdis);font-size:1rem;font-weight:700;color:var(--cu)}
-.ti-date{font-family:var(--fmon);font-size:.65rem;color:var(--gd);border:1px solid rgba(224,176,48,.28);padding:.18rem .52rem}
-.ti-co{font-family:var(--fmon);font-size:.73rem;color:var(--tx-f);margin-bottom:1rem}
+.ti-date{font-family:var(--fmon);font-size:.63rem;color:var(--gd);border:1px solid rgba(224,176,48,.28);padding:.16rem .5rem}
+.ti-co{font-family:var(--fmon);font-size:.71rem;color:var(--tx-f);margin-bottom:.9rem}
 .ti-ul{list-style:none}
-.ti-ul li{color:var(--tx-d);font-size:.85rem;line-height:1.85;margin-bottom:.55rem;padding-left:1.3rem;position:relative}
+.ti-ul li{color:var(--tx-d);font-size:.84rem;line-height:1.88;margin-bottom:.5rem;padding-left:1.3rem;position:relative}
 .ti-ul li::before{content:'▸';position:absolute;left:0;color:var(--cu);opacity:.65}
 
-/* ── PROJECTS ── */
+/* PROJECTS */
 .pg{display:grid;gap:.9rem}
-.pc{border:1px solid var(--bd);padding:1.5rem;position:relative;overflow:hidden;transition:all .4s;background:rgba(255,255,255,.02);opacity:0;transform:translateY(20px)}
+.pc{border:1px solid var(--bd);padding:1.5rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .4s;opacity:0;transform:translateY(18px)}
 .pc.vis{opacity:1;transform:translateY(0)}
 .pc:hover{border-color:var(--bd-h);transform:translateY(-3px)}
 .pc.feat{border-color:rgba(200,120,40,.25);background:linear-gradient(135deg,rgba(200,120,40,.04),rgba(255,255,255,.02))}
 .pc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cu),transparent);transform:scaleX(0);transition:transform .45s}
 .pc:hover::before{transform:scaleX(1)}
-.pc-badge{display:inline-block;font-family:var(--fmon);font-size:.58rem;letter-spacing:3px;text-transform:uppercase;padding:.18rem .62rem;background:var(--cu-d);color:var(--cu);border:1px solid rgba(200,120,40,.2);margin-bottom:.8rem}
-.pc-title{font-family:var(--fdis);font-size:.93rem;font-weight:600;color:var(--tx);margin-bottom:.7rem;line-height:1.4}
-.pc-desc{color:var(--tx-d);font-size:.84rem;line-height:1.85;margin-bottom:1rem}
-.pc-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1rem}
-.pc-tag{font-family:var(--fmon);font-size:.61rem;padding:.13rem .44rem;background:rgba(255,255,255,.04);color:var(--tx-f);border:1px solid rgba(255,255,255,.07)}
-.pc-link{font-family:var(--fmon);font-size:.65rem;color:var(--cu);text-decoration:none;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid transparent;transition:all .3s}
+.pc-badge{display:inline-block;font-family:var(--fmon);font-size:.57rem;letter-spacing:3px;text-transform:uppercase;padding:.16rem .6rem;background:var(--cu-d);color:var(--cu);border:1px solid rgba(200,120,40,.2);margin-bottom:.8rem}
+.pc-title{font-family:var(--fdis);font-size:.95rem;font-weight:600;color:var(--tx);margin-bottom:.7rem;line-height:1.4}
+.pc-desc{color:var(--tx-d);font-size:.84rem;line-height:1.88;margin-bottom:.9rem}
+.pc-tags{display:flex;flex-wrap:wrap;gap:.28rem;margin-bottom:.9rem}
+.pc-tag{font-family:var(--fmon);font-size:.6rem;padding:.12rem .42rem;background:rgba(255,255,255,.04);color:var(--tx-f);border:1px solid rgba(255,255,255,.07)}
+.pc-link{font-family:var(--fmon);font-size:.63rem;color:var(--cu);text-decoration:none;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid transparent;transition:all .3s}
 .pc-link:hover{border-bottom-color:var(--cu)}
+.pc-metrics{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem;padding:.6rem .8rem;background:rgba(200,120,40,.04);border-left:2px solid var(--cu)}
+.pc-metric{font-family:var(--fmon);font-size:.6rem;color:var(--cu);letter-spacing:1px}
+.pc-metric span{color:var(--gd)}
 
-/* ── SKILLS ── */
+/* SKILLS */
 .sg{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
-.sk{border:1px solid var(--bd);padding:1.1rem;position:relative;overflow:hidden;transition:all .35s;background:rgba(255,255,255,.02);opacity:0;transform:translateY(13px)}
+.sk{border:1px solid var(--bd);padding:1.1rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(12px)}
 .sk.vis{opacity:1;transform:translateY(0)}
 .sk:hover{border-color:var(--bd-h)}
 .sk::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cu),var(--gd));transform:scaleX(0);transform-origin:left;transition:transform .38s}
 .sk:hover::before{transform:scaleX(1)}
-.sk-ico{font-size:1rem;margin-bottom:.4rem;opacity:.55}
-.sk-name{font-family:var(--fdis);font-size:.77rem;font-weight:700;color:var(--cu);letter-spacing:1px;margin-bottom:.5rem}
-.sk-tags{display:flex;flex-wrap:wrap;gap:.26rem}
-.sk-tag{font-family:var(--fmon);font-size:.61rem;padding:.13rem .42rem;background:rgba(255,255,255,.04);color:var(--tx-d);border:1px solid rgba(255,255,255,.06)}
+.sk-ico{font-size:1rem;margin-bottom:.4rem;opacity:.5}
+.sk-name{font-family:var(--fdis);font-size:.76rem;font-weight:700;color:var(--cu);letter-spacing:1px;margin-bottom:.45rem}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.24rem}
+.sk-tag{font-family:var(--fmon);font-size:.6rem;padding:.12rem .4rem;background:rgba(255,255,255,.04);color:var(--tx-d);border:1px solid rgba(255,255,255,.06)}
 
-/* ── EDU ── */
+/* EDUCATION */
 .eg{display:grid;gap:.9rem}
-.ec{border:1px solid var(--bd);padding:1.3rem;position:relative;overflow:hidden;transition:all .35s;background:rgba(255,255,255,.02);opacity:0;transform:translateY(15px)}
+.ec{border:1px solid var(--bd);padding:1.3rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(14px)}
 .ec.vis{opacity:1;transform:translateY(0)}
 .ec:hover{border-color:var(--bd-h)}
 .ec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gd),var(--cu))}
-.ec-deg{font-family:var(--fdis);font-size:1rem;font-weight:700;color:var(--cu);margin-bottom:.28rem}
-.ec-sch{font-size:.9rem;color:var(--tx);margin-bottom:.7rem}
-.ec-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.7rem}
-.ec-meta span{font-family:var(--fmon);font-size:.67rem;color:var(--tx-f)}
+.ec-deg{font-family:var(--fdis);font-size:1rem;font-weight:700;color:var(--cu);margin-bottom:.25rem}
+.ec-sch{font-size:.9rem;color:var(--tx);margin-bottom:.65rem}
+.ec-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.65rem}
+.ec-meta span{font-family:var(--fmon);font-size:.66rem;color:var(--tx-f)}
 .ec-meta .gpa{color:var(--sig)}
-.ec-crs{font-family:var(--fmon);font-size:.69rem;color:var(--tx-f);line-height:1.7;border-top:1px solid var(--bd);padding-top:.7rem}
+.ec-crs{font-family:var(--fmon);font-size:.68rem;color:var(--tx-f);line-height:1.7;border-top:1px solid var(--bd);padding-top:.65rem}
 
-/* ── CERTS ── */
+/* CERTS */
 .cg{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
-.cc{border:1px solid var(--bd);border-left:2px solid var(--gd);padding:.95rem 1.1rem;transition:all .3s;background:rgba(255,255,255,.02);opacity:0;transform:translateX(-15px)}
+.cc{border:1px solid var(--bd);border-left:2px solid var(--gd);padding:.9rem 1.1rem;transition:all .3s;background:rgba(255,255,255,.02);opacity:0;transform:translateX(-14px)}
 .cc.vis{opacity:1;transform:translateX(0)}
 .cc:hover{border-left-color:var(--cu);transform:translateX(3px)}
-.cc-name{font-family:var(--fdis);font-size:.79rem;font-weight:700;color:var(--tx);margin-bottom:.28rem;line-height:1.4}
-.cc-org{font-family:var(--fmon);font-size:.66rem;color:var(--gd)}
-.cc-dt{font-family:var(--fmon);font-size:.59rem;color:var(--tx-f);margin-top:.2rem}
+.cc-name{font-family:var(--fdis);font-size:.78rem;font-weight:700;color:var(--tx);margin-bottom:.25rem;line-height:1.4}
+.cc-org{font-family:var(--fmon);font-size:.65rem;color:var(--gd)}
+.cc-dt{font-family:var(--fmon);font-size:.58rem;color:var(--tx-f);margin-top:.2rem}
 
-/* ── FOOTER ── */
-footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(--bd);text-align:center;background:rgba(4,7,13,.9);backdrop-filter:blur(20px)}
-.ft-name{font-family:var(--fdis);font-size:1.6rem;font-weight:700;color:var(--cu);text-shadow:0 0 18px var(--cu-g);margin-bottom:.3rem}
-.ft-sub{font-family:var(--fmon);font-size:.68rem;color:var(--tx-f);letter-spacing:4px;text-transform:uppercase;margin-bottom:2rem}
+/* FOOTER */
+footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(--bd);text-align:center;background:rgba(3,6,8,.92);backdrop-filter:blur(20px)}
+.ft-name{font-family:var(--fdis);font-size:1.6rem;font-weight:700;color:var(--cu);text-shadow:0 0 20px var(--cu-g);margin-bottom:.3rem}
+.ft-sub{font-family:var(--fmon);font-size:.66rem;color:var(--tx-f);letter-spacing:4px;text-transform:uppercase;margin-bottom:2rem}
 .ft-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
-.ft-links a{font-family:var(--fmon);font-size:.7rem;color:var(--tx-d);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
+.ft-links a{font-family:var(--fmon);font-size:.68rem;color:var(--tx-d);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
 .ft-links a:hover{color:var(--cu)}
-.ft-copy{font-family:var(--fmon);font-size:.6rem;color:var(--tx-f)}
+.ft-copy{font-family:var(--fmon);font-size:.59rem;color:var(--tx-f)}
 
-/* ── REVEAL ── */
-.rv{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+/* REVEAL */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
 .rv.vis{opacity:1;transform:translateY(0)}
 
-/* ── RESPONSIVE ── */
-@media(max-width:860px){
-  .sec-inner{padding:2rem 1.5rem 2.5rem}
-  nav{padding:1rem 1.5rem}
-  nav.sc{padding:.7rem 1.5rem}
-  .n-links{display:none}
-  #hero{padding:0 0 8vh 1.5rem}
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:1rem 1.2rem}
+  .n-links,.n-badge{display:none}
+  #hero{padding:0 1.2rem}
   .about-grid{grid-template-columns:1fr}
-  .sg{grid-template-columns:1fr}
-  .cg{grid-template-columns:1fr}
+  .sg,.cg{grid-template-columns:1fr}
+  .sec{padding:3.5rem 1.2rem}
+  .sec-inner{padding:0}
   #chipHud{display:none}
-}
-@media(max-width:520px){
-  .h-stats{gap:1.5rem}
-  .h-btns{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
@@ -254,37 +227,37 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 <!-- LOADER -->
 <div id="loader">
   <div class="ld-ring">
-    <svg viewBox="0 0 70 70" fill="none">
-      <circle cx="35" cy="35" r="30" stroke="#0c2040" stroke-width="1.5"/>
-      <path class="spin1" d="M35,5 A30,30 0 0 1 65,35" stroke="#3a8fd4" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="35" cy="35" r="20" stroke="#081828" stroke-width="1"/>
-      <path class="spin2" d="M35,15 A20,20 0 0 1 55,35" stroke="#c87828" stroke-width="1.5" stroke-linecap="round"/>
-      <circle cx="35" cy="35" r="4" fill="#3a8fd4" opacity=".8"/>
+    <svg viewBox="0 0 72 72" fill="none">
+      <circle cx="36" cy="36" r="31" stroke="#081828" stroke-width="1.5"/>
+      <path class="s1" d="M36,5 A31,31 0 0 1 67,36" stroke="#3a8fd4" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="36" cy="36" r="20" stroke="#060e1a" stroke-width="1"/>
+      <path class="s2" d="M36,16 A20,20 0 0 1 56,36" stroke="#c87828" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="36" cy="36" r="4" fill="#3a8fd4" opacity=".85"/>
     </svg>
   </div>
-  <div class="ld-txt">Fabricating Chip</div>
-  <div class="ld-sub">loading 3d silicon model</div>
+  <div class="ld-txt">Fabricating Silicon</div>
+  <div class="ld-sub">initialising 3d model</div>
   <div class="ld-bar"><div class="ld-fill"></div></div>
 </div>
 
 <!-- CURSOR -->
 <div id="cDot"></div>
 <div id="cRing"></div>
-<!-- SCROLL BAR -->
 <div id="sBar"></div>
 
-<!-- CHIP HUD (bottom-right) -->
+<!-- CHIP HUD -->
 <div id="chipHud">
   <span id="hudLabel">// LAYERS SEPARATED</span>
   <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
 </div>
 
-<!-- THREE.JS CANVAS (fixed background) -->
+<!-- CANVASES -->
+<canvas id="bgCanvas"></canvas>
 <canvas id="threeCanvas"></canvas>
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#hero" class="n-logo">AV<small>// VLSI ENGINEER</small></a>
+  <a href="#hero" class="n-logo">AV<small>// VLSI &amp; VERIFICATION</small></a>
   <ul class="n-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -292,227 +265,550 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
     <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
   </ul>
-  <div class="n-badge">Open to Opportunities</div>
+  <div class="n-badge">Open to Work</div>
 </nav>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <div id="main">
 
-  <!-- HERO — chip fills background here -->
-  <section id="hero">
-    <div class="hero-inner">
-      <div class="h-pre">// VLSI · FPGA · UVM · ML Acceleration</div>
-      <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
-      <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
-      <div class="h-info">
-        <a href="tel:+15513476950">(551) 347-6950</a>
-        <a href="mailto:avarma10@hawk.illinoistech.edu">avarma10@hawk.illinoistech.edu</a>
-        <a href="https://github.com/abhishekvarma827" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">LinkedIn</a>
-        <span>San Jose, CA</span>
-      </div>
-      <div class="h-stats">
-        <div><span class="hs-n" data-t="2" data-s="+">0</span><span class="hs-l">Yrs Experience</span></div>
-        <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Max Coverage</span></div>
-        <div><span class="hs-n" data-t="500" data-s="+">0</span><span class="hs-l">Test Cases</span></div>
-        <div><span class="hs-n" data-t="6" data-s="">0</span><span class="hs-l">Projects</span></div>
-      </div>
-      <div class="h-btns">
-        <a href="mailto:avarma10@hawk.illinoistech.edu" class="btn-p">Get In Touch</a>
-        <a href="https://github.com/abhishekvarma827" target="_blank" class="btn-s">View GitHub</a>
-      </div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="h-pre">// VLSI · FPGA · UVM · RTL-to-GDS · ML Acceleration</div>
+    <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
+    <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
+    <div class="h-info">
+      <a href="tel:+15513476950">(551) 347-6950</a>
+      <a href="mailto:avarma10@hawk.illinoistech.edu">avarma10@hawk.illinoistech.edu</a>
+      <a href="https://github.com/abhishekvarma827" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">LinkedIn</a>
+      <span>San Jose, CA</span>
     </div>
-  </section>
+    <div class="h-stats">
+      <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Yrs Experience</span></div>
+      <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Max Coverage</span></div>
+      <div><span class="hs-n" data-t="500" data-s="+">0</span><span class="hs-l">Test Cases</span></div>
+      <div><span class="hs-n" data-t="25030" data-s="">0</span><span class="hs-l">GDS Std Cells</span></div>
+    </div>
+    <div class="h-btns">
+      <a href="mailto:avarma10@hawk.illinoistech.edu" class="btn-p">Get In Touch</a>
+      <a href="https://github.com/abhishekvarma827" target="_blank" class="btn-s">View GitHub</a>
+    </div>
+  </div>
+</section>
 
-  <!-- ABOUT -->
-  <section class="sec" id="about">
-    <div class="sec-inner" style="margin:0 auto">
-      <div class="sec-hd">
-        <div class="sec-tag">01 // Profile</div>
-        <h2 class="sec-title">About <span class="hl">Myself</span></h2>
+<!-- ABOUT -->
+<section class="sec" id="about">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">01 // Profile</div>
+      <h2 class="sec-title">About <span class="hl">Myself</span></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text rv">
+        <p>Graduate specializing in <strong>VLSI &amp; Microelectronics</strong> at Illinois Institute of Technology (GPA 3.60/4.0), with 3+ years of experience spanning protocol verification, RTL design, physical design, and ML hardware acceleration.</p>
+        <p>Architect of end-to-end UVM verification environments for <strong>AMBA AHB, APB, AXI4, SPI, and UART</strong> protocols — achieving 99.8% functional coverage and 100% assertion closure. Hands-on tapeout experience executing a full <strong>RTL-to-GDS flow on SkyWater 130nm PDK</strong> via Yosys + OpenROAD, delivering a 25,030 standard-cell design clean at 50 MHz.</p>
+        <p>Currently on <strong>F-1 OPT status</strong>, authorized to work through June 2026 with STEM OPT extension eligibility.</p>
       </div>
-      <div class="about-grid">
-        <div class="about-text rv">
-          <p>Graduate specializing in <strong>VLSI Design &amp; Microelectronics</strong> at Illinois Institute of Technology, with 2+ years of industry experience building production-grade UVM verification environments and FPGA-based ML accelerators.</p>
-          <p>Passionate about the intersection of <strong>hardware design and machine learning acceleration</strong> — from designing ResNet-20 systolic array datapaths for CNN inference on PYNQ-Z2, to architecting end-to-end UVM verification infrastructure for AMBA protocols.</p>
-          <p>Proficient in <strong>Verilog, SystemVerilog, and UVM</strong>, and a full suite of EDA tools including Vivado, QuestaSim, Cadence Virtuoso, Design Compiler, and Innovus.</p>
-        </div>
-        <div class="about-panel rv">
-          <div class="info-row"><span class="lbl">// Status</span><span class="val">Open to Opportunities</span></div>
-          <div class="info-row"><span class="lbl">// Location</span><span class="val">San Jose, CA</span></div>
-          <div class="info-row"><span class="lbl">// Degree</span><span class="val">MAS · VLSI &amp; Microelectronics</span></div>
-          <div class="info-row"><span class="lbl">// GPA</span><span class="val">3.60 / 4.0</span></div>
-          <div class="info-row"><span class="lbl">// Industry</span><span class="val">2+ Years</span></div>
-          <div class="info-row"><span class="lbl">// Focus</span><span class="val">VLSI · FPGA · ML HW</span></div>
-        </div>
+      <div class="about-panel rv">
+        <div class="info-row"><span class="lbl">// Status</span><span class="val">Open to Opportunities</span></div>
+        <div class="info-row"><span class="lbl">// Location</span><span class="val">San Jose, CA</span></div>
+        <div class="info-row"><span class="lbl">// Degree</span><span class="val">MAS · VLSI &amp; Microelectronics</span></div>
+        <div class="info-row"><span class="lbl">// GPA</span><span class="val">3.60 / 4.0</span></div>
+        <div class="info-row"><span class="lbl">// Work Auth</span><span class="val">F-1 OPT → STEM OPT</span></div>
+        <div class="info-row"><span class="lbl">// Focus</span><span class="val">ASIC · FPGA · Verification</span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- EXPERIENCE -->
-  <section class="sec" id="experience">
-    <div class="sec-inner" style="margin:0 auto">
-      <div class="sec-hd">
-        <div class="sec-tag">02 // Work History</div>
-        <h2 class="sec-title">Work <span class="hl">Experience</span></h2>
-      </div>
-      <div class="tl">
-        <div class="ti">
-          <div class="ti-dot"></div>
-          <div class="ti-card">
-            <div class="ti-top"><h3 class="ti-role">Research Assistant</h3><span class="ti-date">Jun 2025 – Aug 2025</span></div>
-            <p class="ti-co">Illinois Institute of Technology — VLSI &amp; SoC Lab (Prof. Erdal Oruklu) · Chicago, IL</p>
-            <ul class="ti-ul">
-              <li>Conducted literature review and documentation for FPGA-based CNN accelerator project, analyzing architectures including AlexNet and VGG-16 for ultrasonic Non-Destructive Evaluation (NDE) applications</li>
-              <li>Assisted in experimental setup and data collection for ultrasonic flaw detection using Wavelet Packet Decomposition, supporting validation and benchmarking of the Ultra-LeNet model on Zynq FPGA platform</li>
-            </ul>
-          </div>
-        </div>
-        <div class="ti">
-          <div class="ti-dot"></div>
-          <div class="ti-card">
-            <div class="ti-top"><h3 class="ti-role">Verification Engineer</h3><span class="ti-date">Jul 2021 – Aug 2023</span></div>
-            <p class="ti-co">Aceic Design Technologies · Bangalore, India</p>
-            <ul class="ti-ul">
-              <li>Architected end-to-end UVM-based verification infrastructure for AMBA AHB-to-APB Bridge, AXI4 Interconnect, SPI Master/Slave, and UART blocks; developed 30+ reusable VIP components including protocol-aware monitors, TLM analysis ports, predictive scoreboards, and golden reference models across 200+ test scenarios</li>
-              <li>Implemented 50+ functional covergroups and SVA assertions for protocol compliance; achieved 99.8% functional coverage and 100% assertion closure through covergroup optimization and coverage-driven CRV, reducing verification cycle time by 40% in QuestaSim</li>
-              <li>Developed comprehensive regression automation pipeline using GNU Makefile, orchestrating RTL compilation, 500+ test case execution, UCDB merging, and HTML report generation; resolved 20+ RTL bugs achieving 100% protocol specification compliance and sign-off closure</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+<!-- EXPERIENCE -->
+<section class="sec" id="experience">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">02 // Work History</div>
+      <h2 class="sec-title">Work <span class="hl">Experience</span></h2>
     </div>
-  </section>
+    <div class="tl">
 
-  <!-- PROJECTS -->
-  <section class="sec" id="projects">
-    <div class="sec-inner" style="margin:0 auto">
-      <div class="sec-hd">
-        <div class="sec-tag">03 // Work</div>
-        <h2 class="sec-title">Featured <span class="hl">Projects</span></h2>
-      </div>
-      <div class="pg">
-        <div class="pc feat">
-          <div class="pc-badge">⭐ Featured</div>
-          <h3 class="pc-title">AI-Powered RTL Assertion Generator | Pre-Silicon Verification Tool</h3>
-          <p class="pc-desc">Built an AI-powered RTL verification tool reducing pre-silicon effort by 70–80% via automated SVA generation (protocol, timing, data-integrity, reset, functional), integrated testbench creation, and simulation-ready assertions. Validated on Adder, Counter, FSM, FIFO blocks with 70–90% port coverage.</p>
-          <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">SVA</span><span class="pc-tag">UVM</span><span class="pc-tag">AI/LLM</span><span class="pc-tag">Python</span></div>
-          <a href="https://abhishekvarma827.github.io/Report/" class="pc-link" target="_blank">View Demo →</a>
-        </div>
-        <div class="pc">
-          <div class="pc-badge">FPGA · ML Acceleration</div>
-          <h3 class="pc-title">Low-Power CNN Accelerator for Object Detection — PYNQ-Z2 FPGA</h3>
-          <p class="pc-desc">Designed a ResNet-20 CNN inference accelerator on Xilinx PYNQ-Z2 FPGA with systolic array datapath; integrated BSC and LECG low-power techniques into the MAC unit. Achieved 4.157% (BSC) and 11.556% (LECG) dynamic power reduction across 10 CIFAR-10 classes with no latency degradation.</p>
-          <div class="pc-tags"><span class="pc-tag">Verilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">ResNet-20</span><span class="pc-tag">PYNQ</span><span class="pc-tag">Python</span><span class="pc-tag">AXI4</span></div>
-          <a href="https://drive.google.com/file/d/13e7gZygi_fYiQF_UE5tT1DEb2mfXze9a/view" class="pc-link" target="_blank">View Report →</a>
-        </div>
-        <div class="pc">
-          <div class="pc-badge">RISC-V · UVM</div>
-          <h3 class="pc-title">PicoRV32 RV32I — AI-Generated UVM Verification Environment</h3>
-          <p class="pc-desc">Architected a fully AI-generated UVM environment for PicoRV32 RV32I RISC-V core with reactive slave driver, shadow-memory scoreboard, and 4 functional covergroups. 9-test regression with multi-seed UCDB merging; 99.25% coverage across 258 bins.</p>
-          <div class="pc-tags"><span class="pc-tag">UVM</span><span class="pc-tag">RISC-V</span><span class="pc-tag">QuestaSim</span><span class="pc-tag">SVA</span></div>
-          <a href="https://github.com/abhishekvarma827" class="pc-link" target="_blank">View on GitHub →</a>
-        </div>
-        <div class="pc">
-          <div class="pc-badge">ASIC Design</div>
-          <h3 class="pc-title">32-Bit Pipelined CPU with Multi-Architecture ALU</h3>
-          <p class="pc-desc">Designed a 32-bit pipelined CPU in Verilog with modular ALU. Verified in Xcelium/SimVision, synthesized with Design Compiler, completed P&amp;R in Innovus using gscl45nm libraries with full timing and area analysis.</p>
-          <div class="pc-tags"><span class="pc-tag">Verilog</span><span class="pc-tag">Design Compiler</span><span class="pc-tag">Innovus</span><span class="pc-tag">Xcelium</span><span class="pc-tag">45nm</span></div>
-          <a href="https://drive.google.com/file/d/1IQDG3aYIbE8qYIAKZS5zJZDNW1KmSgG7/view" class="pc-link" target="_blank">View Report →</a>
-        </div>
-        <div class="pc">
-          <div class="pc-badge">Analog · SPICE</div>
-          <h3 class="pc-title">6T SRAM Cell Characterization &amp; Optimization</h3>
-          <p class="pc-desc">Designed and optimized a 6T SRAM cell in Cadence Virtuoso; performed PVT-corner HSPICE simulations to analyze read/write robustness, noise margins, leakage, delay, and dynamic power.</p>
-          <div class="pc-tags"><span class="pc-tag">Cadence Virtuoso</span><span class="pc-tag">HSPICE</span><span class="pc-tag">PVT Analysis</span><span class="pc-tag">SRAM</span></div>
-          <a href="https://drive.google.com/file/d/1JAt-5ytS12T5aBejYa98nu4C0yqkNf8_/view" class="pc-link" target="_blank">View Report →</a>
-        </div>
-        <div class="pc">
-          <div class="pc-badge">Verification · 100% Coverage</div>
-          <h3 class="pc-title">Dual-Port RAM Functional Verification</h3>
-          <p class="pc-desc">Production-grade UVM framework with shadow-memory scoreboard, 8 constrained-random sequences, 9 covergroups (140+ bins), and 5 SVA assertions. Achieved 100% functional coverage in 5-test regression suite in QuestaSim.</p>
-          <div class="pc-tags"><span class="pc-tag">UVM 1.2</span><span class="pc-tag">SVA</span><span class="pc-tag">QuestaSim</span><span class="pc-tag">CRV</span></div>
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Electronics Design Engineer — Volunteer</h3><span class="ti-date">Aug 2025 – Present</span></div>
+          <p class="ti-co">Community Dreams Foundation · VLSIVault Educational Platform · Remote</p>
+          <ul class="ti-ul">
+            <li>Serve as EPM across 6 concurrent RTL projects for a 9-member engineering team, directing ISA-compliant CPU microarchitecture development from single-cycle to 5-stage pipelined implementation (IF/ID/EX/MEM/WB) with EX/MEM &amp; MEM/WB forwarding, load-use stall + bubble injection, and BEQ/JAL control-hazard flushing — verified cycle-accurately in Verilator with GTKWave waveform annotation</li>
+            <li>Led 8 RTL design tracks spanning MMIO peripheral integration and protocol verification (UART, SPI, I2C); delivered synthesizable SystemVerilog for a programmable timer and W1C interrupt controller covering the full lifecycle: irq_to_cpu → EPC save → ISR vector → RTI return</li>
+            <li>Authored a Python assembler generating ROM-compatible hex for end-to-end firmware bring-up (assemble → simulate → HALT → signature check), reducing team manual rework by 20% and accelerating readiness for STA and synthesis sign-off</li>
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- SKILLS -->
-  <section class="sec" id="skills">
-    <div class="sec-inner" style="margin:0 auto">
-      <div class="sec-hd">
-        <div class="sec-tag">04 // Capabilities</div>
-        <h2 class="sec-title">Technical <span class="hl">Skills</span></h2>
-      </div>
-      <div class="sg">
-        <div class="sk"><div class="sk-ico">⟨/⟩</div><div class="sk-name">Hardware Description</div><div class="sk-tags"><span class="sk-tag">Verilog</span><span class="sk-tag">SystemVerilog</span><span class="sk-tag">UVM</span><span class="sk-tag">PyUVM</span></div></div>
-        <div class="sk"><div class="sk-ico">◈</div><div class="sk-name">FPGA &amp; Simulation</div><div class="sk-tags"><span class="sk-tag">Vivado/Vitis</span><span class="sk-tag">Modelsim</span><span class="sk-tag">QuestaSim</span><span class="sk-tag">Quartus</span><span class="sk-tag">Xcelium</span></div></div>
-        <div class="sk"><div class="sk-ico">⊗</div><div class="sk-name">Physical Design</div><div class="sk-tags"><span class="sk-tag">STA</span><span class="sk-tag">CTS</span><span class="sk-tag">CDC</span><span class="sk-tag">UPF</span><span class="sk-tag">DRC/LVS</span></div></div>
-        <div class="sk"><div class="sk-ico">△</div><div class="sk-name">Cadence &amp; Synopsys</div><div class="sk-tags"><span class="sk-tag">Virtuoso</span><span class="sk-tag">Design Compiler</span><span class="sk-tag">Innovus</span><span class="sk-tag">HSPICE</span></div></div>
-        <div class="sk"><div class="sk-ico">⌘</div><div class="sk-name">Programming</div><div class="sk-tags"><span class="sk-tag">C / C++</span><span class="sk-tag">Python</span><span class="sk-tag">TCL</span><span class="sk-tag">Makefile</span><span class="sk-tag">RISC-V ASM</span></div></div>
-        <div class="sk"><div class="sk-ico">⊞</div><div class="sk-name">Bus Protocols</div><div class="sk-tags"><span class="sk-tag">AHB</span><span class="sk-tag">APB</span><span class="sk-tag">AXI4</span><span class="sk-tag">SPI</span><span class="sk-tag">I2C</span><span class="sk-tag">UART</span></div></div>
-        <div class="sk"><div class="sk-ico">◑</div><div class="sk-name">Core Competencies</div><div class="sk-tags"><span class="sk-tag">Low Power Design</span><span class="sk-tag">Clock Gating</span><span class="sk-tag">Func Coverage</span><span class="sk-tag">SVA</span><span class="sk-tag">CRV</span></div></div>
-        <div class="sk"><div class="sk-ico">⬡</div><div class="sk-name">ML Acceleration</div><div class="sk-tags"><span class="sk-tag">CNN Accelerators</span><span class="sk-tag">Systolic Arrays</span><span class="sk-tag">PYNQ Overlay</span><span class="sk-tag">ResNet/VGG</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section class="sec" id="education">
-    <div class="sec-inner" style="margin:0 auto">
-      <div class="sec-hd">
-        <div class="sec-tag">05 // Academic</div>
-        <h2 class="sec-title">Education</h2>
-      </div>
-      <div class="eg">
-        <div class="ec">
-          <h3 class="ec-deg">Master of Applied Science</h3>
-          <p class="ec-sch">Illinois Institute of Technology | Chicago, Illinois</p>
-          <div class="ec-meta"><span>VLSI &amp; Microelectronics</span><span class="gpa">GPA: 3.60 / 4.0</span><span>Aug 2023 – Jun 2025</span></div>
-          <p class="ec-crs"><strong>Coursework:</strong> Introduction &amp; Advanced VLSI Design, High Performance VLSI Design, Computer Architecture, Hardware Acceleration for ML</p>
-        </div>
-        <div class="ec">
-          <h3 class="ec-deg">Bachelor of Technology</h3>
-          <p class="ec-sch">Shri Vaishnav Institute of Technology &amp; Science | Indore, India</p>
-          <div class="ec-meta"><span>Electrical Engineering</span><span class="gpa">GPA: 3.44 / 4.0</span><span>Jul 2018 – Aug 2021</span></div>
-          <p class="ec-crs"><strong>Coursework:</strong> Circuit Theory, Analog &amp; Digital Electronics, Microprocessor &amp; Microcontroller, Artificial Neural Network, Data Structure &amp; Algorithm</p>
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Research Assistant</h3><span class="ti-date">Jun 2025 – Aug 2025</span></div>
+          <p class="ti-co">Illinois Institute of Technology · VLSI &amp; SoC Laboratory (Prof. Erdal Oruklu) · Chicago, IL</p>
+          <ul class="ti-ul">
+            <li>Conducted comprehensive literature review and detailed technical documentation for an FPGA-based CNN accelerator project, analyzing and benchmarking deep learning architectures including AlexNet, VGG-16, and Ultra-LeNet for ultrasonic Non-Destructive Evaluation (NDE) applications</li>
+            <li>Assisted in full experimental setup, data acquisition, and signal preprocessing for ultrasonic flaw detection leveraging Wavelet Packet Decomposition (WPD), supporting end-to-end validation and accuracy evaluation of the Ultra-LeNet inference model on a Zynq FPGA platform</li>
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- CERTS -->
-  <section class="sec" id="certifications">
-    <div class="sec-inner" style="margin:0 auto">
-      <div class="sec-hd">
-        <div class="sec-tag">06 // Credentials</div>
-        <h2 class="sec-title">Certifications</h2>
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Verification Engineer</h3><span class="ti-date">Jul 2021 – Aug 2023</span></div>
+          <p class="ti-co">Aceic Design Technologies · Bangalore, India</p>
+          <ul class="ti-ul">
+            <li>Architected end-to-end UVM-based verification infrastructure for AMBA AHB-to-APB Bridge, AXI4 Interconnect, SPI Master/Slave, and UART blocks — developed 30+ reusable VIP components including protocol-aware monitors, TLM analysis ports, predictive scoreboards, and golden reference models; implemented 50+ functional covergroups and SVA assertions achieving 99.8% functional coverage and 100% assertion closure across 200+ test scenarios, reducing verification cycle time by 40%</li>
+            <li>Developed a comprehensive regression automation pipeline using GNU Makefile scripting to orchestrate RTL compilation, 500+ test case execution, UCDB merging, and HTML coverage report generation; identified and resolved 20+ RTL protocol bugs through SVA-based assertion failure triage, waveform forensics, and directed test injection in QuestaSim — achieving 100% protocol specification compliance</li>
+          </ul>
+        </div>
       </div>
-      <div class="cg">
-        <div class="cc"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
-        <div class="cc"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
-        <div class="cc"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
-        <div class="cc"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="sec" id="projects">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">03 // Portfolio</div>
+      <h2 class="sec-title">Featured <span class="hl">Projects</span></h2>
+    </div>
+    <div class="pg">
+
+      <div class="pc feat">
+        <div class="pc-badge">★ Featured · Tapeout</div>
+        <h3 class="pc-title">8×8 Weight-Stationary Systolic Array — RTL-to-GDS Tapeout on SkyWater 130nm</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">Target: <span>50 MHz</span></span>
+          <span class="pc-metric">Std Cells: <span>25,030</span></span>
+          <span class="pc-metric">Timing: <span>Zero Violations</span></span>
+          <span class="pc-metric">Run Time: <span>~40 min</span></span>
+        </div>
+        <p class="pc-desc">Architected a custom 8×8 weight-stationary systolic array (64 PEs, 8-bit activations/weights, 32-bit accumulator) in SystemVerilog mirroring Google's TPU matrix engine, with each PE executing a fused MAC every clock cycle, validated via a skew-aware self-checking testbench with 100% PASS across all 8 output columns. Executed a full RTL-to-GDS physical design flow via Yosys + OpenROAD on the SkyWater 130nm PDK, delivering a fully tapeout-ready GDS with 25,030 standard cell instances targeting 50 MHz with zero setup/hold timing violations.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Yosys</span><span class="pc-tag">OpenROAD</span><span class="pc-tag">SkyWater 130nm</span><span class="pc-tag">OpenSTA</span><span class="pc-tag">RTL-to-GDS</span></div>
+      </div>
+
+      <div class="pc feat">
+        <div class="pc-badge">★ Featured · Verification</div>
+        <h3 class="pc-title">AI-Generated UVM 1.2 Testbench for PicoRV32 RV32I RISC-V Processor</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">Coverage: <span>99.25%</span></span>
+          <span class="pc-metric">Bins: <span>229 / 258</span></span>
+          <span class="pc-metric">Covergroups: <span>4</span></span>
+          <span class="pc-metric">Mismatches: <span>0</span></span>
+        </div>
+        <p class="pc-desc">Developed UVM 1.2 coverage-driven verification environment for PicoRV32 RISC-V processor implementing reactive slave driver with backdoor firmware injection, shadow-memory scoreboard, and TLM fan-out across sequencer, driver, monitor, and coverage collector; 9 directed/random test classes on QuestaSim. Achieved 99.25% functional coverage (229/258 bins) across 4 covergroups — mem_bus_cg, instr_decode_cg (24 illegal_bins), data_value_cg, and sequence_cg — with zero scoreboard mismatches across multi-seed regression.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">UVM 1.2</span><span class="pc-tag">QuestaSim 2021.2</span><span class="pc-tag">SVA</span><span class="pc-tag">RISC-V RV32I</span></div>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
+      </div>
+
+      <div class="pc feat">
+        <div class="pc-badge">★ Featured · FPGA</div>
+        <h3 class="pc-title">Low-Power ResNet-20 CNN Inference Accelerator on Xilinx PYNQ-Z2</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">BSC Reduction: <span>4.157%</span></span>
+          <span class="pc-metric">LECG Reduction: <span>11.556%</span></span>
+          <span class="pc-metric">Latency: <span>0.12–0.14 s</span></span>
+          <span class="pc-metric">Classes: <span>10 CIFAR-10</span></span>
+        </div>
+        <p class="pc-desc">Designed a ResNet-20 CNN inference accelerator on Xilinx PYNQ-Z2 FPGA with a systolic array datapath and AXI-interconnected compute modules; modified the MAC unit's register logic to integrate Bus Specific Clock Gating (BSC) and Local Explicit Clock Gating (LECG) low-power techniques across three bitstream variants. Deployed end-to-end forward-pass inference across all 10 CIFAR-10 classes via Python/Jupyter PYNQ overlay, achieving 11.556% dynamic power reduction with no measurable degradation in inference latency or classification accuracy.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">PYNQ-Z2</span><span class="pc-tag">Python/Jupyter</span><span class="pc-tag">AXI4</span><span class="pc-tag">Clock Gating</span></div>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
+      </div>
+
+      <div class="pc">
+        <div class="pc-badge">ASIC · Physical Design</div>
+        <h3 class="pc-title">32-Bit Pipelined CPU with Multi-Architecture ALU &amp; Hierarchical Comparator</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">ALU Freq: <span>66.5 MHz</span></span>
+          <span class="pc-metric">Comparator: <span>71 MHz</span></span>
+          <span class="pc-metric">Slack: <span>0.815 ns</span></span>
+        </div>
+        <p class="pc-desc">Designed a pipelined 32-bit CPU ALU in SystemVerilog integrating four adder architectures (CRA, CLA, CSA, CSeA) across a full ASIC flow — RTL simulation in Xcelium/SimVision, logic synthesis via Design Compiler, placement and routing in Cadence Encounter, and equivalence checking in Formality, achieving 66.5 MHz with sub-0.1 ns slack. Extended with a novel 3-level tree-structured 32-bit unsigned comparator (31 mux_4to2 + 32 one-bit comparators) using parallel MSB-priority resolution, achieving 71 MHz with Formality equivalence confirmed.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Synopsys DC</span><span class="pc-tag">Cadence Encounter</span><span class="pc-tag">Xcelium</span><span class="pc-tag">Formality</span></div>
+      </div>
+
+      <div class="pc">
+        <div class="pc-badge">Analog · SPICE</div>
+        <h3 class="pc-title">6T SRAM Cell Design &amp; Transistor-Level Characterization</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">tpdr: <span>3.407 ps</span></span>
+          <span class="pc-metric">tpdf: <span>~490 ps</span></span>
+          <span class="pc-metric">Load Cap: <span>6 fF</span></span>
+        </div>
+        <p class="pc-desc">Designed and implemented a full 6T SRAM cell from transistor level in Cadence Virtuoso (schematic + symbol), constructing dedicated read and write testing circuits with parameterized PMOS/NMOS sizing (W=90e-9, L=50e-9) and validating all Read(0), Write(0), and Write(1) operations via HSPICE transient simulation. Extracted and analyzed cell-level timing and power metrics: read access time (tpdr: 3.407e-12 s), write propagation delay (~4.9e-10 s), alongside NAND/NOR gate characterization using modified .sp netlists.</p>
+        <div class="pc-tags"><span class="pc-tag">Cadence Virtuoso</span><span class="pc-tag">HSPICE</span><span class="pc-tag">CosmosScope</span><span class="pc-tag">SRAM</span><span class="pc-tag">SPICE</span></div>
+      </div>
+
+      <div class="pc">
+        <div class="pc-badge">Verification · UVM</div>
+        <h3 class="pc-title">Dual-Port RAM Functional Verification — UVM 1.2 · SVA · 100% Coverage</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">Coverage: <span>100%</span></span>
+          <span class="pc-metric">Semantics: <span>READ-FIRST</span></span>
+        </div>
+        <p class="pc-desc">Developed a complete UVM 1.2 coverage-driven verification environment for a dual-port RAM implementing READ-FIRST semantics, with reactive driver, shadow-memory scoreboard, and SVA-based assertion coverage for simultaneous read/write conflicts, address boundary conditions, and data integrity. Achieved 100% functional and code coverage with zero scoreboard mismatches across directed and constrained-random test scenarios.</p>
+        <div class="pc-tags"><span class="pc-tag">UVM 1.2</span><span class="pc-tag">SystemVerilog</span><span class="pc-tag">SVA</span><span class="pc-tag">QuestaSim</span><span class="pc-tag">Functional Coverage</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sec" id="skills">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">04 // Capabilities</div>
+      <h2 class="sec-title">Technical <span class="hl">Skills</span></h2>
+    </div>
+    <div class="sg">
+      <div class="sk"><div class="sk-ico">⟨/⟩</div><div class="sk-name">Hardware Description</div><div class="sk-tags"><span class="sk-tag">SystemVerilog</span><span class="sk-tag">Verilog</span><span class="sk-tag">VHDL</span><span class="sk-tag">RISC-V ASM</span></div></div>
+      <div class="sk"><div class="sk-ico">◈</div><div class="sk-name">Verification</div><div class="sk-tags"><span class="sk-tag">UVM 1.2</span><span class="sk-tag">PyUVM</span><span class="sk-tag">cocotb</span><span class="sk-tag">SVA</span><span class="sk-tag">CRV</span><span class="sk-tag">Regression</span></div></div>
+      <div class="sk"><div class="sk-ico">⊗</div><div class="sk-name">Physical Design</div><div class="sk-tags"><span class="sk-tag">RTL-to-GDS</span><span class="sk-tag">Yosys</span><span class="sk-tag">OpenROAD</span><span class="sk-tag">STA</span><span class="sk-tag">DRC/LVS</span><span class="sk-tag">UPF</span></div></div>
+      <div class="sk"><div class="sk-ico">△</div><div class="sk-name">EDA Tools</div><div class="sk-tags"><span class="sk-tag">Cadence Virtuoso</span><span class="sk-tag">Xcelium</span><span class="sk-tag">Synopsys DC</span><span class="sk-tag">Formality</span><span class="sk-tag">HSPICE</span><span class="sk-tag">VCS</span></div></div>
+      <div class="sk"><div class="sk-ico">⌘</div><div class="sk-name">Programming</div><div class="sk-tags"><span class="sk-tag">Python</span><span class="sk-tag">C / C++</span><span class="sk-tag">Tcl</span><span class="sk-tag">Embedded C</span><span class="sk-tag">Makefile</span></div></div>
+      <div class="sk"><div class="sk-ico">⊞</div><div class="sk-name">Bus Protocols</div><div class="sk-tags"><span class="sk-tag">AXI4</span><span class="sk-tag">AHB</span><span class="sk-tag">APB</span><span class="sk-tag">SPI</span><span class="sk-tag">I2C</span><span class="sk-tag">UART</span><span class="sk-tag">PCIe</span></div></div>
+      <div class="sk"><div class="sk-ico">◑</div><div class="sk-name">FPGA &amp; Simulation</div><div class="sk-tags"><span class="sk-tag">Vivado/Vitis</span><span class="sk-tag">QuestaSim</span><span class="sk-tag">Verilator</span><span class="sk-tag">GTKWave</span><span class="sk-tag">Quartus</span></div></div>
+      <div class="sk"><div class="sk-ico">⬡</div><div class="sk-name">RTL &amp; ML Accel</div><div class="sk-tags"><span class="sk-tag">Systolic Arrays</span><span class="sk-tag">CNN Accelerators</span><span class="sk-tag">PYNQ Overlay</span><span class="sk-tag">CDC-aware RTL</span><span class="sk-tag">DMA</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="sec" id="education">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">05 // Academic</div>
+      <h2 class="sec-title">Education</h2>
+    </div>
+    <div class="eg">
+      <div class="ec">
+        <h3 class="ec-deg">Master of Applied Science</h3>
+        <p class="ec-sch">Illinois Institute of Technology · Chicago, Illinois</p>
+        <div class="ec-meta"><span>VLSI &amp; Microelectronics</span><span class="gpa">GPA: 3.60 / 4.0</span><span>Aug 2023 – Jun 2025</span></div>
+        <p class="ec-crs"><strong>Coursework:</strong> Introduction &amp; Advanced VLSI Design, High Performance VLSI Design, Computer Architecture, Hardware Acceleration for ML</p>
+      </div>
+      <div class="ec">
+        <h3 class="ec-deg">Bachelor of Technology</h3>
+        <p class="ec-sch">Shri Vaishnav Institute of Technology &amp; Science · Indore, India</p>
+        <div class="ec-meta"><span>Electrical Engineering</span><span class="gpa">GPA: 3.44 / 4.0</span><span>Jul 2018 – Aug 2021</span></div>
+        <p class="ec-crs"><strong>Coursework:</strong> Circuit Theory, Analog &amp; Digital Electronics, Microprocessor &amp; Microcontroller, Artificial Neural Network, Data Structure &amp; Algorithm</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section class="sec" id="certifications">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">06 // Credentials</div>
+      <h2 class="sec-title">Certifications</h2>
+    </div>
+    <div class="cg">
+      <div class="cc"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
+      <div class="cc"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
+      <div class="cc"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
+      <div class="cc"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
+    </div>
+  </div>
+</section>
 
 </div><!-- /main -->
 
 <footer>
   <div class="ft-name">ABHISHEK VARMA</div>
-  <div class="ft-sub">// VLSI Design · Verification · ML Acceleration</div>
+  <div class="ft-sub">// VLSI · Verification · ASIC · ML Acceleration</div>
   <div class="ft-links">
     <a href="mailto:avarma10@hawk.illinoistech.edu">Email</a>
     <a href="https://github.com/abhishekvarma827" target="_blank">GitHub</a>
     <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">LinkedIn</a>
   </div>
-  <p class="ft-copy">© 2025 Abhishek Varma · Built with passion for silicon</p>
+  <p class="ft-copy">© 2026 Abhishek Varma · Built with passion for silicon · F-1 OPT authorized through Jun 2026</p>
 </footer>
 
-<!-- ════════════════════════════════════════
-  THREE.JS CHIP ANIMATION
-════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════
+     2D BACKGROUND CANVAS — hex grid + circuit traces
+═══════════════════════════════════════════════════ -->
+<script>
+(function(){
+const C = document.getElementById('bgCanvas');
+const X = C.getContext('2d');
+let W, H;
+const HR = 22, HW = HR * 1.7321, HHY = HR * 1.5;
+let hexRows = 0, hexCols = 0, hexData = [];
+let traces = [];
+let scanY = 0;
+let lastTime = 0;
+let cornerTick = 0;
+let cornerLines = [
+  '// SYS: ONLINE',
+  '> ARCH: RISC-V_RV32I',
+  '> MAC: 8x8_SYSTOLIC',
+  '> PDK: SKYWATER_130',
+  '> CLK: 50_MHz',
+  '> COVER: 99.8%',
+  '> CELLS: 25,030',
+  '> UVM: 1.2_ACTIVE',
+];
+let cornerIdx = 0;
+let cornerFade = 1.0;
+let cornerDir = -1;
+
+function resize(){
+  W = C.width = window.innerWidth;
+  H = C.height = window.innerHeight;
+  initHex();
+  initTraces();
+}
+
+function initHex(){
+  hexCols = Math.ceil(W / HW) + 3;
+  hexRows = Math.ceil(H / HHY) + 3;
+  hexData = [];
+  for(let r = 0; r < hexRows; r++){
+    const row = [];
+    for(let c = 0; c < hexCols; c++){
+      row.push({
+        g: 0,                        // glow 0..1
+        decay: 0.55 + Math.random() * 0.7,
+        col: Math.random() > 0.4 ? 0 : 1  // 0=blue, 1=green
+      });
+    }
+    hexData.push(row);
+  }
+}
+
+function hxCenter(r, c){
+  return {
+    x: c * HW + (r % 2) * (HW * 0.5) - HW,
+    y: r * HHY - HR
+  };
+}
+
+function hexNeighbors(r, c){
+  const ev = r % 2 === 0;
+  return [
+    [r-1, c + (ev ? 0 : 1)],[r-1, c + (ev ? -1 : 0)],
+    [r,   c - 1],[r, c + 1],
+    [r+1, c + (ev ? 0 : 1)],[r+1, c + (ev ? -1 : 0)],
+  ].filter(([rr,cc]) => rr >= 0 && rr < hexRows && cc >= 0 && cc < hexCols);
+}
+
+function drawHex(x, y, glow, col){
+  X.beginPath();
+  for(let i = 0; i < 6; i++){
+    const a = Math.PI / 3 * i - Math.PI / 6;
+    const px = x + (HR - 1) * Math.cos(a);
+    const py = y + (HR - 1) * Math.sin(a);
+    i === 0 ? X.moveTo(px, py) : X.lineTo(px, py);
+  }
+  X.closePath();
+  if(glow > 0.05){
+    const rgb = col === 0 ? '58,143,212' : '0,212,116';
+    X.fillStyle = `rgba(${rgb},${glow * 0.12})`;
+    X.fill();
+    X.strokeStyle = `rgba(${rgb},${0.05 + glow * 0.22})`;
+  } else {
+    X.strokeStyle = 'rgba(30,55,90,0.055)';
+  }
+  X.lineWidth = 0.5;
+  X.stroke();
+}
+
+let lastHexSpawn = 0;
+function updateHex(now, dt){
+  if(now - lastHexSpawn > 90){
+    lastHexSpawn = now;
+    const n = Math.floor(Math.random() * 4) + 1;
+    for(let i = 0; i < n; i++){
+      const r = Math.floor(Math.random() * hexRows);
+      const c = Math.floor(Math.random() * hexCols);
+      if(hexData[r][c].g < 0.15){
+        hexData[r][c].g = 0.6 + Math.random() * 0.4;
+        // cascade to 1 or 2 neighbors with lower glow
+        const nbrs = hexNeighbors(r, c);
+        const spread = Math.floor(Math.random() * 3);
+        for(let s = 0; s < spread && s < nbrs.length; s++){
+          const [nr, nc] = nbrs[Math.floor(Math.random() * nbrs.length)];
+          if(hexData[nr][nc].g < 0.1) hexData[nr][nc].g = 0.25 + Math.random() * 0.2;
+        }
+      }
+    }
+  }
+  for(let r = 0; r < hexRows; r++)
+    for(let c = 0; c < hexCols; c++){
+      const h = hexData[r][c];
+      if(h.g > 0) h.g = Math.max(0, h.g - h.decay * dt);
+    }
+}
+
+function renderHex(){
+  for(let r = 0; r < hexRows; r++)
+    for(let c = 0; c < hexCols; c++){
+      const {x, y} = hxCenter(r, c);
+      drawHex(x, y, hexData[r][c].g, hexData[r][c].col);
+    }
+}
+
+function initTraces(){
+  traces = [];
+  const hYs = [0.08,0.18,0.28,0.38,0.52,0.63,0.74,0.85,0.94];
+  hYs.forEach(yf => traces.push({
+    x1:0, y1:H*yf, x2:W, y2:H*yf,
+    vertical:false, pulses:[], spawnTimer:Math.random()*2.5
+  }));
+  const vXs = [0.08,0.18,0.3,0.45,0.6,0.72,0.85,0.93];
+  vXs.forEach(xf => traces.push({
+    x1:W*xf, y1:0, x2:W*xf, y2:H,
+    vertical:true, pulses:[], spawnTimer:Math.random()*3.0
+  }));
+}
+
+function updateTraces(dt){
+  const colPalette = [
+    [58,143,212], [0,212,116], [200,160,40], [140,80,220]
+  ];
+  traces.forEach(tr => {
+    tr.spawnTimer -= dt;
+    if(tr.spawnTimer <= 0){
+      tr.spawnTimer = 1.2 + Math.random() * 3.8;
+      tr.pulses.push({
+        t: 0,
+        speed: 0.08 + Math.random() * 0.18,
+        col: colPalette[Math.floor(Math.random() * colPalette.length)],
+        bright: 0.7 + Math.random() * 0.3
+      });
+    }
+    for(let i = tr.pulses.length - 1; i >= 0; i--){
+      tr.pulses[i].t += tr.pulses[i].speed * dt;
+      if(tr.pulses[i].t > 1) tr.pulses.splice(i, 1);
+    }
+  });
+}
+
+function renderTraces(){
+  traces.forEach(tr => {
+    const len = tr.vertical ? (tr.y2 - tr.y1) : (tr.x2 - tr.x1);
+    // Draw base trace line
+    X.strokeStyle = tr.vertical ? 'rgba(30,55,90,0.04)' : 'rgba(30,55,90,0.04)';
+    X.lineWidth = 0.5;
+    X.beginPath(); X.moveTo(tr.x1, tr.y1); X.lineTo(tr.x2, tr.y2); X.stroke();
+
+    tr.pulses.forEach(p => {
+      const px = tr.vertical ? tr.x1 : tr.x1 + len * p.t;
+      const py = tr.vertical ? tr.y1 + len * p.t : tr.y1;
+      const [r,g,b] = p.col;
+      const tailLen = len * 0.055;
+
+      // Trail gradient
+      const tx0 = tr.vertical ? px : px - tailLen;
+      const ty0 = tr.vertical ? py - tailLen : py;
+      const grd = X.createLinearGradient(tx0, ty0, px, py);
+      grd.addColorStop(0, `rgba(${r},${g},${b},0)`);
+      grd.addColorStop(1, `rgba(${r},${g},${b},${p.bright * 0.7})`);
+      X.strokeStyle = grd;
+      X.lineWidth = 1.8;
+      X.beginPath();
+      X.moveTo(tx0, ty0); X.lineTo(px, py);
+      X.stroke();
+
+      // Head glow
+      const hg = X.createRadialGradient(px,py,0,px,py,10);
+      hg.addColorStop(0, `rgba(${r},${g},${b},${p.bright * 0.55})`);
+      hg.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      X.fillStyle = hg;
+      X.beginPath(); X.arc(px,py,10,0,Math.PI*2); X.fill();
+
+      // Bright core dot
+      X.fillStyle = `rgba(${r},${g},${b},${p.bright})`;
+      X.beginPath(); X.arc(px,py,1.8,0,Math.PI*2); X.fill();
+    });
+  });
+}
+
+function renderScanBeam(t){
+  const period = 7.0;
+  const frac = (t / 1000 % period) / period;
+  scanY = frac * H;
+  const bh = 120;
+  const grd = X.createLinearGradient(0, scanY - bh, 0, scanY + 30);
+  grd.addColorStop(0, 'rgba(58,143,212,0)');
+  grd.addColorStop(0.7, 'rgba(58,143,212,0.015)');
+  grd.addColorStop(1, 'rgba(58,143,212,0.04)');
+  X.fillStyle = grd;
+  X.fillRect(0, scanY - bh, W, bh + 30);
+
+  // Scan line
+  X.strokeStyle = 'rgba(58,143,212,0.08)';
+  X.lineWidth = 1;
+  X.beginPath(); X.moveTo(0, scanY); X.lineTo(W, scanY); X.stroke();
+}
+
+function renderCornerReadouts(now){
+  // Bottom-left corner
+  X.font = '10px Share Tech Mono, monospace';
+  X.fillStyle = 'rgba(0,212,116,0.35)';
+  X.textAlign = 'left';
+  const bl = 28;
+  const lines = cornerLines.slice(cornerIdx, cornerIdx + 5);
+  lines.forEach((ln, i) => {
+    const alpha = i === 0 ? 0.55 : (0.35 - i * 0.06);
+    X.fillStyle = `rgba(0,212,116,${Math.max(0.06, alpha)})`;
+    X.fillText(ln, 20, H - bl - (lines.length - 1 - i) * 14);
+  });
+
+  // Top-right: coordinate display
+  X.textAlign = 'right';
+  X.fillStyle = 'rgba(58,143,212,0.3)';
+  X.fillText(`[ ${(W/2).toFixed(0)}, ${(H/2).toFixed(0)} ]`, W - 20, 70);
+  X.fillStyle = 'rgba(58,143,212,0.2)';
+  X.fillText(`// FRAME ${Math.floor(now / 16.67)}`, W - 20, 86);
+
+  // Cycle corner lines
+  cornerTick += 1;
+  if(cornerTick % 180 === 0){
+    cornerIdx = (cornerIdx + 1) % cornerLines.length;
+  }
+}
+
+function renderNodes(now){
+  // Periodic "activation" nodes that pulse and fade
+}
+
+function frame(now){
+  const dt = Math.min((now - lastTime) / 1000, 0.05);
+  lastTime = now;
+
+  X.fillStyle = '#030608';
+  X.fillRect(0, 0, W, H);
+
+  updateHex(now, dt);
+  renderHex();
+  updateTraces(dt);
+  renderTraces();
+  renderScanBeam(now);
+  renderCornerReadouts(now);
+
+  requestAnimationFrame(frame);
+}
+
+window.addEventListener('resize', resize);
+resize();
+requestAnimationFrame(t => { lastTime = t; frame(t); });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════
+     THREE.JS — CHIP ASSEMBLY + CIRCUIT NETWORK
+═══════════════════════════════════════════════════ -->
 <script type="module">
 import * as THREE from 'three';
 import { EffectComposer }  from 'three/addons/postprocessing/EffectComposer.js';
@@ -520,25 +816,21 @@ import { RenderPass }      from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass }      from 'three/addons/postprocessing/OutputPass.js';
 
-/* ── Canvas & Renderer ── */
 const canvas   = document.getElementById('threeCanvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.1;
+renderer.toneMappingExposure = 1.15;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-/* ── Scene ── */
 const scene = new THREE.Scene();
 
-/* ── Camera ── */
-const cam = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
-cam.position.set(6.5, 5.2, 6.5);
+const cam = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 100);
+cam.position.set(7.0, 5.5, 7.0);
 cam.lookAt(0, 0, 0);
 
-/* ── Resize ── */
 window.addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -548,509 +840,487 @@ window.addEventListener('resize', () => {
   bloom.resolution.set(innerWidth, innerHeight);
 });
 
-/* ─────────────────────────────────────────
-   PCB TEXTURE GENERATORS
-───────────────────────────────────────── */
-function makeTex(drawFn) {
-  const sz = 1024;
-  const cv = document.createElement('canvas');
+/* ── PCB TEXTURE GENERATORS ── */
+function makeTex(fn){
+  const sz = 1024, cv = document.createElement('canvas');
   cv.width = cv.height = sz;
-  drawFn(cv.getContext('2d'), sz);
-  return new THREE.CanvasTexture(cv);
+  fn(cv.getContext('2d'), sz);
+  const t = new THREE.CanvasTexture(cv);
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
 }
 
-/* Substrate layer (ground plane) */
-function drawSubstrate(ctx, sz) {
-  ctx.fillStyle = '#030d06';
-  ctx.fillRect(0, 0, sz, sz);
-  // Fine grid
-  ctx.strokeStyle = '#0b1e10'; ctx.lineWidth = 1;
-  for (let i = 64; i < sz; i += 64) {
-    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, sz); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(sz, i); ctx.stroke();
+function drawSubstrate(ctx, sz){
+  ctx.fillStyle = '#020c05'; ctx.fillRect(0,0,sz,sz);
+  ctx.strokeStyle='#091a0c'; ctx.lineWidth=0.8;
+  for(let i=64;i<sz;i+=64){
+    ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
-  // Vias
-  for (let x = 128; x < sz; x += 128) {
-    for (let y = 128; y < sz; y += 128) {
-      ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2);
-      ctx.fillStyle = '#020a04'; ctx.fill();
-      ctx.strokeStyle = '#174820'; ctx.lineWidth = 2.5; ctx.stroke();
-      ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#0a2012'; ctx.fill();
-    }
+  for(let x=128;x<sz;x+=128) for(let y=128;y<sz;y+=128){
+    ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);
+    ctx.fillStyle='#010802';ctx.fill();
+    ctx.strokeStyle='#144822';ctx.lineWidth=2.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);
+    ctx.fillStyle='#091a0c';ctx.fill();
   }
-  // Copper edge pads
-  ctx.fillStyle = '#1c4e28';
-  [128, 256, 384, 512, 640, 768, 896].forEach(p => {
-    if (p < sz) {
-      ctx.fillRect(0, p - 9, 22, 18);
-      ctx.fillRect(sz - 22, p - 9, 22, 18);
-      ctx.fillRect(p - 9, 0, 18, 22);
-      ctx.fillRect(p - 9, sz - 22, 18, 22);
+  ctx.fillStyle='#1c4e28';
+  [128,256,384,512,640,768,896].forEach(p=>{
+    if(p<sz){
+      ctx.fillRect(0,p-9,22,18);ctx.fillRect(sz-22,p-9,22,18);
+      ctx.fillRect(p-9,0,18,22);ctx.fillRect(p-9,sz-22,18,22);
     }
   });
-  // Pin-1 marker
-  ctx.strokeStyle = '#286a38'; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.arc(40, 40, 18, 0, Math.PI * 2); ctx.stroke();
-  ctx.beginPath(); ctx.arc(40, 40, 5, 0, Math.PI * 2);
-  ctx.fillStyle = '#1c4828'; ctx.fill();
+  ctx.beginPath();ctx.arc(36,36,14,0,Math.PI*2);
+  ctx.fillStyle='#010802';ctx.fill();
+  ctx.strokeStyle='rgba(200,120,40,0.6)';ctx.lineWidth=2.5;ctx.stroke();
 }
 
-/* Routing PCB layer */
-function drawRouting(ctx, sz) {
-  ctx.fillStyle = '#050c18';
-  ctx.fillRect(0, 0, sz, sz);
-  ctx.strokeStyle = '#102240'; ctx.lineWidth = 0.8;
-  for (let i = 64; i < sz; i += 64) {
-    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, sz); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(sz, i); ctx.stroke();
+function drawRouting(ctx, sz){
+  ctx.fillStyle='#050c18';ctx.fillRect(0,0,sz,sz);
+  ctx.strokeStyle='#0f1e38';ctx.lineWidth=0.8;
+  for(let i=64;i<sz;i+=64){
+    ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
-  // Blue routing traces (Manhattan style)
-  const traces = [
-    [[sz/2,350],[sz/2,180],[160,180],[160,60]],
-    [[sz/2,350],[sz/2,180],[sz-160,180],[sz-160,60]],
-    [[350,sz/2],[180,sz/2],[180,sz-160],[60,sz-160]],
-    [[sz-350,sz/2],[sz-180,sz/2],[sz-180,sz-160],[sz-60,sz-160]],
-    [[sz/2,sz-350],[sz/2,sz-180],[300,sz-180],[300,sz-60]],
-    [[sz/2,sz-350],[sz/2,sz-180],[sz-300,sz-180],[sz-300,sz-60]],
-    [[350,sz/2],[180,sz/2],[180,300],[60,300]],
-    [[sz-350,sz/2],[sz-180,sz/2],[sz-180,300],[sz-60,300]],
+  const traces=[
+    [[sz/2,360],[sz/2,180],[160,180],[160,60]],
+    [[sz/2,360],[sz/2,180],[sz-160,180],[sz-160,60]],
+    [[360,sz/2],[180,sz/2],[180,sz-160],[60,sz-160]],
+    [[sz-360,sz/2],[sz-180,sz/2],[sz-180,sz-160],[sz-60,sz-160]],
+    [[sz/2,sz-360],[sz/2,sz-180],[300,sz-180],[300,sz-60]],
+    [[sz/2,sz-360],[sz/2,sz-180],[sz-300,sz-180],[sz-300,sz-60]],
+    [[360,sz/2],[180,sz/2],[180,300],[60,300]],
+    [[sz-360,sz/2],[sz-180,sz/2],[sz-180,300],[sz-60,300]],
   ];
-  ctx.strokeStyle = '#1a4888'; ctx.lineWidth = 3.5;
-  traces.forEach(pts => {
-    ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
-    pts.slice(1).forEach(p => ctx.lineTo(p[0], p[1]));
-    ctx.stroke();
+  ctx.strokeStyle='#1a4888';ctx.lineWidth=3.5;
+  traces.forEach(pts=>{
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    pts.slice(1).forEach(p=>ctx.lineTo(p[0],p[1]));ctx.stroke();
   });
-  // Vias at junctions
-  [[sz/2,180],[sz-160,180],[160,180],[180,sz/2],[sz-180,sz/2],[sz/2,sz-180]].forEach(([x,y]) => {
-    ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI*2);
-    ctx.fillStyle = '#08142a'; ctx.fill();
-    ctx.strokeStyle = '#2458a8'; ctx.lineWidth = 3; ctx.stroke();
+  [[sz/2,180],[sz-160,180],[160,180],[180,sz/2],[sz-180,sz/2],[sz/2,sz-180]].forEach(([x,y])=>{
+    ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);
+    ctx.fillStyle='#08142a';ctx.fill();
+    ctx.strokeStyle='#2458a8';ctx.lineWidth=3;ctx.stroke();
   });
-  // Edge pads
-  ctx.fillStyle = '#1e4070';
-  [180, 350, 520, 680, 840].forEach(p => {
-    if (p < sz) {
-      ctx.fillRect(0, p - 10, 20, 20);
-      ctx.fillRect(sz - 20, p - 10, 20, 20);
-      ctx.fillRect(p - 10, 0, 20, 20);
-      ctx.fillRect(p - 10, sz - 20, 20, 20);
+  ctx.fillStyle='#1e4070';
+  [180,350,520,680,840].forEach(p=>{
+    if(p<sz){
+      ctx.fillRect(0,p-10,20,20);ctx.fillRect(sz-20,p-10,20,20);
+      ctx.fillRect(p-10,0,20,20);ctx.fillRect(p-10,sz-20,20,20);
     }
   });
 }
 
-/* Die substrate layer (most detailed) */
-function drawDieLayer(ctx, sz) {
-  ctx.fillStyle = '#04091a';
-  ctx.fillRect(0, 0, sz, sz);
-  ctx.strokeStyle = '#0c1c38'; ctx.lineWidth = 0.6;
-  for (let i = 48; i < sz; i += 48) {
-    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, sz); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(sz, i); ctx.stroke();
+function drawDieLayer(ctx, sz){
+  ctx.fillStyle='#04091a';ctx.fillRect(0,0,sz,sz);
+  ctx.strokeStyle='#0b1c38';ctx.lineWidth=0.6;
+  for(let i=48;i<sz;i+=48){
+    ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
-  // Die area outline (center 380×380)
-  const dc = sz / 2, dr = 190;
-  ctx.strokeStyle = 'rgba(48,96,192,0.35)'; ctx.lineWidth = 2;
-  ctx.strokeRect(dc - dr, dc - dr, dr * 2, dr * 2);
-  // Bright traces from die area to edges
-  const traceColor = '#2860c0';
-  const bondColor = '#c8a820';
-  ctx.strokeStyle = traceColor; ctx.lineWidth = 4;
-  const tPts = [
-    [[dc-dr, dc-100],[160,dc-100],[160,40]],
-    [[dc-dr, dc-40],[80,dc-40],[80,40]],
-    [[dc-dr, dc+40],[80,dc+40],[80,sz-40]],
-    [[dc-dr, dc+100],[160,dc+100],[160,sz-40]],
-    [[dc+dr, dc-100],[sz-160,dc-100],[sz-160,40]],
-    [[dc+dr, dc-40],[sz-80,dc-40],[sz-80,40]],
-    [[dc+dr, dc+40],[sz-80,dc+40],[sz-80,sz-40]],
-    [[dc+dr, dc+100],[sz-160,dc+100],[sz-160,sz-40]],
+  const dc=sz/2,dr=190;
+  ctx.strokeStyle='rgba(48,96,192,0.35)';ctx.lineWidth=2;
+  ctx.strokeRect(dc-dr,dc-dr,dr*2,dr*2);
+  ctx.strokeStyle='#2860c0';ctx.lineWidth=4;
+  [
+    [[dc-dr,dc-100],[160,dc-100],[160,40]],
+    [[dc-dr,dc-40],[80,dc-40],[80,40]],
+    [[dc-dr,dc+40],[80,dc+40],[80,sz-40]],
+    [[dc-dr,dc+100],[160,dc+100],[160,sz-40]],
+    [[dc+dr,dc-100],[sz-160,dc-100],[sz-160,40]],
+    [[dc+dr,dc-40],[sz-80,dc-40],[sz-80,40]],
+    [[dc+dr,dc+40],[sz-80,dc+40],[sz-80,sz-40]],
+    [[dc+dr,dc+100],[sz-160,dc+100],[sz-160,sz-40]],
     [[dc-100,dc-dr],[dc-100,160],[40,160]],
-    [[dc-40, dc-dr],[dc-40,80],[40,80]],
-    [[dc+40, dc-dr],[dc+40,80],[sz-40,80]],
+    [[dc-40,dc-dr],[dc-40,80],[40,80]],
+    [[dc+40,dc-dr],[dc+40,80],[sz-40,80]],
     [[dc+100,dc-dr],[dc+100,160],[sz-40,160]],
     [[dc-100,dc+dr],[dc-100,sz-160],[40,sz-160]],
-    [[dc-40, dc+dr],[dc-40,sz-80],[40,sz-80]],
-    [[dc+40, dc+dr],[dc+40,sz-80],[sz-40,sz-80]],
+    [[dc-40,dc+dr],[dc-40,sz-80],[40,sz-80]],
+    [[dc+40,dc+dr],[dc+40,sz-80],[sz-40,sz-80]],
     [[dc+100,dc+dr],[dc+100,sz-160],[sz-40,sz-160]],
-  ];
-  tPts.forEach(pts => {
-    ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
-    pts.slice(1).forEach(p => ctx.lineTo(p[0], p[1]));
-    ctx.stroke();
+  ].forEach(pts=>{
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    pts.slice(1).forEach(p=>ctx.lineTo(p[0],p[1]));ctx.stroke();
   });
-  // Bond pads (gold) around die perimeter
-  const padSize = 22, padGap = 60;
-  ctx.fillStyle = bondColor;
-  for (let i = -2; i <= 2; i++) {
-    const ox = dc + i * padGap, oy = dc + i * padGap;
-    if (Math.abs(i) <= 2) {
-      ctx.fillRect(ox - padSize/2, dc - dr - 18, padSize, 18);   // top
-      ctx.fillRect(ox - padSize/2, dc + dr, padSize, 18);         // bottom
-      ctx.fillRect(dc - dr - 18, oy - padSize/2, 18, padSize);    // left
-      ctx.fillRect(dc + dr, oy - padSize/2, 18, padSize);         // right
-    }
+  const padSz=22,padGap=60;ctx.fillStyle='#c8a820';
+  for(let i=-2;i<=2;i++){
+    const ox=dc+i*padGap,oy=dc+i*padGap;
+    ctx.fillRect(ox-padSz/2,dc-dr-18,padSz,18);
+    ctx.fillRect(ox-padSz/2,dc+dr,padSz,18);
+    ctx.fillRect(dc-dr-18,oy-padSz/2,18,padSz);
+    ctx.fillRect(dc+dr,oy-padSz/2,18,padSz);
   }
-  // Trace junction dots
-  ctx.fillStyle = '#2060b0';
+  ctx.fillStyle='#2060b0';
   [[40,160],[40,80],[sz-40,80],[sz-40,160],[160,40],[80,40],[sz-160,40],[sz-80,40]].forEach(([x,y])=>{
-    ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();
   });
 }
 
-/* Package top cap */
-function drawPackage(ctx, sz) {
-  ctx.fillStyle = '#0c1118';
-  ctx.fillRect(0, 0, sz, sz);
-  // Chamfered border
-  ctx.strokeStyle = 'rgba(80,120,180,0.3)'; ctx.lineWidth = 6;
-  ctx.strokeRect(8, 8, sz - 16, sz - 16);
-  ctx.strokeStyle = 'rgba(80,120,180,0.15)'; ctx.lineWidth = 3;
-  ctx.strokeRect(20, 20, sz - 40, sz - 40);
-  // Center cross
-  ctx.strokeStyle = 'rgba(100,140,180,0.2)'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(sz/2, 60); ctx.lineTo(sz/2, sz-60); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(60, sz/2); ctx.lineTo(sz-60, sz/2); ctx.stroke();
-  // Pin 1 dot
-  ctx.beginPath(); ctx.arc(40, 40, 14, 0, Math.PI*2);
-  ctx.fillStyle = '#060a10'; ctx.fill();
-  ctx.strokeStyle = 'rgba(200,120,40,0.5)'; ctx.lineWidth = 3; ctx.stroke();
-  // Label
-  ctx.font = 'bold 80px Share Tech Mono, monospace';
-  ctx.fillStyle = 'rgba(120,160,200,0.35)';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText('VLSI', sz/2, sz/2 - 30);
-  ctx.font = '42px Share Tech Mono, monospace';
-  ctx.fillStyle = 'rgba(100,140,180,0.25)';
-  ctx.fillText('CHIP', sz/2, sz/2 + 35);
-  // Marking lines
-  [[200,150,sz-200,150],[200,sz-150,sz-200,sz-150],
-   [150,200,150,sz-200],[sz-150,200,sz-150,sz-200]].forEach(([x1,y1,x2,y2])=>{
-    ctx.strokeStyle='rgba(80,120,160,0.18)'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+function drawPackage(ctx, sz){
+  ctx.fillStyle='#0c1118';ctx.fillRect(0,0,sz,sz);
+  ctx.strokeStyle='rgba(80,120,180,0.3)';ctx.lineWidth=6;
+  ctx.strokeRect(8,8,sz-16,sz-16);
+  ctx.strokeStyle='rgba(80,120,180,0.15)';ctx.lineWidth=3;
+  ctx.strokeRect(20,20,sz-40,sz-40);
+  ctx.strokeStyle='rgba(100,140,180,0.2)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(sz/2,60);ctx.lineTo(sz/2,sz-60);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(60,sz/2);ctx.lineTo(sz-60,sz/2);ctx.stroke();
+  ctx.beginPath();ctx.arc(40,40,14,0,Math.PI*2);
+  ctx.fillStyle='#060a10';ctx.fill();
+  ctx.strokeStyle='rgba(200,120,40,0.5)';ctx.lineWidth=3;ctx.stroke();
+  ctx.font='bold 80px Rajdhani,sans-serif';ctx.fillStyle='rgba(120,160,200,0.35)';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('VLSI',sz/2,sz/2-30);
+  ctx.font='42px Share Tech Mono,monospace';ctx.fillStyle='rgba(100,140,180,0.25)';
+  ctx.fillText('CHIP',sz/2,sz/2+35);
+  [[200,150,sz-200,150],[200,sz-150,sz-200,sz-150],[150,200,150,sz-200],[sz-150,200,sz-150,sz-200]].forEach(([x1,y1,x2,y2])=>{
+    ctx.strokeStyle='rgba(80,120,160,0.18)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
   });
 }
 
-/* Die top face texture */
-function drawDieFace(ctx, sz) {
-  // Warm white-gold gradient (glowing die surface)
-  const grd = ctx.createRadialGradient(sz*.42, sz*.38, sz*.05, sz/2, sz/2, sz*.6);
-  grd.addColorStop(0, '#ffffff');
-  grd.addColorStop(0.25, '#fff0d0');
-  grd.addColorStop(0.55, '#e8c060');
-  grd.addColorStop(1, '#c08020');
-  ctx.fillStyle = grd;
-  ctx.fillRect(0, 0, sz, sz);
-  // Circuit-like grid on die face
-  ctx.strokeStyle = 'rgba(80,40,0,0.2)'; ctx.lineWidth = 2;
-  for (let i = 96; i < sz; i += 96) {
-    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, sz); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(sz, i); ctx.stroke();
+function drawDieFace(ctx, sz){
+  const grd=ctx.createRadialGradient(sz*.42,sz*.38,sz*.05,sz/2,sz/2,sz*.6);
+  grd.addColorStop(0,'#ffffff');grd.addColorStop(0.25,'#fff0d0');
+  grd.addColorStop(0.55,'#e8c060');grd.addColorStop(1,'#c08020');
+  ctx.fillStyle=grd;ctx.fillRect(0,0,sz,sz);
+  ctx.strokeStyle='rgba(80,40,0,0.2)';ctx.lineWidth=2;
+  for(let i=96;i<sz;i+=96){
+    ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
-  // Block rectangles on die
-  ctx.strokeStyle = 'rgba(60,30,0,0.3)'; ctx.lineWidth = 3;
-  [[80,80,380,200],[80,330,180,200],[280,330,180,200],[80,570,380,80]].forEach(([x,y,w,h])=>{
-    ctx.strokeRect(x,y,w,h);
-  });
-  // Label
-  ctx.font = 'bold 120px Rajdhani, sans-serif';
-  ctx.fillStyle = 'rgba(60,30,0,0.35)';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText('AV', sz/2, sz/2 - 30);
-  ctx.font = '56px Share Tech Mono, monospace';
-  ctx.fillStyle = 'rgba(60,30,0,0.25)';
-  ctx.fillText('VLSI DESIGN', sz/2, sz/2 + 70);
+  ctx.strokeStyle='rgba(60,30,0,0.3)';ctx.lineWidth=3;
+  [[80,80,380,200],[80,330,180,200],[280,330,180,200],[80,570,380,80]].forEach(([x,y,w,h])=>ctx.strokeRect(x,y,w,h));
+  ctx.font='bold 120px Rajdhani,sans-serif';ctx.fillStyle='rgba(60,30,0,0.35)';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('AV',sz/2,sz/2-30);
+  ctx.font='56px Share Tech Mono,monospace';ctx.fillStyle='rgba(60,30,0,0.25)';
+  ctx.fillText('VLSI DESIGN',sz/2,sz/2+70);
 }
 
-/* ── Build layer geometry & materials ── */
-const LAYER_W = 4.2, LAYER_T = 0.072, LAYER_D = 4.2;
-// y-positions: initial spread, final assembled
-const LAYERS_CFG = [
-  { yI: -2.0,  yF: -0.22, w: LAYER_W, t: LAYER_T,  d: LAYER_D, drawFn: drawSubstrate,  rough: 0.88, metal: 0.08, emCol: null },
-  { yI: -1.0,  yF: -0.11, w: LAYER_W, t: LAYER_T,  d: LAYER_D, drawFn: drawRouting,    rough: 0.84, metal: 0.10, emCol: null },
-  { yI:  0.0,  yF:  0.0,  w: LAYER_W, t: LAYER_T,  d: LAYER_D, drawFn: drawDieLayer,   rough: 0.82, metal: 0.12, emCol: null },
-  { yI:  1.0,  yF:  0.06, w: LAYER_W, t: 0.018,    d: LAYER_D, drawFn: null,            rough: 0.0,  metal: 0.05, glass: true  },
-  { yI:  1.8,  yF:  0.22, w: 1.6,     t: 0.18,     d: 1.6,     drawFn: drawPackage,    rough: 0.55, metal: 0.45, emCol: null },
+/* ── CHIP LAYERS ── */
+const LW=4.2,LT=0.072,LD=4.2;
+const LCFG=[
+  {yI:-2.0,yF:-0.22,w:LW,t:LT,d:LD,fn:drawSubstrate,ro:0.88,me:0.08},
+  {yI:-1.0,yF:-0.11,w:LW,t:LT,d:LD,fn:drawRouting,  ro:0.84,me:0.10},
+  {yI: 0.0,yF: 0.0, w:LW,t:LT,d:LD,fn:drawDieLayer, ro:0.82,me:0.12},
+  {yI: 1.0,yF: 0.06,w:LW,t:0.018,d:LD,fn:null,glass:true},
+  {yI: 1.8,yF: 0.22,w:1.6,t:0.18,d:1.6,fn:drawPackage,ro:0.55,me:0.45},
 ];
-
-const layers3d = [];
-
-LAYERS_CFG.forEach((cfg, i) => {
+const layers3d=[];
+LCFG.forEach((cfg,i)=>{
   let mat;
-  if (cfg.glass) {
-    mat = new THREE.MeshPhysicalMaterial({
-      color: 0x80c0ff, transmission: 0.92, transparent: true,
-      opacity: 0.18, roughness: 0.0, metalness: 0.05,
-      reflectivity: 0.9, ior: 1.5,
-      side: THREE.DoubleSide,
-    });
+  if(cfg.glass){
+    mat=new THREE.MeshPhysicalMaterial({color:0x80c0ff,transmission:0.92,transparent:true,opacity:0.18,roughness:0.0,metalness:0.05,reflectivity:0.9,ior:1.5,side:THREE.DoubleSide});
   } else {
-    const tex = makeTex(cfg.drawFn);
-    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    mat = new THREE.MeshStandardMaterial({
-      map: tex, roughness: cfg.rough, metalness: cfg.metal,
-    });
+    mat=new THREE.MeshStandardMaterial({map:makeTex(cfg.fn),roughness:cfg.ro,metalness:cfg.me});
   }
-
-  const geo  = new THREE.BoxGeometry(cfg.w, cfg.t, cfg.d);
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.y = cfg.yI;
-  mesh.castShadow    = true;
-  mesh.receiveShadow = true;
+  const geo=new THREE.BoxGeometry(cfg.w,cfg.t,cfg.d);
+  const mesh=new THREE.Mesh(geo,mat);
+  mesh.position.y=cfg.yI;mesh.castShadow=true;mesh.receiveShadow=true;
   scene.add(mesh);
-
-  // Edge highlight lines
-  const edgeGeo = new THREE.EdgesGeometry(geo);
-  const edgeMat = new THREE.LineBasicMaterial({
-    color: cfg.glass ? 0x4080ff : (i === 4 ? 0x304870 : 0x1a4030),
-    transparent: true, opacity: cfg.glass ? 0.5 : 0.7,
-  });
-  const edges = new THREE.LineSegments(edgeGeo, edgeMat);
-  edges.position.y = cfg.yI;
-  scene.add(edges);
-
-  layers3d.push({ mesh, edges, yI: cfg.yI, yF: cfg.yF });
+  const eMat=new THREE.LineBasicMaterial({color:cfg.glass?0x4080ff:(i===4?0x304870:0x1a4030),transparent:true,opacity:cfg.glass?0.5:0.7});
+  const eLines=new THREE.LineSegments(new THREE.EdgesGeometry(geo),eMat);
+  eLines.position.y=cfg.yI;scene.add(eLines);
+  layers3d.push({mesh,edges:eLines,yI:cfg.yI,yF:cfg.yF});
 });
 
-/* ── Die chip (sits on layer 2) ── */
-const dieTex = makeTex(drawDieFace);
-dieTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-const dieGeo = new THREE.BoxGeometry(1.38, 0.11, 1.38);
-const dieMat = new THREE.MeshStandardMaterial({
-  map: dieTex, roughness: 0.18, metalness: 0.55,
-  emissive: new THREE.Color(0.4, 0.2, 0.02), emissiveIntensity: 0.0,
+/* ── DIE CHIP ── */
+const dieTex=makeTex(drawDieFace);
+const dieGeo=new THREE.BoxGeometry(1.38,0.11,1.38);
+const dieMat=new THREE.MeshStandardMaterial({map:dieTex,roughness:0.18,metalness:0.55,emissive:new THREE.Color(0.4,0.2,0.02),emissiveIntensity:0.0});
+const dieMesh=new THREE.Mesh(dieGeo,dieMat);
+dieMesh.position.y=LT/2+0.055;dieMesh.castShadow=true;scene.add(dieMesh);
+const dieEdgeMat=new THREE.LineBasicMaterial({color:0xffd080,transparent:true,opacity:0.0});
+const dieEdges=new THREE.LineSegments(new THREE.EdgesGeometry(dieGeo),dieEdgeMat);
+dieEdges.position.y=dieMesh.position.y;scene.add(dieEdges);
+
+/* ── BOND WIRES ── */
+function makeBondWire(p0,p1,h,col){
+  const mid=new THREE.Vector3((p0.x+p1.x)/2,Math.max(p0.y,p1.y)+h,(p0.z+p1.z)/2);
+  const geo=new THREE.TubeGeometry(new THREE.CatmullRomCurve3([p0,mid,p1]),16,0.006,4,false);
+  const mat=new THREE.MeshStandardMaterial({color:col,roughness:0.3,metalness:0.8,emissive:col,emissiveIntensity:0.0});
+  const tube=new THREE.Mesh(geo,mat);tube.castShadow=true;return tube;
+}
+const bondWires=[];
+const dieR=0.69,padR=dieR+0.06,wireBaseY=LT/2+0.11,wireCol=new THREE.Color(0xe0b030);
+[-0.45,-0.15,0.15,0.45].forEach(off=>{
+  bondWires.push(makeBondWire(new THREE.Vector3(off,wireBaseY,padR),new THREE.Vector3(off*1.3,wireBaseY,dieR+0.4),0.22,wireCol));
+  bondWires.push(makeBondWire(new THREE.Vector3(off,wireBaseY,-padR),new THREE.Vector3(off*1.3,wireBaseY,-(dieR+0.4)),0.22,wireCol));
+  bondWires.push(makeBondWire(new THREE.Vector3(padR,wireBaseY,off),new THREE.Vector3(dieR+0.4,wireBaseY,off*1.3),0.22,wireCol));
+  bondWires.push(makeBondWire(new THREE.Vector3(-padR,wireBaseY,off),new THREE.Vector3(-(dieR+0.4),wireBaseY,off*1.3),0.22,wireCol));
 });
-const dieMesh = new THREE.Mesh(dieGeo, dieMat);
-dieMesh.position.y = 0.0 + LAYER_T / 2 + 0.055;
-dieMesh.castShadow = true;
-scene.add(dieMesh);
+bondWires.forEach(w=>{w.visible=false;scene.add(w);});
 
-const dieEdgeGeo = new THREE.EdgesGeometry(dieGeo);
-const dieEdgeMat = new THREE.LineBasicMaterial({ color: 0xffd080, transparent: true, opacity: 0.0 });
-const dieEdges = new THREE.LineSegments(dieEdgeGeo, dieEdgeMat);
-dieEdges.position.y = dieMesh.position.y;
-scene.add(dieEdges);
-
-/* ── Bond wires (gold arcs from die pads to layer edge) ── */
-function makeBondWire(p0, p1, height, col) {
-  const mid = new THREE.Vector3(
-    (p0.x + p1.x) / 2, Math.max(p0.y, p1.y) + height, (p0.z + p1.z) / 2
-  );
-  const curve = new THREE.CatmullRomCurve3([p0, mid, p1]);
-  const geo   = new THREE.TubeGeometry(curve, 16, 0.006, 4, false);
-  const mat   = new THREE.MeshStandardMaterial({ color: col, roughness: 0.3, metalness: 0.8, emissive: col, emissiveIntensity: 0.0 });
-  const tube  = new THREE.Mesh(geo, mat);
-  tube.castShadow = true;
-  return tube;
+/* ── CIRCUIT NODE NETWORK ── */
+const NODE_N = 28;
+const nodePts = [];
+const rng = (a,b) => a + Math.random()*(b-a);
+for(let i = 0; i < NODE_N; i++){
+  const theta = (i / NODE_N) * Math.PI * 2 * 2.8;
+  const r = 3.2 + rng(0, 2.6);
+  const x = r * Math.cos(theta);
+  const z = r * Math.sin(theta);
+  const y = rng(-1.8, 1.8);
+  nodePts.push(new THREE.Vector3(x, y, z));
 }
 
-const bondWires = [];
-const dieR = 0.69; // die footprint half-size
-const padR = dieR + 0.06; // pad distance from center
-const wireBaseY = 0.0 + LAYER_T / 2 + 0.11;
-const wireColor = new THREE.Color(0xe0b030);
+// Build edges (connect nodes within distance threshold)
+const nodeEdges = [];
+for(let i = 0; i < NODE_N; i++)
+  for(let j = i+1; j < NODE_N; j++)
+    if(nodePts[i].distanceTo(nodePts[j]) < 2.8) nodeEdges.push([i, j]);
 
-// 4 wires per side (top/bottom: vary X, left/right: vary Z)
-[-0.45, -0.15, 0.15, 0.45].forEach(off => {
-  // Top side (+Z)
-  bondWires.push(makeBondWire(
-    new THREE.Vector3(off, wireBaseY, padR),
-    new THREE.Vector3(off * 1.3, wireBaseY, dieR + 0.4),
-    0.22, wireColor
-  ));
-  // Bottom side (-Z)
-  bondWires.push(makeBondWire(
-    new THREE.Vector3(off, wireBaseY, -padR),
-    new THREE.Vector3(off * 1.3, wireBaseY, -(dieR + 0.4)),
-    0.22, wireColor
-  ));
-  // Right side (+X)
-  bondWires.push(makeBondWire(
-    new THREE.Vector3(padR, wireBaseY, off),
-    new THREE.Vector3(dieR + 0.4, wireBaseY, off * 1.3),
-    0.22, wireColor
-  ));
-  // Left side (-X)
-  bondWires.push(makeBondWire(
-    new THREE.Vector3(-padR, wireBaseY, off),
-    new THREE.Vector3(-(dieR + 0.4), wireBaseY, off * 1.3),
-    0.22, wireColor
-  ));
+// Edge lines
+const edgeVerts = [];
+nodeEdges.forEach(([a,b]) => {
+  edgeVerts.push(nodePts[a].x,nodePts[a].y,nodePts[a].z);
+  edgeVerts.push(nodePts[b].x,nodePts[b].y,nodePts[b].z);
 });
-bondWires.forEach(w => { w.visible = false; scene.add(w); });
+const netGeo = new THREE.BufferGeometry();
+netGeo.setAttribute('position', new THREE.Float32BufferAttribute(edgeVerts, 3));
+const netMat = new THREE.LineBasicMaterial({color:0x0e2848,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending});
+scene.add(new THREE.LineSegments(netGeo, netMat));
 
-/* ── Floating particles ── */
-const ptCount = 300;
-const ptPos = new Float32Array(ptCount * 3);
-for (let i = 0; i < ptCount; i++) {
-  ptPos[i*3]   = (Math.random() - 0.5) * 14;
-  ptPos[i*3+1] = (Math.random() - 0.5) * 10;
-  ptPos[i*3+2] = (Math.random() - 0.5) * 14;
+// Node spheres (small icosahedra)
+const nodeMeshes = [];
+nodePts.forEach(p => {
+  const geo = new THREE.IcosahedronGeometry(0.055, 1);
+  const mat = new THREE.MeshBasicMaterial({color:0x1a4070,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending});
+  const m = new THREE.Mesh(geo, mat);
+  m.position.copy(p);
+  scene.add(m);
+  nodeMeshes.push({mesh:m, mat, baseColor:new THREE.Color(0x1a4070), pulseT:Math.random()*Math.PI*2});
+});
+
+// Data packets (Points system)
+const PKT_N = 55;
+const pktPos = new Float32Array(PKT_N * 3);
+const pktGeo = new THREE.BufferGeometry();
+pktGeo.setAttribute('position', new THREE.BufferAttribute(pktPos, 3));
+const pktMat = new THREE.PointsMaterial({
+  color:0x00d474, size:0.07, transparent:true, opacity:0.9,
+  sizeAttenuation:true, blending:THREE.AdditiveBlending, depthWrite:false
+});
+scene.add(new THREE.Points(pktGeo, pktMat));
+
+const pktState = Array.from({length:PKT_N}, () => ({
+  ei: Math.floor(Math.random() * nodeEdges.length),
+  t: Math.random(),
+  speed: 0.18 + Math.random() * 0.55,
+  col: Math.random() > 0.5 ? 0 : 1  // 0=green, 1=blue
+}));
+
+// Secondary blue packets
+const pkt2Pos = new Float32Array(PKT_N * 3);
+const pkt2Geo = new THREE.BufferGeometry();
+pkt2Geo.setAttribute('position', new THREE.BufferAttribute(pkt2Pos, 3));
+const pkt2Mat = new THREE.PointsMaterial({
+  color:0x3a8fd4,size:0.055,transparent:true,opacity:0.7,
+  sizeAttenuation:true,blending:THREE.AdditiveBlending,depthWrite:false
+});
+scene.add(new THREE.Points(pkt2Geo, pkt2Mat));
+const pkt2State = Array.from({length:PKT_N}, () => ({
+  ei: Math.floor(Math.random() * nodeEdges.length),
+  t: Math.random(),
+  speed: 0.12 + Math.random() * 0.35
+}));
+
+/* ── ORBITAL RINGS ── */
+function makeRing(r, tubeR, tilt, color, opacity){
+  const geo = new THREE.TorusGeometry(r, tubeR, 6, 140);
+  const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity, blending:THREE.AdditiveBlending, depthWrite:false});
+  const m = new THREE.Mesh(geo, mat);
+  m.rotation.copy(tilt);
+  scene.add(m);
+  return m;
+}
+const ring1 = makeRing(3.1, 0.013, new THREE.Euler(Math.PI/2, 0, 0), 0x1a3878, 0.55);
+const ring2 = makeRing(2.7, 0.009, new THREE.Euler(Math.PI/5, 0, Math.PI/4), 0x0a2218, 0.45);
+const ring3 = makeRing(3.6, 0.007, new THREE.Euler(Math.PI/3, Math.PI/6, 0), 0x082214, 0.35);
+
+/* ── SONAR RINGS ── */
+const sonarRings = [];
+let sonarTimer = 2.0;
+function spawnSonar(){
+  const geo = new THREE.RingGeometry(0.6, 0.64, 80);
+  const mat = new THREE.MeshBasicMaterial({color:0x00d474,side:THREE.DoubleSide,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false});
+  const m = new THREE.Mesh(geo, mat);
+  m.rotation.x = -Math.PI / 2;
+  scene.add(m);
+  sonarRings.push({mesh:m,mat,t:0});
+}
+
+/* ── PARTICLES ── */
+const ptCnt = 380;
+const ptPos = new Float32Array(ptCnt * 3);
+for(let i = 0; i < ptCnt; i++){
+  ptPos[i*3]   = (Math.random()-.5)*18;
+  ptPos[i*3+1] = (Math.random()-.5)*12;
+  ptPos[i*3+2] = (Math.random()-.5)*18;
 }
 const ptGeo = new THREE.BufferGeometry();
 ptGeo.setAttribute('position', new THREE.BufferAttribute(ptPos, 3));
-const ptMat = new THREE.PointsMaterial({ color: 0x2858a8, size: 0.025, transparent: true, opacity: 0.55, sizeAttenuation: true });
-scene.add(new THREE.Points(ptGeo, ptMat));
+scene.add(new THREE.Points(ptGeo, new THREE.PointsMaterial({color:0x1a3868,size:0.022,transparent:true,opacity:0.55,sizeAttenuation:true})));
 
-/* ── Lights ── */
-scene.add(new THREE.AmbientLight(0x0a1428, 0.6));
+/* ── LIGHTS ── */
+scene.add(new THREE.AmbientLight(0x080c1a, 0.8));
+const dirL = new THREE.DirectionalLight(0xb0c8e8, 2.2);
+dirL.position.set(5,9,5);dirL.castShadow=true;
+dirL.shadow.mapSize.set(2048,2048);
+dirL.shadow.camera.near=0.5;dirL.shadow.camera.far=30;
+dirL.shadow.camera.left=dirL.shadow.camera.bottom=-6;
+dirL.shadow.camera.right=dirL.shadow.camera.top=6;
+scene.add(dirL);
+const rimL = new THREE.DirectionalLight(0x1a3870, 0.9);rimL.position.set(-4,2,-4);scene.add(rimL);
+const blueL = new THREE.PointLight(0x1840c0, 0.0, 10);blueL.position.set(0,-1.5,0);scene.add(blueL);
+const dieL  = new THREE.PointLight(0xffd080, 0.0, 4);dieL.position.set(0,0.6,0);scene.add(dieL);
+const netL  = new THREE.PointLight(0x00d474, 0.3, 8);netL.position.set(3,1,3);scene.add(netL);
 
-const dirLight = new THREE.DirectionalLight(0xb8d0f0, 2.0);
-dirLight.position.set(5, 9, 5);
-dirLight.castShadow = true;
-dirLight.shadow.mapSize.set(2048, 2048);
-dirLight.shadow.camera.near = 0.5;
-dirLight.shadow.camera.far  = 30;
-dirLight.shadow.camera.left = dirLight.shadow.camera.bottom = -6;
-dirLight.shadow.camera.right = dirLight.shadow.camera.top = 6;
-scene.add(dirLight);
-
-const rimLight = new THREE.DirectionalLight(0x204080, 0.8);
-rimLight.position.set(-4, 2, -4);
-scene.add(rimLight);
-
-const blueUnder = new THREE.PointLight(0x1840c0, 0.0, 10);
-blueUnder.position.set(0, -1.5, 0);
-scene.add(blueUnder);
-
-const dieLight = new THREE.PointLight(0xffd080, 0.0, 4);
-dieLight.position.set(0, 0.6, 0);
-scene.add(dieLight);
-
-/* ── Post-processing ── */
+/* ── POST PROCESSING ── */
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, cam));
-const bloom = new UnrealBloomPass(
-  new THREE.Vector2(innerWidth, innerHeight),
-  0.55, 0.5, 0.72
-);
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.65, 0.5, 0.7);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
-/* ─────────────────────────────────────────
-   SCROLL-DRIVEN CHIP ASSEMBLY (GSAP)
-───────────────────────────────────────── */
+/* ── SCROLL ANIMATION ── */
 const HUD_LABELS = [
-  '// LAYERS SEPARATED',
-  '// SUBSTRATE LOADED',
-  '// ROUTING LAYER',
-  '// DIE MOUNTED',
-  '// GLASS INTERPOSER',
-  '// PACKAGE PLACED',
-  '✓  CHIP  ACTIVE',
+  '// LAYERS SEPARATED','// SUBSTRATE LOADED','// ROUTING LAYER',
+  '// DIE MOUNTED','// GLASS INTERPOSER','// PACKAGE PLACED','✓  CHIP  ACTIVE',
 ];
-
-const hudEl    = document.getElementById('chipHud');
+const hudEl = document.getElementById('chipHud');
 const hudLabel = document.getElementById('hudLabel');
 const hudFill  = document.getElementById('hudFill');
-let lastLabel  = '';
-let chipReady  = false;
+let lastLbl = '';
 
-function setHudLabel(txt) {
-  if (txt === lastLabel) return;
-  lastLabel = txt;
-  hudLabel.style.opacity = '0';
-  setTimeout(() => { hudLabel.textContent = txt; hudLabel.style.opacity = '1'; }, 200);
-  hudLabel.style.transition = 'opacity .2s';
+function setHudLabel(txt){
+  if(txt === lastLbl) return; lastLbl = txt;
+  hudLabel.style.opacity='0';
+  setTimeout(()=>{hudLabel.textContent=txt;hudLabel.style.opacity='1';},200);
+  hudLabel.style.transition='opacity .2s';
 }
+function easeOut(t){return 1-Math.pow(1-t,3);}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function lerp(a,b,t){return a+(b-a)*t;}
 
-function easeOut(t)  { return 1 - Math.pow(1 - t, 3); }
-function easeIn(t)   { return t * t * t; }
-function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
-function invlerp(a,b,v){ return clamp((v-a)/(b-a), 0, 1); }
-function lerp(a,b,t) { return a + (b-a)*t; }
+function updateChip(sp){
+  const assP  = easeOut(clamp(sp/0.75,0,1));
+  const powerP = clamp((sp-0.75)/0.25,0,1);
 
-function updateChip3D(scrollP) {
-  const assP  = easeOut(clamp(scrollP / 0.75, 0, 1));
-  const powerP = clamp((scrollP - 0.75) / 0.25, 0, 1);
-
-  /* Layer Y positions */
-  layers3d.forEach(L => {
-    const y = lerp(L.yI, L.yF, assP);
-    L.mesh.position.y = y;
-    L.edges.position.y = y;
+  layers3d.forEach(L=>{
+    const y=lerp(L.yI,L.yF,assP);
+    L.mesh.position.y=y;L.edges.position.y=y;
   });
+  const l2y=layers3d[2].mesh.position.y;
+  dieMesh.position.y=l2y+LT/2+0.055;
+  dieEdges.position.y=dieMesh.position.y;
 
-  /* Die follows layer 2 */
-  const l2y = layers3d[2].mesh.position.y;
-  dieMesh.position.y = l2y + LAYER_T / 2 + 0.055;
-  dieEdges.position.y = dieMesh.position.y;
-
-  /* Bond wires appear when layers close in */
-  const bondsOn = assP > 0.72;
-  bondWires.forEach((w, i) => {
-    w.visible = bondsOn;
-    if (bondsOn) {
-      const fadeP = clamp((assP - 0.72) / 0.12, 0, 1);
-      w.material.opacity = fadeP;
-      w.material.transparent = fadeP < 1;
+  // Bond wires
+  const bondsOn=assP>0.72;
+  bondWires.forEach(w=>{
+    w.visible=bondsOn;
+    if(bondsOn){
+      const fp=clamp((assP-0.72)/0.12,0,1);
+      w.material.opacity=fp;w.material.transparent=fp<1;
+      w.material.emissiveIntensity=fp*(0.8+powerP*1.5);
     }
   });
 
-  /* Die glow */
-  const glowP = clamp((assP - 0.78) / 0.22, 0, 1);
-  dieMat.emissiveIntensity = glowP * 1.8 + powerP * 2.5;
-  dieEdgeMat.opacity = glowP * 0.8;
-  dieLight.intensity = glowP * 3.0 + powerP * 5.0;
+  // Die glow
+  const glowP=clamp((assP-0.78)/0.22,0,1);
+  dieMat.emissiveIntensity=glowP*1.8+powerP*2.5;
+  dieEdgeMat.opacity=glowP*0.8;
+  dieL.intensity=glowP*3.0+powerP*5.5;
 
-  /* Bloom & blue under-light */
-  bloom.strength = 0.55 + glowP * 0.6 + powerP * 0.8;
-  bloom.threshold = 0.72 - glowP * 0.15;
-  blueUnder.intensity = glowP * 2.5 + powerP * 4.5;
+  // Bloom
+  bloom.strength=0.65+glowP*0.7+powerP*0.9;
+  bloom.threshold=0.7-glowP*0.15;
+  blueL.intensity=glowP*2.5+powerP*4.5;
 
-  /* HUD update */
-  hudFill.style.width = (scrollP * 100) + '%';
-  const pct = Math.round(scrollP * 100);
-  if (assP < 0.08)        setHudLabel('// LAYERS SEPARATED');
-  else if (assP < 0.25)   setHudLabel('// SUBSTRATE LOADED');
-  else if (assP < 0.42)   setHudLabel('// ROUTING LAYER');
-  else if (assP < 0.58)   setHudLabel('// DIE MOUNTED');
-  else if (assP < 0.72)   setHudLabel('// GLASS INTERPOSER');
-  else if (assP < 0.88)   setHudLabel('// PACKAGE PLACED');
-  else                     setHudLabel('✓  CHIP  ACTIVE');
+  // HUD
+  hudFill.style.width=(sp*100)+'%';
+  if(assP<0.08) setHudLabel('// LAYERS SEPARATED');
+  else if(assP<0.25) setHudLabel('// SUBSTRATE LOADED');
+  else if(assP<0.42) setHudLabel('// ROUTING LAYER');
+  else if(assP<0.58) setHudLabel('// DIE MOUNTED');
+  else if(assP<0.72) setHudLabel('// GLASS INTERPOSER');
+  else if(assP<0.88) setHudLabel('// PACKAGE PLACED');
+  else setHudLabel('✓  CHIP  ACTIVE');
 
-  if (powerP > 0.05) {
-    hudEl.classList.add('powered');
-    chipReady = true;
-  } else {
-    hudEl.classList.remove('powered');
-  }
+  if(powerP>0.05) hudEl.classList.add('powered');
+  else hudEl.classList.remove('powered');
 }
 
-/* GSAP ScrollTrigger — drives chip assembly */
-if (window.gsap && window.ScrollTrigger) {
+if(window.gsap && window.ScrollTrigger){
   gsap.registerPlugin(ScrollTrigger);
-  const st = ScrollTrigger.create({
-    trigger: 'body',
-    start:   'top top',
-    end:     'bottom bottom',
-    onUpdate(self) {
-      updateChip3D(self.progress);
-    }
-  });
+  ScrollTrigger.create({trigger:'body',start:'top top',end:'bottom bottom',onUpdate(s){updateChip(s.progress);}});
 }
+setTimeout(()=>hudEl.classList.add('show'),3400);
 
-/* Show HUD after load */
-setTimeout(() => hudEl.classList.add('show'), 3200);
-
-/* ── Render loop ── */
+/* ── RENDER LOOP ── */
 const clock = new THREE.Clock();
-function animate() {
+function animate(){
   requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
+  const t  = clock.getElapsedTime();
+  const dt = clock.getDelta ? Math.min(clock.getDelta(), 0.05) : 0.016;
 
-  /* Gentle camera breathe + slow auto-rotate */
-  cam.position.x = 6.5 + Math.sin(t * 0.18) * 0.15;
-  cam.position.z = 6.5 + Math.cos(t * 0.13) * 0.15;
-  cam.position.y = 5.2 + Math.sin(t * 0.22) * 0.08;
-  cam.lookAt(0, 0, 0);
+  // Camera breathe
+  cam.position.x = 7.0 + Math.sin(t*0.18)*0.18;
+  cam.position.z = 7.0 + Math.cos(t*0.13)*0.18;
+  cam.position.y = 5.5 + Math.sin(t*0.22)*0.10;
+  cam.lookAt(0,0,0);
 
-  /* Animate particles */
-  const posArr = ptGeo.attributes.position.array;
-  for (let i = 0; i < ptCount; i++) {
-    posArr[i*3+1] += 0.0008;
-    if (posArr[i*3+1] > 5) posArr[i*3+1] = -5;
+  // Orbital rings
+  ring1.rotation.z += 0.004;
+  ring2.rotation.z -= 0.003;
+  ring3.rotation.y += 0.002;
+
+  // Sonar rings
+  sonarTimer -= 0.016;
+  if(sonarTimer <= 0){ spawnSonar(); sonarTimer = 2.5 + Math.random()*1.8; }
+  for(let i = sonarRings.length-1; i >= 0; i--){
+    const sr = sonarRings[i];
+    sr.t += 0.016 * 0.28;
+    const s = 1 + sr.t * 5.5;
+    sr.mesh.scale.set(s,s,s);
+    sr.mat.opacity = Math.max(0, 0.6 - sr.t*0.65);
+    if(sr.t > 0.95){ scene.remove(sr.mesh); sonarRings.splice(i,1); }
+  }
+
+  // Node pulse
+  nodeMeshes.forEach((n, i) => {
+    n.pulseT += 0.016 * (0.8 + i * 0.04);
+    const pulse = 0.5 + 0.5 * Math.sin(n.pulseT);
+    const c = Math.floor(pulse * 0x14 + 0x0a);
+    n.mat.opacity = 0.5 + pulse * 0.5;
+  });
+
+  // Data packets — green
+  pktState.forEach((p, i) => {
+    p.t += p.speed * 0.016;
+    if(p.t >= 1){ p.t=0; p.ei=Math.floor(Math.random()*nodeEdges.length); }
+    const [a,b] = nodeEdges[p.ei];
+    const pos = new THREE.Vector3().lerpVectors(nodePts[a], nodePts[b], p.t);
+    pktPos[i*3]=pos.x; pktPos[i*3+1]=pos.y; pktPos[i*3+2]=pos.z;
+  });
+  pktGeo.attributes.position.needsUpdate = true;
+
+  // Data packets — blue
+  pkt2State.forEach((p, i) => {
+    p.t += p.speed * 0.016;
+    if(p.t >= 1){ p.t=0; p.ei=Math.floor(Math.random()*nodeEdges.length); }
+    const [a,b] = nodeEdges[p.ei];
+    const pos = new THREE.Vector3().lerpVectors(nodePts[a], nodePts[b], p.t);
+    pkt2Pos[i*3]=pos.x; pkt2Pos[i*3+1]=pos.y; pkt2Pos[i*3+2]=pos.z;
+  });
+  pkt2Geo.attributes.position.needsUpdate = true;
+
+  // Ambient particles drift
+  const pp = ptGeo.attributes.position.array;
+  for(let i = 0; i < ptCnt; i++){
+    pp[i*3+1] += 0.0006;
+    if(pp[i*3+1] > 6) pp[i*3+1] = -6;
   }
   ptGeo.attributes.position.needsUpdate = true;
 
@@ -1059,30 +1329,30 @@ function animate() {
 animate();
 </script>
 
-<!-- NON-THREE.JS SCRIPTS -->
+<!-- UI SCRIPTS -->
 <script>
-/* ── Loader ── */
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('loader').classList.add('out');
     runCounters(); runTypewriter();
-  }, 3000);
+  }, 3200);
 });
 
-/* ── Cursor ── */
-const cDot = document.getElementById('cDot');
-const cRing= document.getElementById('cRing');
+/* Cursor */
+const cDot=document.getElementById('cDot'), cRing=document.getElementById('cRing');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-(function cl(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cDot.style.cssText=`left:${mx}px;top:${my}px`;cRing.style.cssText=`left:${rx}px;top:${ry}px`;requestAnimationFrame(cl)})();
+(function cl(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  cDot.style.cssText=`left:${mx}px;top:${my}px`;
+  cRing.style.cssText=`left:${rx}px;top:${ry}px`;
+  requestAnimationFrame(cl);})();
 document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cDot.style.width=cDot.style.height='10px';cRing.style.width=cRing.style.height='48px';cRing.style.borderColor='rgba(200,120,40,.75)'});
-  el.addEventListener('mouseleave',()=>{cDot.style.width=cDot.style.height='6px';cRing.style.width=cRing.style.height='30px';cRing.style.borderColor='rgba(200,120,40,.4)'});
+  el.addEventListener('mouseenter',()=>{cDot.style.width=cDot.style.height='10px';cRing.style.width=cRing.style.height='48px';cRing.style.borderColor='rgba(200,120,40,.8)';});
+  el.addEventListener('mouseleave',()=>{cDot.style.width=cDot.style.height='6px';cRing.style.width=cRing.style.height='30px';cRing.style.borderColor='rgba(200,120,40,.4)';});
 });
 
-/* ── Scroll ── */
-const sBar=document.getElementById('sBar');
-const nav=document.getElementById('nav');
+/* Scroll progress */
+const sBar=document.getElementById('sBar'),nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{
   const st=document.documentElement.scrollTop;
   const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
@@ -1090,33 +1360,33 @@ window.addEventListener('scroll',()=>{
   nav.classList.toggle('sc',st>60);
 },{passive:true});
 
-/* ── Typewriter ── */
-const ROLES=['VLSI Design & Verification Engineer','FPGA & ML Accelerator Designer','UVM Verification Architect','Hardware & Systems Engineer'];
+/* Typewriter */
+const ROLES=['VLSI Design & Verification Engineer','RTL-to-GDS Tapeout Engineer','UVM Verification Architect','FPGA & ML Accelerator Designer','Hardware & Systems Engineer'];
 let ri=0,ci=0,del=false;
 const typEl=document.getElementById('typEl');
 function runTypewriter(){
   const cur=ROLES[ri];
-  if(!del){typEl.textContent=cur.slice(0,++ci);if(ci===cur.length){del=true;setTimeout(runTypewriter,2000);return}}
-  else{typEl.textContent=cur.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%ROLES.length}}
-  setTimeout(runTypewriter,del?36:62);
+  if(!del){typEl.textContent=cur.slice(0,++ci);if(ci===cur.length){del=true;setTimeout(runTypewriter,2200);return;}}
+  else{typEl.textContent=cur.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%ROLES.length;}}
+  setTimeout(runTypewriter,del?34:60);
 }
 
-/* ── Counters ── */
+/* Counters */
 function runCounters(){
   document.querySelectorAll('.hs-n').forEach(el=>{
     const t=parseFloat(el.dataset.t),s=el.dataset.s||'',d=t%1!==0;
-    let c=0,step=t/55;
-    const iv=setInterval(()=>{c+=step;if(c>=t){c=t;clearInterval(iv)}el.textContent=(d?c.toFixed(1):Math.floor(c))+s},28);
+    let c=0,step=t/60;
+    const iv=setInterval(()=>{c+=step;if(c>=t){c=t;clearInterval(iv);}el.textContent=(d?c.toFixed(1):Math.floor(c))+s;},26);
   });
 }
 
-/* ── Scroll reveal ── */
-const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+/* Scroll reveal */
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.rv,.sec-tag,.sec-title,.ti,.pc,.sk,.ec,.cc').forEach(el=>io.observe(el));
 
-/* ── Smooth scroll ── */
+/* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})});
+  a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});
 });
 </script>
 </body>
