@@ -36,15 +36,15 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 #threeCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
-/* Content veil — dark left-side gradient so text stays readable */
+/* Content veil — dark left-side gradient so text stays readable, clears by 55% so chip is visible */
 #veil{position:fixed;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(105deg,
-    rgba(3,6,8,0.94) 0%,
-    rgba(3,6,8,0.88) 28%,
-    rgba(3,6,8,0.70) 50%,
-    rgba(3,6,8,0.35) 68%,
-    rgba(3,6,8,0.08) 84%,
-    rgba(3,6,8,0)    100%)
+    rgba(3,6,8,0.96) 0%,
+    rgba(3,6,8,0.92) 18%,
+    rgba(3,6,8,0.78) 30%,
+    rgba(3,6,8,0.42) 40%,
+    rgba(3,6,8,0.12) 50%,
+    rgba(3,6,8,0)    58%)
 }
 
 /* LOADER */
@@ -1031,21 +1031,44 @@ function drawPackage(ctx, sz){
 }
 
 function drawDieFace(ctx, sz){
-  const grd=ctx.createRadialGradient(sz*.42,sz*.38,sz*.05,sz/2,sz/2,sz*.6);
-  grd.addColorStop(0,'#ffffff');grd.addColorStop(0.25,'#fff0d0');
-  grd.addColorStop(0.55,'#e8c060');grd.addColorStop(1,'#c08020');
-  ctx.fillStyle=grd;ctx.fillRect(0,0,sz,sz);
-  ctx.strokeStyle='rgba(80,40,0,0.2)';ctx.lineWidth=2;
-  for(let i=96;i<sz;i+=96){
+  // Dark silicon base
+  ctx.fillStyle='#030810';ctx.fillRect(0,0,sz,sz);
+  // Fine grid
+  ctx.strokeStyle='rgba(15,35,80,0.35)';ctx.lineWidth=0.6;
+  for(let i=32;i<sz;i+=32){
     ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();
     ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
-  ctx.strokeStyle='rgba(60,30,0,0.3)';ctx.lineWidth=3;
-  [[80,80,380,200],[80,330,180,200],[280,330,180,200],[80,570,380,80]].forEach(([x,y,w,h])=>ctx.strokeRect(x,y,w,h));
-  ctx.font='bold 120px Rajdhani,sans-serif';ctx.fillStyle='rgba(60,30,0,0.35)';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('AV',sz/2,sz/2-30);
-  ctx.font='56px Share Tech Mono,monospace';ctx.fillStyle='rgba(60,30,0,0.25)';
-  ctx.fillText('VLSI DESIGN',sz/2,sz/2+70);
+  const sc=sz/1.38,cx=sz/2,cy=sz/2;
+  function blk(wx,wz,ww,wd,fill,stroke,lbl,lc){
+    const px=cx+wx*sc-ww*sc/2,py=cy+wz*sc-wd*sc/2,pw=ww*sc,ph=wd*sc;
+    ctx.fillStyle=fill;ctx.fillRect(px,py,pw,ph);
+    ctx.strokeStyle=stroke;ctx.lineWidth=2.5;ctx.strokeRect(px,py,pw,ph);
+    ctx.fillStyle=lc;ctx.textAlign='center';ctx.textBaseline='middle';
+    const fs=Math.min(pw/(lbl.length*0.62),ph*0.32,30);
+    if(fs>7){ctx.font=`bold ${fs}px Share Tech Mono,monospace`;ctx.fillText(lbl,px+pw/2,py+ph/2);}
+  }
+  // Neural Engine (NPU) — violet/purple
+  blk(0.0,-0.08,0.44,0.55,'rgba(100,25,220,0.42)','#8030ff','NPU','rgba(190,130,255,0.95)');
+  // CPU Cores — blue
+  blk(-0.38,-0.38,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU0','rgba(110,165,255,0.95)');
+  blk(-0.38,-0.16,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU1','rgba(110,165,255,0.95)');
+  blk(-0.38, 0.06,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU2','rgba(110,165,255,0.95)');
+  blk(-0.38, 0.28,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU3','rgba(110,165,255,0.95)');
+  // SRAM L2 — cyan
+  blk(-0.38, 0.50,0.20,0.18,'rgba(0,155,175,0.42)','#00d4ff','SRAM','rgba(0,225,255,0.95)');
+  // Memory Controller — orange
+  blk( 0.48, 0.0, 0.18,0.60,'rgba(175,75,0,0.42)','#ff8000','MEM','rgba(255,165,80,0.95)');
+  // PLL / Power — pink
+  blk(-0.38,-0.58,0.20,0.14,'rgba(175,0,75,0.42)','#ff0080','PLL','rgba(255,100,185,0.95)');
+  // ADC/DAC — yellow
+  blk( 0.16, 0.58,0.42,0.12,'rgba(155,155,0,0.42)','#ffff00','ADC','rgba(255,255,80,0.95)');
+  // NoC bus lines
+  ctx.strokeStyle='rgba(100,200,255,0.18)';ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(cx-0.64*sc,cy);ctx.lineTo(cx+0.64*sc,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,cy-0.64*sc);ctx.lineTo(cx,cy+0.64*sc);ctx.stroke();
+  // Die border
+  ctx.strokeStyle='rgba(70,35,180,0.7)';ctx.lineWidth=5;ctx.strokeRect(4,4,sz-8,sz-8);
 }
 
 /* ── CHIP LAYERS ── */
@@ -1084,6 +1107,40 @@ dieMesh.position.y=LT/2+0.055;dieMesh.castShadow=true;scene.add(dieMesh);
 const dieEdgeMat=new THREE.LineBasicMaterial({color:0xffd080,transparent:true,opacity:0.0});
 const dieEdges=new THREE.LineSegments(new THREE.EdgesGeometry(dieGeo),dieEdgeMat);
 dieEdges.position.y=dieMesh.position.y;scene.add(dieEdges);
+
+/* ── CHIP SUB-BLOCK MESHES ── */
+const BH = 0.013; // slab height
+const BLOCK_DEF = [
+  // [x, z, w, d, emissive, base]     — XZ match drawDieFace layout
+  [ 0.0,  -0.08, 0.44, 0.55, 0x8030ff, 0x280890], // NPU — violet
+  [-0.38, -0.38, 0.20, 0.18, 0x2068ff, 0x082060], // CPU0 — blue
+  [-0.38, -0.16, 0.20, 0.18, 0x2068ff, 0x082060], // CPU1 — blue
+  [-0.38,  0.06, 0.20, 0.18, 0x2068ff, 0x082060], // CPU2 — blue
+  [-0.38,  0.28, 0.20, 0.18, 0x2068ff, 0x082060], // CPU3 — blue
+  [-0.38,  0.50, 0.20, 0.18, 0x00d4ff, 0x004858], // SRAM — cyan
+  [ 0.48,  0.0,  0.18, 0.60, 0xff8000, 0x582000], // Mem Ctrl — orange
+  [-0.38, -0.58, 0.20, 0.14, 0xff0080, 0x580030], // PLL — pink
+  [ 0.16,  0.58, 0.42, 0.12, 0xffff00, 0x505000], // ADC — yellow
+];
+const chipBlocksGroup = new THREE.Group();
+scene.add(chipBlocksGroup);
+const chipBlockMeshes = [];
+BLOCK_DEF.forEach(([bx,bz,bw,bd,emCol,baseCol])=>{
+  const geo = new THREE.BoxGeometry(bw, BH, bd);
+  const mat = new THREE.MeshStandardMaterial({
+    color:baseCol, emissive:new THREE.Color(emCol),
+    emissiveIntensity:0.0, roughness:0.35, metalness:0.65,
+    transparent:true, opacity:0.0
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(bx, BH/2, bz);
+  chipBlocksGroup.add(mesh);
+  const eMat = new THREE.LineBasicMaterial({color:emCol,transparent:true,opacity:0.0,blending:THREE.AdditiveBlending});
+  const eLines = new THREE.LineSegments(new THREE.EdgesGeometry(geo), eMat);
+  eLines.position.copy(mesh.position);
+  chipBlocksGroup.add(eLines);
+  chipBlockMeshes.push({mat, edgeMat:eMat, emCol:new THREE.Color(emCol)});
+});
 
 /* ── BOND WIRES ── */
 function makeBondWire(p0,p1,h,col){
@@ -1287,6 +1344,8 @@ function easeOut(t){return 1-Math.pow(1-t,3);}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function lerp(a,b,t){return a+(b-a)*t;}
 
+let animTime = 0; // updated every frame so updateChip can read it for pulse
+
 function updateChip(sp){
   const assP  = easeOut(clamp(sp/0.75,0,1));
   const powerP = clamp((sp-0.75)/0.25,0,1);
@@ -1321,6 +1380,17 @@ function updateChip(sp){
   bloom.threshold=0.7-glowP*0.15;
   blueL.intensity=glowP*2.5+powerP*4.5;
 
+  // Chip sub-blocks — track die top surface
+  chipBlocksGroup.position.y = dieMesh.position.y + 0.055;
+  chipBlockMeshes.forEach(({mat, edgeMat}, i) => {
+    const delay = i * 0.055;
+    const fade = clamp((assP - 0.65 - delay) / 0.18, 0, 1);
+    const pulse = powerP > 0.05 ? 0.5 + 0.5 * Math.sin(animTime * 2.8 + i * 0.9) : 0;
+    mat.opacity = fade * 0.72;
+    mat.emissiveIntensity = fade * (0.6 + powerP * (1.2 + pulse * 0.8));
+    edgeMat.opacity = fade * (0.7 + powerP * pulse * 0.5);
+  });
+
   // HUD — percentage + segmented bar + stage label
   const pct = Math.round(sp*100);
   hudFill.style.width = pct+'%';
@@ -1351,7 +1421,8 @@ const clock = new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
   const t  = clock.getElapsedTime();
-  const dt = clock.getDelta ? Math.min(clock.getDelta(), 0.05) : 0.016;
+  animTime = t;
+  const dt = 0.016;
 
   // Camera breathe
   cam.position.x = 7.0 + Math.sin(t*0.18)*0.18;
