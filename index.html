@@ -36,6 +36,16 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 #threeCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
+/* Content veil — dark left-side gradient so text stays readable */
+#veil{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(105deg,
+    rgba(3,6,8,0.94) 0%,
+    rgba(3,6,8,0.88) 28%,
+    rgba(3,6,8,0.70) 50%,
+    rgba(3,6,8,0.35) 68%,
+    rgba(3,6,8,0.08) 84%,
+    rgba(3,6,8,0)    100%)
+}
 
 /* LOADER */
 #loader{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;transition:opacity 1.1s ease,visibility 1.1s ease}
@@ -57,12 +67,34 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 #cRing{position:fixed;width:30px;height:30px;border:1px solid rgba(200,120,40,.4);border-radius:50%;pointer-events:none;z-index:99997;transform:translate(-50%,-50%);transition:width .28s,height .28s,border-color .28s}
 #sBar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu),var(--gd));z-index:99996;box-shadow:0 0 6px var(--blu-g);transition:width .06s linear}
 
-/* HUD */
-#chipHud{position:fixed;bottom:2rem;right:2rem;z-index:100;font-family:var(--fmon);font-size:.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--blu);text-shadow:0 0 10px var(--blu-g);opacity:0;transition:opacity .5s;display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
+/* HUD — advanced ASIC flow monitor */
+#chipHud{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
+  font-family:var(--fmon);font-size:.54rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--blu);opacity:0;transition:opacity .5s;
+  background:rgba(3,6,8,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(58,143,212,.22);
+  border-right:2px solid var(--blu);border-bottom:2px solid rgba(58,143,212,.35);
+  padding:.78rem 1.05rem;min-width:218px;
+  display:flex;flex-direction:column;gap:.26rem;
+  position:fixed
+}
+#chipHud::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blu),transparent);opacity:.5}
 #chipHud.show{opacity:1}
-#chipHud.powered{color:var(--sig);text-shadow:0 0 12px var(--sig-g)}
-.hud-bar{width:110px;height:1px;background:rgba(255,255,255,.08);overflow:hidden}
-.hud-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));transition:width .1s linear}
+#chipHud.powered{color:var(--sig);border-right-color:var(--sig);border-bottom-color:rgba(0,212,116,.4)}
+#chipHud.powered::before{background:linear-gradient(90deg,transparent,var(--sig),transparent)}
+.hud-hdr{font-size:.49rem;color:var(--tx-f);letter-spacing:3px;padding-bottom:.24rem;border-bottom:1px solid rgba(58,143,212,.14);margin-bottom:.04rem}
+.hud-kw{color:var(--sig);font-size:.52rem;letter-spacing:1px;transition:opacity .28s;min-height:1em;text-shadow:0 0 8px var(--sig-g)}
+.hud-stage{color:var(--cu);font-size:.58rem;letter-spacing:1px;min-height:1em;transition:opacity .2s}
+.hud-row{display:flex;align-items:center;gap:.55rem;margin:.06rem 0}
+.hud-pct{font-family:var(--fdis);font-size:1.05rem;font-weight:700;color:var(--gd);min-width:2.8rem;text-shadow:0 0 14px rgba(224,176,48,.55);line-height:1}
+.hud-segs{display:flex;gap:2px;align-items:center}
+.hud-seg{width:4px;height:10px;background:rgba(58,143,212,.12);border-radius:1px;transition:background .1s,box-shadow .1s}
+.hud-seg.on{background:var(--blu);box-shadow:0 0 5px var(--blu-g)}
+#chipHud.powered .hud-seg.on{background:var(--sig);box-shadow:0 0 5px var(--sig-g)}
+.hud-meta{font-size:.47rem;color:var(--tx-f);letter-spacing:.5px;opacity:.75}
+.hud-bar{width:100%;height:1px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:.06rem}
+.hud-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));transition:width .1s linear;box-shadow:0 0 6px var(--blu-g)}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:1.3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
@@ -79,7 +111,8 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 @keyframes shim{to{left:100%}}
 
 /* LAYOUT */
-#main{position:relative;z-index:2}
+#main{position:relative;z-index:3}
+nav{z-index:9000!important}
 .sec-inner{max-width:900px;padding:0 2rem}
 
 /* HERO */
@@ -94,7 +127,7 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 .h-info{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;margin-bottom:2rem}
 .h-info a,.h-info span{font-family:var(--fmon);font-size:.66rem;color:var(--tx-d);text-decoration:none;letter-spacing:1px;transition:color .3s}
 .h-info a:hover{color:var(--cu)}
-.h-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;padding:1.2rem 1.5rem;border:1px solid var(--bd);background:rgba(255,255,255,.02);position:relative}
+.h-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;padding:1.2rem 1.5rem;border:1px solid var(--bd);background:rgba(3,6,8,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative}
 .h-stats::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
 .h-stats > div{display:flex;flex-direction:column;gap:.2rem}
 .hs-n{font-family:var(--fdis);font-size:1.8rem;font-weight:700;color:var(--cu);line-height:1;text-shadow:0 0 20px var(--cu-g)}
@@ -117,9 +150,11 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:start}
+.about-text{padding:1.2rem 1.4rem;background:rgba(3,6,8,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-left:2px solid rgba(58,143,212,.18)}
 .about-text p{color:var(--tx-d);line-height:1.9;font-size:.9rem;margin-bottom:.9rem}
 .about-text strong{color:var(--cu)}
-.about-panel{border:1px solid var(--bd);padding:1.3rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden}
+.sec-hd{background:rgba(3,6,8,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:.4rem 0;margin-bottom:2.5rem;display:inline-block;width:100%}
+.about-panel{border:1px solid var(--bd);padding:1.3rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden}
 .about-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd))}
 .info-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-family:var(--fmon);font-size:.71rem}
 .info-row:last-child{border-bottom:none}
@@ -132,7 +167,7 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 .ti{position:relative;padding:0 0 2rem 2rem;opacity:0;transform:translateX(-14px);transition:all .6s}
 .ti.vis{opacity:1;transform:translateX(0)}
 .ti-dot{position:absolute;left:-5px;top:8px;width:10px;height:10px;border:2px solid var(--cu);background:var(--bg);box-shadow:0 0 8px var(--cu-g)}
-.ti-card{border:1px solid var(--bd);padding:1.3rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .35s}
+.ti-card{border:1px solid var(--bd);padding:1.3rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .35s}
 .ti-card:hover{border-color:var(--bd-h);transform:translateX(4px)}
 .ti-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--cu),var(--gd))}
 .ti-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.25rem;flex-wrap:wrap;gap:.4rem}
@@ -145,10 +180,10 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 
 /* PROJECTS */
 .pg{display:grid;gap:.9rem}
-.pc{border:1px solid var(--bd);padding:1.5rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .4s;opacity:0;transform:translateY(18px)}
+.pc{border:1px solid var(--bd);padding:1.5rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .4s;opacity:0;transform:translateY(18px)}
 .pc.vis{opacity:1;transform:translateY(0)}
 .pc:hover{border-color:var(--bd-h);transform:translateY(-3px)}
-.pc.feat{border-color:rgba(200,120,40,.25);background:linear-gradient(135deg,rgba(200,120,40,.04),rgba(255,255,255,.02))}
+.pc.feat{border-color:rgba(200,120,40,.3);background:rgba(3,6,8,.9)}
 .pc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cu),transparent);transform:scaleX(0);transition:transform .45s}
 .pc:hover::before{transform:scaleX(1)}
 .pc-badge{display:inline-block;font-family:var(--fmon);font-size:.57rem;letter-spacing:3px;text-transform:uppercase;padding:.16rem .6rem;background:var(--cu-d);color:var(--cu);border:1px solid rgba(200,120,40,.2);margin-bottom:.8rem}
@@ -164,7 +199,7 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 
 /* SKILLS */
 .sg{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
-.sk{border:1px solid var(--bd);padding:1.1rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(12px)}
+.sk{border:1px solid var(--bd);padding:1.1rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(12px)}
 .sk.vis{opacity:1;transform:translateY(0)}
 .sk:hover{border-color:var(--bd-h)}
 .sk::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cu),var(--gd));transform:scaleX(0);transform-origin:left;transition:transform .38s}
@@ -176,7 +211,7 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 
 /* EDUCATION */
 .eg{display:grid;gap:.9rem}
-.ec{border:1px solid var(--bd);padding:1.3rem;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(14px)}
+.ec{border:1px solid var(--bd);padding:1.3rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(14px)}
 .ec.vis{opacity:1;transform:translateY(0)}
 .ec:hover{border-color:var(--bd-h)}
 .ec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gd),var(--cu))}
@@ -189,7 +224,7 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 
 /* CERTS */
 .cg{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
-.cc{border:1px solid var(--bd);border-left:2px solid var(--gd);padding:.9rem 1.1rem;transition:all .3s;background:rgba(255,255,255,.02);opacity:0;transform:translateX(-14px)}
+.cc{border:1px solid var(--bd);border-left:2px solid var(--gd);padding:.9rem 1.1rem;transition:all .3s;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;transform:translateX(-14px)}
 .cc.vis{opacity:1;transform:translateX(0)}
 .cc:hover{border-left-color:var(--cu);transform:translateX(3px)}
 .cc-name{font-family:var(--fdis);font-size:.78rem;font-weight:700;color:var(--tx);margin-bottom:.25rem;line-height:1.4}
@@ -245,9 +280,20 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 <div id="cRing"></div>
 <div id="sBar"></div>
 
-<!-- CHIP HUD -->
+<!-- CONTENT VEIL -->
+<div id="veil"></div>
+
+<!-- CHIP HUD — ASIC flow monitor -->
 <div id="chipHud">
-  <span id="hudLabel">// LAYERS SEPARATED</span>
+  <div class="hud-hdr">// ASIC FLOW MONITOR</div>
+  <div class="hud-kw" id="hudKw">▸ RTL_SYNTHESIS</div>
+  <div class="hud-stage" id="hudLabel">// LAYERS SEPARATED</div>
+  <div class="hud-row">
+    <span class="hud-pct" id="hudPct">0%</span>
+    <div class="hud-segs" id="hudSegs"></div>
+  </div>
+  <div class="hud-meta" id="hudMeta1">CLK: 50_MHz &nbsp;·&nbsp; PDK: SKYWATER_130</div>
+  <div class="hud-meta">CELLS: 25,030 &nbsp;·&nbsp; MAC_ARR: 8×8</div>
   <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
 </div>
 
@@ -392,6 +438,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
         </div>
         <p class="pc-desc">Architected a custom 8×8 weight-stationary systolic array (64 PEs, 8-bit activations/weights, 32-bit accumulator) in SystemVerilog mirroring Google's TPU matrix engine, with each PE executing a fused MAC every clock cycle, validated via a skew-aware self-checking testbench with 100% PASS across all 8 output columns. Executed a full RTL-to-GDS physical design flow via Yosys + OpenROAD on the SkyWater 130nm PDK, delivering a fully tapeout-ready GDS with 25,030 standard cell instances targeting 50 MHz with zero setup/hold timing violations.</p>
         <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Yosys</span><span class="pc-tag">OpenROAD</span><span class="pc-tag">SkyWater 130nm</span><span class="pc-tag">OpenSTA</span><span class="pc-tag">RTL-to-GDS</span></div>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
       </div>
 
       <div class="pc feat">
@@ -432,6 +479,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
         </div>
         <p class="pc-desc">Designed a pipelined 32-bit CPU ALU in SystemVerilog integrating four adder architectures (CRA, CLA, CSA, CSeA) across a full ASIC flow — RTL simulation in Xcelium/SimVision, logic synthesis via Design Compiler, placement and routing in Cadence Encounter, and equivalence checking in Formality, achieving 66.5 MHz with sub-0.1 ns slack. Extended with a novel 3-level tree-structured 32-bit unsigned comparator (31 mux_4to2 + 32 one-bit comparators) using parallel MSB-priority resolution, achieving 71 MHz with Formality equivalence confirmed.</p>
         <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Synopsys DC</span><span class="pc-tag">Cadence Encounter</span><span class="pc-tag">Xcelium</span><span class="pc-tag">Formality</span></div>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
       </div>
 
       <div class="pc">
@@ -444,6 +492,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
         </div>
         <p class="pc-desc">Designed and implemented a full 6T SRAM cell from transistor level in Cadence Virtuoso (schematic + symbol), constructing dedicated read and write testing circuits with parameterized PMOS/NMOS sizing (W=90e-9, L=50e-9) and validating all Read(0), Write(0), and Write(1) operations via HSPICE transient simulation. Extracted and analyzed cell-level timing and power metrics: read access time (tpdr: 3.407e-12 s), write propagation delay (~4.9e-10 s), alongside NAND/NOR gate characterization using modified .sp netlists.</p>
         <div class="pc-tags"><span class="pc-tag">Cadence Virtuoso</span><span class="pc-tag">HSPICE</span><span class="pc-tag">CosmosScope</span><span class="pc-tag">SRAM</span><span class="pc-tag">SPICE</span></div>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
       </div>
 
       <div class="pc">
@@ -455,6 +504,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
         </div>
         <p class="pc-desc">Developed a complete UVM 1.2 coverage-driven verification environment for a dual-port RAM implementing READ-FIRST semantics, with reactive driver, shadow-memory scoreboard, and SVA-based assertion coverage for simultaneous read/write conflicts, address boundary conditions, and data integrity. Achieved 100% functional and code coverage with zero scoreboard mismatches across directed and constrained-random test scenarios.</p>
         <div class="pc-tags"><span class="pc-tag">UVM 1.2</span><span class="pc-tag">SystemVerilog</span><span class="pc-tag">SVA</span><span class="pc-tag">QuestaSim</span><span class="pc-tag">Functional Coverage</span></div>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
       </div>
 
     </div>
@@ -1189,10 +1239,22 @@ const HUD_LABELS = [
   '// LAYERS SEPARATED','// SUBSTRATE LOADED','// ROUTING LAYER',
   '// DIE MOUNTED','// GLASS INTERPOSER','// PACKAGE PLACED','✓  CHIP  ACTIVE',
 ];
-const hudEl = document.getElementById('chipHud');
-const hudLabel = document.getElementById('hudLabel');
-const hudFill  = document.getElementById('hudFill');
+const hudEl    = document.getElementById('chipHud');
+const hudLabel  = document.getElementById('hudLabel');
+const hudFill   = document.getElementById('hudFill');
+const hudPctEl  = document.getElementById('hudPct');
+const hudSegsEl = document.getElementById('hudSegs');
+const hudKwEl   = document.getElementById('hudKw');
 let lastLbl = '';
+
+/* Build 20 segment blocks */
+const SEG_N = 20;
+for(let i = 0; i < SEG_N; i++){
+  const s = document.createElement('div');
+  s.className = 'hud-seg';
+  hudSegsEl.appendChild(s);
+}
+const segs = hudSegsEl.querySelectorAll('.hud-seg');
 
 function setHudLabel(txt){
   if(txt === lastLbl) return; lastLbl = txt;
@@ -1200,6 +1262,27 @@ function setHudLabel(txt){
   setTimeout(()=>{hudLabel.textContent=txt;hudLabel.style.opacity='1';},200);
   hudLabel.style.transition='opacity .2s';
 }
+
+/* ASIC keyword cycling */
+const ASIC_KW = [
+  '▸ RTL_SYNTHESIS','▸ LOGIC_ELABORATION','▸ STATIC_TIMING_ANALYSIS',
+  '▸ FLOORPLANNING','▸ POWER_PLANNING','▸ PLACE_AND_ROUTE',
+  '▸ CLOCK_TREE_SYNTHESIS','▸ TIMING_CLOSURE','▸ SIGNAL_INTEGRITY',
+  '▸ DRC_VERIFICATION','▸ LVS_CHECK','▸ TAPEOUT_SIGN_OFF',
+  '▸ FUNCTIONAL_COVERAGE','▸ SVA_ASSERTIONS','▸ UVM_REGRESSION',
+  '▸ CDC_ANALYSIS','▸ POWER_ANALYSIS','▸ EQUIVALENCE_CHECK',
+  '▸ WAVEFORM_DEBUG','▸ UCDB_MERGE','▸ SPICE_TRANSIENT',
+  '▸ GATE_LEVEL_SIM','▸ PVT_CORNERS','▸ ECO_SIGNOFF',
+];
+let kwIdx = 0;
+setInterval(()=>{
+  hudKwEl.style.opacity='0';
+  setTimeout(()=>{
+    kwIdx=(kwIdx+1)%ASIC_KW.length;
+    hudKwEl.textContent=ASIC_KW[kwIdx];
+    hudKwEl.style.opacity='1';
+  },280);
+},1300);
 function easeOut(t){return 1-Math.pow(1-t,3);}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function lerp(a,b,t){return a+(b-a)*t;}
@@ -1238,8 +1321,13 @@ function updateChip(sp){
   bloom.threshold=0.7-glowP*0.15;
   blueL.intensity=glowP*2.5+powerP*4.5;
 
-  // HUD
-  hudFill.style.width=(sp*100)+'%';
+  // HUD — percentage + segmented bar + stage label
+  const pct = Math.round(sp*100);
+  hudFill.style.width = pct+'%';
+  hudPctEl.textContent = pct+'%';
+  const filledSegs = Math.round(pct/100*SEG_N);
+  segs.forEach((s,i)=>s.classList.toggle('on', i<filledSegs));
+
   if(assP<0.08) setHudLabel('// LAYERS SEPARATED');
   else if(assP<0.25) setHudLabel('// SUBSTRATE LOADED');
   else if(assP<0.42) setHudLabel('// ROUTING LAYER');
