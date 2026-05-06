@@ -36,15 +36,18 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 #threeCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
-/* Content veil — dark left-side gradient so text stays readable, clears by 55% so chip is visible */
+/* Content veil — dark on both edges, transparent window where chip floats */
 #veil{position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(105deg,
-    rgba(3,6,8,0.96) 0%,
-    rgba(3,6,8,0.92) 18%,
-    rgba(3,6,8,0.78) 30%,
-    rgba(3,6,8,0.42) 40%,
-    rgba(3,6,8,0.12) 50%,
-    rgba(3,6,8,0)    58%)
+  background:linear-gradient(to right,
+    rgba(3,6,8,0.94) 0%,
+    rgba(3,6,8,0.80) 18%,
+    rgba(3,6,8,0.44) 30%,
+    rgba(3,6,8,0.10) 40%,
+    rgba(3,6,8,0)    50%,
+    rgba(3,6,8,0)    60%,
+    rgba(3,6,8,0.22) 73%,
+    rgba(3,6,8,0.58) 86%,
+    rgba(3,6,8,0.76) 100%)
 }
 
 /* LOADER */
@@ -113,11 +116,12 @@ nav.sc{background:rgba(3,6,8,.96);backdrop-filter:blur(24px);border-bottom:1px s
 /* LAYOUT */
 #main{position:relative;z-index:3}
 nav{z-index:9000!important}
-.sec-inner{max-width:900px;padding:0 2rem}
+.sec-inner{max-width:1480px;margin:0 auto;padding:0 3rem}
 
 /* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;padding:0 2rem}
-.hero-inner{max-width:700px;margin:0 auto}
+#hero{min-height:100vh;display:flex;align-items:center;padding:0 3rem}
+.hero-inner{max-width:1480px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.15fr 0.85fr;gap:5rem;align-items:center}
+.hero-right{display:flex;flex-direction:column;gap:1rem}
 .h-pre{font-family:var(--fmon);font-size:.62rem;color:var(--sig);letter-spacing:5px;text-transform:uppercase;margin-bottom:1.2rem;opacity:.85}
 .h-name{font-family:var(--fdis);font-size:clamp(3rem,9vw,6.5rem);font-weight:700;line-height:.92;letter-spacing:2px;margin-bottom:1rem}
 .h-name .first{display:block;color:var(--tx);text-shadow:0 0 60px rgba(184,204,184,0.15)}
@@ -127,9 +131,9 @@ nav{z-index:9000!important}
 .h-info{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;margin-bottom:2rem}
 .h-info a,.h-info span{font-family:var(--fmon);font-size:.66rem;color:var(--tx-d);text-decoration:none;letter-spacing:1px;transition:color .3s}
 .h-info a:hover{color:var(--cu)}
-.h-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;padding:1.2rem 1.5rem;border:1px solid var(--bd);background:rgba(3,6,8,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative}
-.h-stats::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
-.h-stats > div{display:flex;flex-direction:column;gap:.2rem}
+.h-stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:0}
+.h-stats > div{display:flex;flex-direction:column;gap:.22rem;padding:1.05rem 1.2rem;border:1px solid var(--bd);background:rgba(3,6,8,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative;overflow:hidden}
+.h-stats > div::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
 .hs-n{font-family:var(--fdis);font-size:1.8rem;font-weight:700;color:var(--cu);line-height:1;text-shadow:0 0 20px var(--cu-g)}
 .hs-l{font-family:var(--fmon);font-size:.58rem;color:var(--tx-f);letter-spacing:2px;text-transform:uppercase}
 .h-btns{display:flex;gap:1rem;flex-wrap:wrap}
@@ -179,7 +183,8 @@ nav{z-index:9000!important}
 .ti-ul li::before{content:'▸';position:absolute;left:0;color:var(--cu);opacity:.65}
 
 /* PROJECTS */
-.pg{display:grid;gap:.9rem}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.pg>.pc.feat:first-child{grid-column:1/-1}
 .pc{border:1px solid var(--bd);padding:1.5rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .4s;opacity:0;transform:translateY(18px)}
 .pc.vis{opacity:1;transform:translateY(0)}
 .pc:hover{border-color:var(--bd-h);transform:translateY(-3px)}
@@ -198,7 +203,7 @@ nav{z-index:9000!important}
 .pc-metric span{color:var(--gd)}
 
 /* SKILLS */
-.sg{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
 .sk{border:1px solid var(--bd);padding:1.1rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(12px)}
 .sk.vis{opacity:1;transform:translateY(0)}
 .sk:hover{border-color:var(--bd-h)}
@@ -299,19 +304,55 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 .ft-links a:hover{color:var(--cu)}
 .ft-copy{font-family:var(--fmon);font-size:.59rem;color:var(--tx-f)}
 
+/* Hero focus panel */
+.h-focus{padding:1rem 1.2rem;border:1px solid var(--bd);background:rgba(3,6,8,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden}
+.h-focus::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--blu),var(--cu),transparent)}
+.hf-hdr{font-family:var(--fmon);font-size:.52rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.72rem}
+.hf-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.hf-tag{font-family:var(--fmon);font-size:.62rem;padding:.2rem .55rem;background:rgba(58,143,212,.06);color:var(--blu);border:1px solid rgba(58,143,212,.18)}
+
+/* Experience two-column */
+.exp-layout{display:grid;grid-template-columns:3fr 2fr;gap:2.5rem;align-items:start}
+.exp-side{display:flex;flex-direction:column;gap:.85rem}
+.exp-panel{border:1px solid var(--bd);padding:1.1rem 1.3rem;background:rgba(3,6,8,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden}
+.exp-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
+.ep-hdr{font-family:var(--fmon);font-size:.52rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.8rem;padding-bottom:.45rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.ep-tags{display:flex;flex-wrap:wrap;gap:.28rem}
+.ep-tag{font-family:var(--fmon);font-size:.6rem;padding:.14rem .44rem;background:rgba(255,255,255,.04);color:var(--tx-d);border:1px solid rgba(255,255,255,.07)}
+.ep-tag.hot{background:var(--cu-d);color:var(--cu);border-color:rgba(200,120,40,.24)}
+.ep-metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:.52rem}
+.ep-m{padding:.62rem .7rem;border:1px solid rgba(58,143,212,.1);background:rgba(3,6,8,.55);display:flex;flex-direction:column;gap:.14rem}
+.ep-mv{font-family:var(--fdis);font-size:1.22rem;font-weight:700;color:var(--cu);line-height:1;text-shadow:0 0 12px var(--cu-g)}
+.ep-ml{font-family:var(--fmon);font-size:.52rem;color:var(--tx-f);letter-spacing:1px;text-transform:uppercase;line-height:1.3}
+
+/* Education + Certs side by side */
+.edu-cert-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.edu-col,.cert-col{display:flex;flex-direction:column;gap:.85rem}
+.cert-col .sec-hd{margin-bottom:0}
+.cert-col .cg{grid-template-columns:1fr;gap:.7rem}
+
 /* REVEAL */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
 .rv.vis{opacity:1;transform:translateY(0)}
 
 /* RESPONSIVE */
+@media(max-width:1200px){
+  .exp-layout{grid-template-columns:1fr}
+  .edu-cert-layout{grid-template-columns:1fr}
+  .sg{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:768px){
   nav{padding:1rem 1.2rem}
   .n-links,.n-badge{display:none}
   #hero{padding:0 1.2rem}
+  .hero-inner{grid-template-columns:1fr;gap:2rem}
+  .hero-right{display:none}
   .about-grid{grid-template-columns:1fr}
   .sg,.cg{grid-template-columns:1fr}
+  .pg{grid-template-columns:1fr}
+  .pg>.pc.feat:first-child{grid-column:1}
   .sec{padding:3.5rem 1.2rem}
-  .sec-inner{padding:0}
+  .sec-inner{padding:0 1rem}
   #chipHud{display:none}
 }
 </style>
@@ -380,25 +421,44 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 <!-- HERO -->
 <section id="hero">
   <div class="hero-inner">
-    <div class="h-pre">// VLSI · FPGA · UVM · RTL-to-GDS · ML Acceleration</div>
-    <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
-    <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
-    <div class="h-info">
-      <a href="tel:+15513476950">(551) 347-6950</a>
-      <a href="mailto:avarma10@hawk.illinoistech.edu">avarma10@hawk.illinoistech.edu</a>
-      <a href="https://github.com/abhishekvarma827" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">LinkedIn</a>
-      <span>San Jose, CA</span>
+    <!-- LEFT: identity + contact + CTA -->
+    <div class="hero-left">
+      <div class="h-pre">// VLSI · FPGA · UVM · RTL-to-GDS · ML Acceleration</div>
+      <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
+      <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
+      <div class="h-info">
+        <a href="tel:+15513476950">(551) 347-6950</a>
+        <a href="mailto:avarma10@hawk.illinoistech.edu">avarma10@hawk.illinoistech.edu</a>
+        <a href="https://github.com/abhishekvarma827" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank">LinkedIn</a>
+        <span>San Jose, CA</span>
+      </div>
+      <div class="h-btns">
+        <a href="mailto:avarma10@hawk.illinoistech.edu" class="btn-p">Get In Touch</a>
+        <a href="https://github.com/abhishekvarma827" target="_blank" class="btn-s">View GitHub</a>
+      </div>
     </div>
-    <div class="h-stats">
-      <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Yrs Experience</span></div>
-      <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Max Coverage</span></div>
-      <div><span class="hs-n" data-t="500" data-s="+">0</span><span class="hs-l">Test Cases</span></div>
-      <div><span class="hs-n" data-t="25030" data-s="">0</span><span class="hs-l">GDS Std Cells</span></div>
-    </div>
-    <div class="h-btns">
-      <a href="mailto:avarma10@hawk.illinoistech.edu" class="btn-p">Get In Touch</a>
-      <a href="https://github.com/abhishekvarma827" target="_blank" class="btn-s">View GitHub</a>
+    <!-- RIGHT: stats 2×2 + focus tags -->
+    <div class="hero-right">
+      <div class="h-stats">
+        <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Yrs Experience</span></div>
+        <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Max Coverage</span></div>
+        <div><span class="hs-n" data-t="500" data-s="+">0</span><span class="hs-l">Test Cases</span></div>
+        <div><span class="hs-n" data-t="25030" data-s="">0</span><span class="hs-l">GDS Std Cells</span></div>
+      </div>
+      <div class="h-focus">
+        <div class="hf-hdr">// Current Focus Areas</div>
+        <div class="hf-tags">
+          <span class="hf-tag">SystemVerilog</span>
+          <span class="hf-tag">UVM 1.2</span>
+          <span class="hf-tag">OpenROAD</span>
+          <span class="hf-tag">Systolic Arrays</span>
+          <span class="hf-tag">RISC-V</span>
+          <span class="hf-tag">SkyWater 130nm</span>
+          <span class="hf-tag">AXI4</span>
+          <span class="hf-tag">Python</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -435,6 +495,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
       <div class="sec-tag">02 // Work History</div>
       <h2 class="sec-title">Work <span class="hl">Experience</span></h2>
     </div>
+    <div class="exp-layout">
     <div class="tl">
 
       <div class="ti">
@@ -474,7 +535,54 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
         </div>
       </div>
 
-    </div>
+    </div><!-- /.tl -->
+
+    <!-- RIGHT: tech stack + metrics -->
+    <div class="exp-side rv">
+      <div class="exp-panel">
+        <div class="ep-hdr">// Core Tech Stack</div>
+        <div class="ep-tags">
+          <span class="ep-tag hot">SystemVerilog</span>
+          <span class="ep-tag hot">UVM 1.2</span>
+          <span class="ep-tag hot">QuestaSim</span>
+          <span class="ep-tag hot">SVA</span>
+          <span class="ep-tag hot">Python</span>
+          <span class="ep-tag">Verilator</span>
+          <span class="ep-tag">GTKWave</span>
+          <span class="ep-tag">GNU Make</span>
+          <span class="ep-tag hot">AXI4</span>
+          <span class="ep-tag hot">AHB / APB</span>
+          <span class="ep-tag hot">SPI · UART · I²C</span>
+          <span class="ep-tag">Vivado</span>
+          <span class="ep-tag">VCS</span>
+          <span class="ep-tag">OpenROAD</span>
+        </div>
+      </div>
+      <div class="exp-panel">
+        <div class="ep-hdr">// Key Achievements</div>
+        <div class="ep-metric-grid">
+          <div class="ep-m"><span class="ep-mv">40%</span><span class="ep-ml">Cycle Time Reduction</span></div>
+          <div class="ep-m"><span class="ep-mv">99.8%</span><span class="ep-ml">Functional Coverage</span></div>
+          <div class="ep-m"><span class="ep-mv">500+</span><span class="ep-ml">Test Cases</span></div>
+          <div class="ep-m"><span class="ep-mv">30+</span><span class="ep-ml">VIP Components</span></div>
+          <div class="ep-m"><span class="ep-mv">20+</span><span class="ep-ml">RTL Bugs Found</span></div>
+          <div class="ep-m"><span class="ep-mv">200+</span><span class="ep-ml">Test Scenarios</span></div>
+        </div>
+      </div>
+      <div class="exp-panel">
+        <div class="ep-hdr">// Protocols Verified</div>
+        <div class="ep-tags">
+          <span class="ep-tag hot">AMBA AHB</span>
+          <span class="ep-tag hot">AMBA APB</span>
+          <span class="ep-tag hot">AXI4 Interconnect</span>
+          <span class="ep-tag hot">SPI Master/Slave</span>
+          <span class="ep-tag hot">UART</span>
+          <span class="ep-tag hot">I²C</span>
+        </div>
+      </div>
+    </div><!-- /.exp-side -->
+
+    </div><!-- /.exp-layout -->
   </div>
 </section>
 
@@ -621,42 +729,47 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
   </div>
 </section>
 
-<!-- EDUCATION -->
+<!-- EDUCATION + CERTIFICATIONS (side by side) -->
 <section class="sec" id="education">
   <div class="sec-inner" style="margin:0 auto">
-    <div class="sec-hd">
-      <div class="sec-tag">06 // Academic</div>
-      <h2 class="sec-title">Education</h2>
-    </div>
-    <div class="eg">
-      <div class="ec">
-        <h3 class="ec-deg">Master of Applied Science</h3>
-        <p class="ec-sch">Illinois Institute of Technology · Chicago, Illinois</p>
-        <div class="ec-meta"><span>VLSI &amp; Microelectronics</span><span class="gpa">GPA: 3.60 / 4.0</span><span>Aug 2023 – Jun 2025</span></div>
-        <p class="ec-crs"><strong>Coursework:</strong> Introduction &amp; Advanced VLSI Design, High Performance VLSI Design, Computer Architecture, Hardware Acceleration for ML</p>
-      </div>
-      <div class="ec">
-        <h3 class="ec-deg">Bachelor of Technology</h3>
-        <p class="ec-sch">Shri Vaishnav Institute of Technology &amp; Science · Indore, India</p>
-        <div class="ec-meta"><span>Electrical Engineering</span><span class="gpa">GPA: 3.44 / 4.0</span><span>Jul 2018 – Aug 2021</span></div>
-        <p class="ec-crs"><strong>Coursework:</strong> Circuit Theory, Analog &amp; Digital Electronics, Microprocessor &amp; Microcontroller, Artificial Neural Network, Data Structure &amp; Algorithm</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="edu-cert-layout">
 
-<!-- CERTS -->
-<section class="sec" id="certifications">
-  <div class="sec-inner" style="margin:0 auto">
-    <div class="sec-hd">
-      <div class="sec-tag">07 // Credentials</div>
-      <h2 class="sec-title">Certifications</h2>
-    </div>
-    <div class="cg">
-      <div class="cc"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
-      <div class="cc"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
-      <div class="cc"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
-      <div class="cc"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
+      <!-- LEFT: Education -->
+      <div class="edu-col">
+        <div class="sec-hd">
+          <div class="sec-tag">06 // Academic</div>
+          <h2 class="sec-title">Education</h2>
+        </div>
+        <div class="eg">
+          <div class="ec rv">
+            <h3 class="ec-deg">Master of Applied Science</h3>
+            <p class="ec-sch">Illinois Institute of Technology · Chicago, Illinois</p>
+            <div class="ec-meta"><span>VLSI &amp; Microelectronics</span><span class="gpa">GPA: 3.60 / 4.0</span><span>Aug 2023 – Jun 2025</span></div>
+            <p class="ec-crs"><strong>Coursework:</strong> Introduction &amp; Advanced VLSI Design, High Performance VLSI Design, Computer Architecture, Hardware Acceleration for ML</p>
+          </div>
+          <div class="ec rv">
+            <h3 class="ec-deg">Bachelor of Technology</h3>
+            <p class="ec-sch">Shri Vaishnav Institute of Technology &amp; Science · Indore, India</p>
+            <div class="ec-meta"><span>Electrical Engineering</span><span class="gpa">GPA: 3.44 / 4.0</span><span>Jul 2018 – Aug 2021</span></div>
+            <p class="ec-crs"><strong>Coursework:</strong> Circuit Theory, Analog &amp; Digital Electronics, Microprocessor &amp; Microcontroller, Artificial Neural Network, Data Structure &amp; Algorithm</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Certifications -->
+      <div class="cert-col">
+        <div class="sec-hd">
+          <div class="sec-tag">07 // Credentials</div>
+          <h2 class="sec-title">Certifications</h2>
+        </div>
+        <div class="cg">
+          <div class="cc rv"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
+          <div class="cc rv"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
+          <div class="cc rv"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
+          <div class="cc rv"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
