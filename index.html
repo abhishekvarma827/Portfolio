@@ -231,6 +231,48 @@ nav{z-index:9000!important}
 .cc-org{font-family:var(--fmon);font-size:.65rem;color:var(--gd)}
 .cc-dt{font-family:var(--fmon);font-size:.58rem;color:var(--tx-f);margin-top:.2rem}
 
+/* ── ROADMAP ── */
+.rm-legend{display:flex;gap:1.6rem;margin-bottom:1.4rem;font-family:var(--fmon);font-size:.62rem;color:var(--tx-f);letter-spacing:1px;flex-wrap:wrap}
+.rm-legend span{display:flex;align-items:center;gap:.45rem}
+.rm-dot-sm{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rm-dot-sm.act{background:var(--sig);box-shadow:0 0 7px var(--sig-g)}
+.rm-dot-sm.fut{border:1px dashed rgba(58,143,212,.42);background:transparent}
+.rm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.65rem;margin-bottom:2rem}
+.rm-card{border:1px solid var(--bd);padding:.95rem 1.05rem;background:rgba(3,6,8,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s,background .3s;opacity:0;transform:translateY(10px)}
+.rm-card.vis{opacity:1;transform:translateY(0)}
+.rm-card.active{cursor:pointer}
+.rm-card.active:hover,.rm-card.sel{border-color:var(--bd-h);background:rgba(3,6,8,.95);box-shadow:0 0 22px rgba(200,120,40,.14)}
+.rm-card.future{border-style:dashed;border-color:rgba(58,143,212,.14);opacity:.55!important}
+.rm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cu),var(--gd));transform:scaleX(0);transform-origin:left;transition:transform .38s}
+.rm-card.active:hover::before,.rm-card.sel::before{transform:scaleX(1)}
+.rm-phase{font-family:var(--fmon);font-size:.5rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.28rem}
+.rm-label{font-family:var(--fdis);font-size:.85rem;font-weight:700;color:var(--cu);margin-bottom:.35rem;line-height:1.2}
+.rm-card.future .rm-label{color:rgba(58,143,212,.6)}
+.rm-summary{font-size:.7rem;color:var(--tx-d);line-height:1.65}
+.rm-card.future .rm-summary{color:var(--tx-f)}
+.rm-ind{width:7px;height:7px;border-radius:50%;background:var(--sig);box-shadow:0 0 8px var(--sig-g);position:absolute;top:.8rem;right:.8rem}
+.rm-card.future .rm-ind{background:transparent;border:1px dashed rgba(58,143,212,.35);box-shadow:none}
+/* Connection map */
+.conn-shell{position:relative;padding:1.4rem 1.6rem 1.6rem;border:1px solid var(--bd);background:rgba(3,6,8,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden}
+.conn-shell::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
+.conn-instr{font-family:var(--fmon);font-size:.57rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx-f);margin-bottom:1.4rem;text-align:center;opacity:.7}
+.conn-map{display:flex;align-items:flex-start;position:relative;min-height:260px;gap:0}
+.conn-svg{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+.conn-col{display:flex;flex-direction:column;gap:.42rem;z-index:1;width:220px;flex-shrink:0}
+.conn-col.projs{margin-left:auto}
+.conn-node{font-family:var(--fmon);font-size:.63rem;letter-spacing:.5px;padding:.3rem .72rem;border:1px solid var(--bd);color:var(--tx-d);background:rgba(5,10,20,.55);transition:all .22s;white-space:nowrap}
+.conn-node.cat-node{border-right:2px solid transparent;text-align:right}
+.conn-node.proj-node{border-left:2px solid transparent;text-align:left}
+.conn-node.hi{color:var(--cu);border-color:rgba(200,120,40,.35);background:rgba(3,6,8,.95);box-shadow:0 0 10px rgba(200,120,40,.12)}
+.conn-node.cat-node.hi{border-right-color:var(--cu)}
+.conn-node.proj-node.hi{border-left-color:var(--cu)}
+.conn-map.has-sel .conn-node:not(.hi){opacity:.22}
+.conn-line{fill:none;stroke:rgba(58,143,212,.2);stroke-width:1.2;transition:stroke .2s,stroke-width .2s,opacity .2s}
+.conn-map.has-sel .conn-line:not(.hl){opacity:.05}
+.conn-line.hl{stroke:var(--cu);stroke-width:2;opacity:1}
+.conn-col-hd{font-family:var(--fmon);font-size:.52rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.6rem;padding:.2rem .72rem}
+.conn-col.projs .conn-col-hd{text-align:left}
+.conn-col.cats .conn-col-hd{text-align:right}
 /* FOOTER */
 footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(--bd);text-align:center;background:rgba(3,6,8,.92);backdrop-filter:blur(20px)}
 .ft-name{font-family:var(--fdis);font-size:1.6rem;font-weight:700;color:var(--cu);text-shadow:0 0 20px var(--cu-g);margin-bottom:.3rem}
@@ -308,6 +350,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
   </ul>
@@ -507,6 +550,35 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
         <a href="https://github.com/abhishekvarma827" target="_blank" class="pc-link">View on GitHub →</a>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="sec" id="roadmap">
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <div class="sec-tag rv">Career Pathway</div>
+      <h2 class="sec-title rv">VLSI Design &amp; Verification <span class="hl">Roadmap</span></h2>
+    </div>
+    <div class="rm-legend rv">
+      <span><i class="rm-dot-sm act"></i> category has current portfolio work</span>
+      <span><i class="rm-dot-sm fut"></i> planned / future</span>
+    </div>
+    <!-- Cards populated by JS -->
+    <div class="rm-grid" id="rmGrid"></div>
+    <!-- Connection map -->
+    <div class="conn-shell rv">
+      <div class="conn-instr">// Hover a category to trace connected projects &nbsp;·&nbsp; click to lock selection</div>
+      <div class="conn-map" id="connMap">
+        <svg class="conn-svg" id="connSvg"></svg>
+        <div class="conn-col cats" id="connCats">
+          <div class="conn-col-hd">Skill Categories</div>
+        </div>
+        <div class="conn-col projs" id="connProjs">
+          <div class="conn-col-hd">Projects</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1542,6 +1614,119 @@ function runCounters(){
 /* Scroll reveal */
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.rv,.sec-tag,.sec-title,.ti,.pc,.sk,.ec,.cc').forEach(el=>io.observe(el));
+
+/* ── ROADMAP ── */
+(function(){
+  const RM = [
+    {id:'rtl-design',   label:'RTL Design',             phase:'Foundation',    active:true,  summary:'Verilog · SV · FSMs · pipelines · datapath microarchitecture'},
+    {id:'func-verif',   label:'Functional Verification', phase:'Quality',       active:true,  summary:'UVM 1.2 · SVA · constrained-random · coverage closure'},
+    {id:'phys-design',  label:'Physical Design',         phase:'Implementation',active:true,  summary:'Synthesis → P&R → STA · DRC/LVS · RTL-to-GDSII tapeout'},
+    {id:'fpga-proto',   label:'FPGA Prototyping',        phase:'Rapid Proto',   active:true,  summary:'Vivado · HLS · PYNQ board · resource-constrained deployment'},
+    {id:'ml-accel',     label:'ML Accelerator Arch',     phase:'Specialization',active:true,  summary:'Systolic arrays · MAC units · weight-stationary dataflow · DNN'},
+    {id:'analog-spice', label:'Analog / SPICE',          phase:'Mixed-Signal',  active:true,  summary:'SRAM bit-cell · transistor sizing · SPICE characterization'},
+    {id:'ai-eda',       label:'AI-Assisted EDA',         phase:'Emerging',      active:true,  summary:'LLM-generated RTL & UVM testbenches · Copilot-driven flows'},
+    {id:'soc-integ',    label:'SoC Integration',         phase:'Next Step',     active:false, summary:'AXI/AHB protocols · IP integration · chip-level sign-off'},
+    {id:'post-si',      label:'Post-Silicon Validation', phase:'Future',        active:false, summary:'JTAG · BIST · ATE patterns · scan chain insertion'},
+  ];
+  const PJ = [
+    {id:'p-sys',  label:'8×8 Systolic Array NPU'},
+    {id:'p-rv',   label:'RISC-V UVM Testbench'},
+    {id:'p-cnn',  label:'ResNet CNN on PYNQ-Z2'},
+    {id:'p-cpu',  label:'32-bit Pipelined CPU'},
+    {id:'p-sram', label:'6T SRAM Cell'},
+    {id:'p-dram', label:'Dual-Port RAM Verification'},
+  ];
+  const LK = [
+    ['rtl-design','p-sys'],['rtl-design','p-cpu'],
+    ['func-verif','p-rv'],['func-verif','p-dram'],
+    ['phys-design','p-sys'],
+    ['fpga-proto','p-cnn'],
+    ['ml-accel','p-sys'],['ml-accel','p-cnn'],
+    ['analog-spice','p-sram'],
+    ['ai-eda','p-rv'],
+  ];
+
+  /* --- render cards --- */
+  const grid = document.getElementById('rmGrid');
+  RM.forEach((node,i)=>{
+    const el = document.createElement('div');
+    el.className = 'rm-card '+(node.active?'active':'future');
+    el.dataset.rmid = node.id;
+    el.style.transitionDelay = (i*0.045)+'s';
+    el.innerHTML = `<div class="rm-ind"></div><div class="rm-phase">${node.phase}</div><div class="rm-label">${node.label}</div><div class="rm-summary">${node.summary}</div>`;
+    if(node.active) el.addEventListener('click',()=>toggleCard(node.id,el));
+    grid.appendChild(el);
+    io.observe(el);
+  });
+
+  /* --- render connection map --- */
+  const catCol  = document.getElementById('connCats');
+  const projCol = document.getElementById('connProjs');
+  const svgEl   = document.getElementById('connSvg');
+  const mapEl   = document.getElementById('connMap');
+  const catNodes={}, projNodes={};
+
+  RM.filter(n=>n.active).forEach(node=>{
+    const el=document.createElement('div');
+    el.className='conn-node cat-node'; el.dataset.rmid=node.id; el.textContent=node.label;
+    el.addEventListener('mouseenter',()=>{ if(!locked) highlight(node.id); });
+    el.addEventListener('mouseleave',()=>{ if(!locked) clear(); });
+    el.addEventListener('click',()=>toggleCard(node.id, document.querySelector(`.rm-card[data-rmid="${node.id}"]`)));
+    catCol.appendChild(el); catNodes[node.id]=el;
+  });
+  PJ.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='conn-node proj-node'; el.dataset.pjid=p.id; el.textContent=p.label;
+    projCol.appendChild(el); projNodes[p.id]=el;
+  });
+
+  /* --- draw SVG bezier lines --- */
+  let lines=[];
+  function drawLines(){
+    svgEl.innerHTML=''; lines=[];
+    const mr=mapEl.getBoundingClientRect();
+    svgEl.setAttribute('width',mr.width); svgEl.setAttribute('height',mr.height);
+    LK.forEach(([cid,pid])=>{
+      const cn=catNodes[cid], pn=projNodes[pid];
+      if(!cn||!pn) return;
+      const cr=cn.getBoundingClientRect(), pr=pn.getBoundingClientRect();
+      const x1=cr.right-mr.left,   y1=cr.top-mr.top+cr.height/2;
+      const x2=pr.left-mr.left,    y2=pr.top-mr.top+pr.height/2;
+      const dx=(x2-x1)*0.42;
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d',`M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`);
+      path.classList.add('conn-line'); path.dataset.cat=cid; path.dataset.proj=pid;
+      svgEl.appendChild(path); lines.push({path,cid,pid});
+    });
+  }
+  requestAnimationFrame(()=>setTimeout(drawLines,300));
+  window.addEventListener('resize',drawLines);
+
+  /* --- interaction --- */
+  let locked=false, selId=null;
+  function highlight(id){
+    mapEl.classList.add('has-sel');
+    Object.values(catNodes).forEach(n=>n.classList.remove('hi'));
+    Object.values(projNodes).forEach(n=>n.classList.remove('hi'));
+    const conPjs=LK.filter(([c])=>c===id).map(([,p])=>p);
+    if(catNodes[id]) catNodes[id].classList.add('hi');
+    conPjs.forEach(pid=>{ if(projNodes[pid]) projNodes[pid].classList.add('hi'); });
+    lines.forEach(({path,cid})=>path.classList.toggle('hl',cid===id));
+    /* sync top card */
+    document.querySelectorAll('.rm-card').forEach(c=>c.classList.toggle('sel',c.dataset.rmid===id));
+  }
+  function clear(){
+    mapEl.classList.remove('has-sel');
+    Object.values(catNodes).forEach(n=>n.classList.remove('hi'));
+    Object.values(projNodes).forEach(n=>n.classList.remove('hi'));
+    lines.forEach(({path})=>path.classList.remove('hl'));
+    document.querySelectorAll('.rm-card').forEach(c=>c.classList.remove('sel'));
+  }
+  function toggleCard(id,el){
+    if(locked && selId===id){ locked=false; selId=null; clear(); return; }
+    locked=true; selId=id; highlight(id);
+  }
+})();
 
 /* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
