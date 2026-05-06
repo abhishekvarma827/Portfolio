@@ -98,6 +98,19 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 .hud-meta{font-size:.60rem;color:var(--tx-f);letter-spacing:.5px;opacity:.75}
 .hud-bar{width:100%;height:1px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:.06rem}
 .hud-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu));transition:width .1s linear;box-shadow:0 0 6px var(--blu-g)}
+.hud-div{width:100%;height:1px;background:rgba(58,143,212,.1);margin:.22rem 0}
+.hud-grid{display:grid;grid-template-columns:1fr 1fr;gap:.1rem .4rem;margin:.06rem 0}
+.hud-kv{display:flex;flex-direction:column;gap:.06rem}
+.hud-k{font-size:.50rem;color:var(--tx-f);opacity:.6;letter-spacing:1px}
+.hud-v{font-size:.62rem;font-family:var(--fdis);font-weight:600;color:var(--sig);letter-spacing:.5px;line-height:1.1}
+.hud-v.warn{color:var(--cu)}
+.hud-v.ok{color:var(--sig)}
+.hud-pipe{display:flex;align-items:center;gap:.08rem;margin-top:.18rem;flex-wrap:nowrap}
+.hud-ps{font-size:.48rem;padding:.1rem .22rem;border:1px solid rgba(58,143,212,.15);color:var(--tx-f);letter-spacing:.5px;opacity:.4;white-space:nowrap;transition:all .3s}
+.hud-ps.done{border-color:rgba(0,212,116,.35);color:var(--sig);opacity:.75}
+.hud-ps.act{border-color:var(--cu);color:var(--cu);opacity:1;box-shadow:0 0 5px rgba(200,120,40,.3);animation:psGlow .9s ease-in-out infinite alternate}
+@keyframes psGlow{to{box-shadow:0 0 9px rgba(200,120,40,.6)}}
+.hud-ps-sep{font-size:.40rem;color:var(--tx-f);opacity:.25;padding:0 .02rem}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:1.3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
@@ -362,6 +375,31 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
   </div>
   <div class="hud-meta" id="hudMeta1">CLK: 50_MHz &nbsp;·&nbsp; PDK: SKYWATER_130</div>
   <div class="hud-meta">CELLS: 25,030 &nbsp;·&nbsp; MAC_ARR: 8×8</div>
+  <div class="hud-div"></div>
+  <div class="hud-grid">
+    <div class="hud-kv"><span class="hud-k">WNS</span><span class="hud-v ok" id="hudWns">+0.14 ns</span></div>
+    <div class="hud-kv"><span class="hud-k">UTIL</span><span class="hud-v ok" id="hudUtil">68.3%</span></div>
+    <div class="hud-kv"><span class="hud-k">TNS</span><span class="hud-v ok" id="hudTns">0.00 ns</span></div>
+    <div class="hud-kv"><span class="hud-k">IR-DROP</span><span class="hud-v warn">12.4 mV</span></div>
+    <div class="hud-kv"><span class="hud-k">VDD</span><span class="hud-v">1.80 V</span></div>
+    <div class="hud-kv"><span class="hud-k">TEMP</span><span class="hud-v warn" id="hudTemp">85 °C</span></div>
+    <div class="hud-kv"><span class="hud-k">DRC ERR</span><span class="hud-v ok" id="hudDrc">0</span></div>
+    <div class="hud-kv"><span class="hud-k">LVS</span><span class="hud-v ok">CLEAN</span></div>
+  </div>
+  <div class="hud-div"></div>
+  <div class="hud-pipe" id="hudPipe">
+    <span class="hud-ps act" data-stage="0">RTL</span>
+    <span class="hud-ps-sep">›</span>
+    <span class="hud-ps" data-stage="1">SYN</span>
+    <span class="hud-ps-sep">›</span>
+    <span class="hud-ps" data-stage="2">P&amp;R</span>
+    <span class="hud-ps-sep">›</span>
+    <span class="hud-ps" data-stage="3">STA</span>
+    <span class="hud-ps-sep">›</span>
+    <span class="hud-ps" data-stage="4">CTS</span>
+    <span class="hud-ps-sep">›</span>
+    <span class="hud-ps" data-stage="5">SIGN</span>
+  </div>
   <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
 </div>
 
@@ -1206,20 +1244,20 @@ function drawDieFace(ctx, sz){
     if(fs>7){ctx.font=`bold ${fs}px Share Tech Mono,monospace`;ctx.fillText(lbl,px+pw/2,py+ph/2);}
   }
   // Neural Engine (NPU) — violet/purple
-  blk(0.0,-0.08,0.44,0.55,'rgba(100,25,220,0.42)','#8030ff','NPU','rgba(190,130,255,0.95)');
-  // CPU Cores — blue
-  blk(-0.38,-0.38,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU0','rgba(110,165,255,0.95)');
-  blk(-0.38,-0.16,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU1','rgba(110,165,255,0.95)');
-  blk(-0.38, 0.06,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU2','rgba(110,165,255,0.95)');
-  blk(-0.38, 0.28,0.20,0.18,'rgba(18,55,200,0.42)','#2060ff','CPU3','rgba(110,165,255,0.95)');
+  blk(0.0,-0.05,0.42,0.50,'rgba(100,25,220,0.42)','#8030ff','NPU','rgba(190,130,255,0.95)');
+  // PLL / Power — pink  (topmost in left column)
+  blk(-0.38,-0.43,0.22,0.12,'rgba(175,0,75,0.42)','#ff0080','PLL','rgba(255,100,185,0.95)');
+  // CPU Cores — blue  (uniform 0.01 gap each)
+  blk(-0.38,-0.28,0.22,0.16,'rgba(18,55,200,0.42)','#2060ff','CPU0','rgba(110,165,255,0.95)');
+  blk(-0.38,-0.11,0.22,0.16,'rgba(18,55,200,0.42)','#2060ff','CPU1','rgba(110,165,255,0.95)');
+  blk(-0.38, 0.06,0.22,0.16,'rgba(18,55,200,0.42)','#2060ff','CPU2','rgba(110,165,255,0.95)');
+  blk(-0.38, 0.23,0.22,0.16,'rgba(18,55,200,0.42)','#2060ff','CPU3','rgba(110,165,255,0.95)');
   // SRAM L2 — cyan
-  blk(-0.38, 0.50,0.20,0.18,'rgba(0,155,175,0.42)','#00d4ff','SRAM','rgba(0,225,255,0.95)');
+  blk(-0.38, 0.40,0.22,0.16,'rgba(0,155,175,0.42)','#00d4ff','SRAM','rgba(0,225,255,0.95)');
   // Memory Controller — orange
-  blk( 0.48, 0.0, 0.18,0.60,'rgba(175,75,0,0.42)','#ff8000','MEM','rgba(255,165,80,0.95)');
-  // PLL / Power — pink
-  blk(-0.38,-0.58,0.20,0.14,'rgba(175,0,75,0.42)','#ff0080','PLL','rgba(255,100,185,0.95)');
+  blk( 0.47, 0.0, 0.18,0.62,'rgba(175,75,0,0.42)','#ff8000','MEM','rgba(255,165,80,0.95)');
   // ADC/DAC — yellow
-  blk( 0.16, 0.58,0.42,0.12,'rgba(155,155,0,0.42)','#ffff00','ADC','rgba(255,255,80,0.95)');
+  blk( 0.10, 0.54,0.38,0.10,'rgba(155,155,0,0.42)','#ffff00','ADC','rgba(255,255,80,0.95)');
   // NoC bus lines
   ctx.strokeStyle='rgba(100,200,255,0.18)';ctx.lineWidth=4;
   ctx.beginPath();ctx.moveTo(cx-0.64*sc,cy);ctx.lineTo(cx+0.64*sc,cy);ctx.stroke();
@@ -1268,16 +1306,16 @@ dieEdges.position.y=dieMesh.position.y;scene.add(dieEdges);
 /* ── CHIP SUB-BLOCK MESHES ── */
 const BH = 0.013; // slab height
 const BLOCK_DEF = [
-  // [x, z, w, d, emissive, base]     — XZ match drawDieFace layout
-  [ 0.0,  -0.08, 0.44, 0.55, 0x8030ff, 0x280890], // NPU — violet
-  [-0.38, -0.38, 0.20, 0.18, 0x2068ff, 0x082060], // CPU0 — blue
-  [-0.38, -0.16, 0.20, 0.18, 0x2068ff, 0x082060], // CPU1 — blue
-  [-0.38,  0.06, 0.20, 0.18, 0x2068ff, 0x082060], // CPU2 — blue
-  [-0.38,  0.28, 0.20, 0.18, 0x2068ff, 0x082060], // CPU3 — blue
-  [-0.38,  0.50, 0.20, 0.18, 0x00d4ff, 0x004858], // SRAM — cyan
-  [ 0.48,  0.0,  0.18, 0.60, 0xff8000, 0x582000], // Mem Ctrl — orange
-  [-0.38, -0.58, 0.20, 0.14, 0xff0080, 0x580030], // PLL — pink
-  [ 0.16,  0.58, 0.42, 0.12, 0xffff00, 0x505000], // ADC — yellow
+  // [x, z, w, d, emissive, base]     — XZ match drawDieFace layout, gap=0.01
+  [ 0.0,  -0.05, 0.42, 0.50, 0x8030ff, 0x280890], // NPU — violet
+  [-0.38, -0.43, 0.22, 0.12, 0xff0080, 0x580030], // PLL — pink
+  [-0.38, -0.28, 0.22, 0.16, 0x2068ff, 0x082060], // CPU0 — blue
+  [-0.38, -0.11, 0.22, 0.16, 0x2068ff, 0x082060], // CPU1 — blue
+  [-0.38,  0.06, 0.22, 0.16, 0x2068ff, 0x082060], // CPU2 — blue
+  [-0.38,  0.23, 0.22, 0.16, 0x2068ff, 0x082060], // CPU3 — blue
+  [-0.38,  0.40, 0.22, 0.16, 0x00d4ff, 0x004858], // SRAM — cyan
+  [ 0.47,  0.0,  0.18, 0.62, 0xff8000, 0x582000], // Mem Ctrl — orange
+  [ 0.10,  0.54, 0.38, 0.10, 0xffff00, 0x505000], // ADC — yellow
 ];
 const chipBlocksGroup = new THREE.Group();
 scene.add(chipBlocksGroup);
@@ -1477,24 +1515,47 @@ function setHudLabel(txt){
   hudLabel.style.transition='opacity .2s';
 }
 
-/* ASIC keyword cycling */
+/* ASIC keyword cycling — mapped to 6 pipeline stages */
 const ASIC_KW = [
-  '▸ RTL_SYNTHESIS','▸ LOGIC_ELABORATION','▸ STATIC_TIMING_ANALYSIS',
-  '▸ FLOORPLANNING','▸ POWER_PLANNING','▸ PLACE_AND_ROUTE',
-  '▸ CLOCK_TREE_SYNTHESIS','▸ TIMING_CLOSURE','▸ SIGNAL_INTEGRITY',
-  '▸ DRC_VERIFICATION','▸ LVS_CHECK','▸ TAPEOUT_SIGN_OFF',
+  // 0 RTL
+  '▸ RTL_SYNTHESIS','▸ LOGIC_ELABORATION','▸ CONSTRAINT_SETUP','▸ DC_SHELL_COMPILE',
+  // 1 SYN
+  '▸ TECHNOLOGY_MAPPING','▸ NETLIST_OPTIMIZATION','▸ SCAN_INSERTION','▸ BOUNDARY_CHECK',
+  // 2 P&R
+  '▸ FLOORPLANNING','▸ POWER_PLANNING','▸ PLACE_AND_ROUTE','▸ FILLER_CELLS',
+  '▸ METAL_FILL_STA','▸ ANTENNA_RULE_CHECK','▸ FILL_INSERTION',
+  // 3 STA
+  '▸ STATIC_TIMING_ANALYSIS','▸ TIMING_CLOSURE','▸ SIGNAL_INTEGRITY',
+  '▸ CDC_ANALYSIS','▸ PARASITIC_EXTRACTION','▸ PVT_CORNERS',
+  // 4 CTS
+  '▸ CLOCK_TREE_SYNTHESIS','▸ SKEW_BALANCING','▸ CTS_HOLD_FIX',
+  '▸ POWER_ANALYSIS','▸ IR_DROP_ANALYSIS','▸ ELECTROMIGRATION_CHK',
+  // 5 SIGN
+  '▸ DRC_VERIFICATION','▸ LVS_CHECK','▸ ERC_SIGNOFF','▸ EQUIVALENCE_CHECK',
   '▸ FUNCTIONAL_COVERAGE','▸ SVA_ASSERTIONS','▸ UVM_REGRESSION',
-  '▸ CDC_ANALYSIS','▸ POWER_ANALYSIS','▸ EQUIVALENCE_CHECK',
-  '▸ WAVEFORM_DEBUG','▸ UCDB_MERGE','▸ SPICE_TRANSIENT',
-  '▸ GATE_LEVEL_SIM','▸ PVT_CORNERS','▸ ECO_SIGNOFF',
+  '▸ GATE_LEVEL_SIM','▸ UCDB_MERGE','▸ SPICE_TRANSIENT',
+  '▸ ECO_SIGNOFF','▸ TAPEOUT_SIGN_OFF',
 ];
+/* index range for each pipeline stage */
+const KW_STAGE = [[0,3],[4,7],[8,14],[15,20],[21,26],[27,37]];
+const pipeEls = document.querySelectorAll('#hudPipe .hud-ps');
+function updatePipeline(idx){
+  const si = KW_STAGE.findIndex(([s,e])=>idx>=s&&idx<=e);
+  pipeEls.forEach((el,i)=>{
+    el.classList.remove('done','act');
+    if(i<si) el.classList.add('done');
+    else if(i===si) el.classList.add('act');
+  });
+}
 let kwIdx = 0;
+updatePipeline(0);
 setInterval(()=>{
   hudKwEl.style.opacity='0';
   setTimeout(()=>{
     kwIdx=(kwIdx+1)%ASIC_KW.length;
     hudKwEl.textContent=ASIC_KW[kwIdx];
     hudKwEl.style.opacity='1';
+    updatePipeline(kwIdx);
   },280);
 },1300);
 function easeOut(t){return 1-Math.pow(1-t,3);}
