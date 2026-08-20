@@ -65,26 +65,26 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
     rgba(238,242,247,0.72) 100%)
 }
 
-/* LOADER — silicon fabrication boot sequence */
-#loader{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 42%,#ffffff 0%,#eef2f7 45%,#e2e8f0 100%);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity 1.1s ease,visibility 1.1s ease}
+/* LOADER — silicon fabrication boot sequence over the live circuit background */
+#loader{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 42%,rgba(255,255,255,.45) 0%,rgba(238,242,247,.5) 45%,rgba(226,232,240,.6) 100%);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.9rem;transition:opacity 1.1s ease,visibility 1.1s ease}
 #loader.out{opacity:0;visibility:hidden;pointer-events:none}
-#loader::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(58,143,212,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(58,143,212,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(ellipse at center,#000 0%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center,#000 0%,transparent 72%);opacity:.6;animation:ldGrid 8s linear infinite}
-@keyframes ldGrid{to{background-position:34px 34px,34px 34px}}
-.ld-core{position:relative;width:104px;height:104px;display:flex;align-items:center;justify-content:center}
-.ld-ring{position:absolute;inset:0;width:104px;height:104px}
+/* Raise the animated circuit canvas above the page (but below the loader) while loading */
+body.loading #bgCanvas{z-index:99990}
+.ld-core{position:relative;width:128px;height:128px;display:flex;align-items:center;justify-content:center}
+.ld-ring{position:absolute;inset:0;width:128px;height:128px}
 .ld-ring svg{width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(58,143,212,.4))}
 .ld-ring .s1{animation:rot 1.8s cubic-bezier(.5,0,.5,1) infinite;transform-origin:52px 52px}
 .ld-ring .s2{animation:rot 1.15s linear infinite reverse;transform-origin:52px 52px}
 .ld-ring .s3{animation:rot 3.2s linear infinite;transform-origin:52px 52px}
 @keyframes rot{to{transform:rotate(360deg)}}
-.ld-pct{position:relative;font-family:var(--fdis);font-size:1.55rem;font-weight:700;color:var(--gd);letter-spacing:1px;text-shadow:0 0 18px rgba(224,176,48,.5);line-height:1}
-.ld-txt{font-family:var(--fdis);font-size:1.05rem;font-weight:700;color:var(--tx);letter-spacing:7px;text-transform:uppercase;text-shadow:0 0 24px rgba(184,204,184,.2)}
+.ld-pct{position:relative;font-family:var(--fdis);font-size:2.4rem;font-weight:700;color:var(--gd);letter-spacing:1px;text-shadow:0 0 20px rgba(224,176,48,.55);line-height:1}
+.ld-txt{font-family:var(--fdis);font-size:1.8rem;font-weight:700;color:var(--tx);letter-spacing:6px;text-transform:uppercase;text-shadow:0 0 24px rgba(184,204,184,.2)}
 .ld-txt b{color:var(--cu);text-shadow:0 0 20px var(--cu-g)}
-.ld-status{font-family:var(--fmon);font-size:.68rem;color:var(--blu);letter-spacing:3px;text-transform:uppercase;min-height:1em;transition:opacity .22s}
-.ld-log{font-family:var(--fmon);font-size:.6rem;color:var(--tx-f);letter-spacing:1.5px;line-height:1.7;height:5.1em;width:270px;overflow:hidden;text-align:left;opacity:.8}
+.ld-status{font-family:var(--fmon);font-size:1rem;color:var(--blu);letter-spacing:3px;text-transform:uppercase;min-height:1em;transition:opacity .22s;font-weight:600}
+.ld-log{font-family:var(--fmon);font-size:.82rem;color:var(--tx-d);letter-spacing:1px;line-height:1.8;height:5.4em;width:380px;max-width:88vw;overflow:hidden;text-align:left;opacity:.85}
 .ld-log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ld-log .ok{color:var(--sig)}
-.ld-bar{position:relative;width:270px;height:2px;background:var(--line);overflow:hidden;border-radius:2px}
+.ld-bar{position:relative;width:380px;max-width:88vw;height:3px;background:var(--line);overflow:hidden;border-radius:2px}
 .ld-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blu),var(--sig),var(--cu),var(--gd));box-shadow:0 0 10px var(--blu-g);transition:width .2s linear}
 .ld-fill::after{content:'';position:absolute;top:0;right:0;width:26px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5))}
 
@@ -95,21 +95,14 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 
 /* HUD — advanced ASIC flow monitor */
 #chipHud{
-  position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;pointer-events:none;
-  font-family:var(--fmon);font-size:.54rem;letter-spacing:2px;text-transform:uppercase;
-  color:var(--blu);opacity:0;transition:opacity .5s;
-  background:var(--panel);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  border:1px solid rgba(58,143,212,.22);
-  border-right:2px solid var(--blu);border-bottom:2px solid rgba(58,143,212,.35);
-  box-shadow:0 8px 40px rgba(0,0,0,.55),0 0 0 1px rgba(58,143,212,.05);
-  padding:.72rem 1rem;min-width:224px;max-width:246px;
-  display:flex;flex-direction:column;gap:.24rem
+  font-family:var(--fmon);font-size:.54rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--blu);display:flex;flex-direction:column;gap:.24rem;opacity:1
 }
-#chipHud::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blu),transparent);opacity:.5}
-#chipHud.show{opacity:1}
-#chipHud.powered{color:var(--sig);border-right-color:var(--sig);border-bottom-color:rgba(0,212,116,.4)}
+#chipHud::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blu),var(--sig),var(--cu));opacity:.7;z-index:1}
+#chipHud.powered{color:var(--sig)}
 #chipHud.powered::before{background:linear-gradient(90deg,transparent,var(--sig),transparent)}
-.hud-hdr{font-size:.62rem;color:var(--tx-f);letter-spacing:3px;padding-bottom:.24rem;border-bottom:1px solid rgba(58,143,212,.14);margin-bottom:.04rem}
+.hud-stageline{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem}
+.hud-hdr{font-size:.82rem;font-weight:600;color:var(--tx-d);letter-spacing:2px;padding-bottom:.3rem;border-bottom:1px solid rgba(58,143,212,.14);margin-bottom:.1rem}
 .hud-kw{color:var(--sig);font-size:.64rem;letter-spacing:1px;transition:opacity .28s;min-height:1em;text-shadow:0 0 8px var(--sig-g)}
 .hud-stage{color:var(--cu);font-size:.72rem;letter-spacing:1px;min-height:1em;transition:opacity .2s}
 .hud-row{display:flex;align-items:center;gap:.55rem;margin:.06rem 0}
@@ -136,11 +129,25 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 .hud-ps-sep{font-size:.40rem;color:var(--tx-f);opacity:.25;padding:0 .02rem}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:1.3rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
-nav.sc{background:var(--panel);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd);padding:.8rem 2.5rem}
+nav{position:fixed;top:0;left:0;right:0;z-index:9000;padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:nowrap;transition:background .4s,padding .4s;background:var(--panel);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
+nav.sc{padding:.55rem 2rem}
+.n-badge{white-space:nowrap;flex-shrink:0}
+.n-links{flex-shrink:0}
+.n-contact{flex-shrink:1;overflow:hidden}
 .n-logo{font-family:var(--fdis);font-size:1.15rem;font-weight:700;color:var(--cu);text-decoration:none;letter-spacing:3px;text-shadow:0 0 18px var(--cu-g);display:flex;flex-direction:column;line-height:1.1}
 .n-logo small{font-family:var(--fmon);font-size:.60rem;color:var(--tx-f);letter-spacing:5px;text-shadow:none}
-.n-links{display:flex;gap:2rem;list-style:none}
+/* Nav contact bar (replaces the old tagline) */
+.n-contact{display:flex;align-items:center;gap:.65rem;min-width:0}
+.n-contact .h-info{display:flex;flex-wrap:nowrap;gap:.4rem;margin:0}
+.n-contact .h-info a,.n-contact .h-info span{display:inline-flex;align-items:center;gap:.32rem;font-family:var(--fmon);font-size:.72rem;font-weight:500;color:var(--tx-d);background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:.32rem .62rem;white-space:nowrap;text-decoration:none;letter-spacing:.3px;transition:all .25s}
+.n-contact .h-info a{color:var(--cu)}
+.n-contact .h-info a svg,.n-contact .h-info span svg{width:13px;height:13px;fill:currentColor;flex-shrink:0}
+.n-contact .h-info span svg{color:var(--sig)}
+.n-contact .h-info a:hover{color:#fff;background:var(--cu);border-color:var(--cu)}
+.n-cta{font-size:.72rem!important;padding:.42rem 1.05rem!important;white-space:nowrap;border-radius:999px}
+.n-links{display:flex;gap:1.5rem;list-style:none}
+@media(max-width:1550px){.n-contact .h-info span{display:none}}
+@media(max-width:1350px){.n-contact{display:none}}
 .n-links a{font-family:var(--fmon);font-size:.82rem;color:var(--tx-d);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative}
 .n-links a:hover{color:var(--cu)}
 .n-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--cu);transform:scaleX(0);transform-origin:left;transition:transform .3s}
@@ -152,12 +159,28 @@ nav.sc{background:var(--panel);backdrop-filter:blur(24px);border-bottom:1px soli
 /* LAYOUT */
 #main{position:relative;z-index:3}
 nav{z-index:9000!important}
-.sec-inner{max-width:1480px;margin:0 auto;padding:0 3rem}
+.sec-inner{max-width:none;margin:0 auto;padding:0 3.5rem}
 
 /* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;padding:0 3rem}
-.hero-inner{max-width:1480px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.15fr 0.85fr;gap:5rem;align-items:center}
-.hero-right{display:flex;flex-direction:column;gap:1rem}
+#hero{min-height:100vh;display:flex;align-items:center;padding:7rem 3rem 4rem}
+.hero-inner{max-width:none;margin:0 auto;width:100%;display:grid;grid-template-columns:minmax(300px,1fr) 1.15fr minmax(330px,1.05fr);gap:2.5rem;align-items:start}
+.hero-left{grid-column:1}
+.hero-rail{grid-column:3}
+.hero-right,.hero-mid{display:flex;flex-direction:column;gap:1rem}
+.hero-rail{display:flex;flex-direction:column;gap:.8rem}
+.hero-rail::-webkit-scrollbar{width:4px}
+.hero-rail::-webkit-scrollbar-thumb{background:var(--cu);border-radius:2px}
+/* Quick-facts strip */
+.h-facts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1.6rem}
+.h-fact{display:flex;flex-direction:column;gap:.15rem;padding:.5rem .75rem;border-radius:10px;background:var(--panel);border:1px solid rgba(255,255,255,.55);box-shadow:0 6px 16px -10px rgba(20,45,85,.28);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.hf-k{font-family:var(--fmon);font-size:.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx-f)}
+.hf-v{font-family:var(--fdis);font-size:.82rem;font-weight:600;color:var(--tx);line-height:1.2}
+.hf-v.ok{color:var(--sig)}
+/* About highlights panel */
+.ap-hl{display:flex;flex-direction:column;gap:.15rem;padding:.55rem 0;border-bottom:1px solid rgba(20,45,85,.08)}
+.ap-hl:last-child{border-bottom:none}
+.ap-k{font-family:var(--fmon);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--cu)}
+.ap-v{font-family:var(--fbod);font-size:.92rem;color:var(--tx-d);line-height:1.4}
 .h-pre{font-family:var(--fmon);font-size:.74rem;color:var(--sig);letter-spacing:5px;text-transform:uppercase;margin-bottom:1.2rem;opacity:.85}
 .h-name{font-family:var(--fdis);font-size:clamp(3rem,9vw,6.5rem);font-weight:700;line-height:.92;letter-spacing:2px;margin-bottom:1rem}
 .h-name .first{display:block;color:var(--tx);text-shadow:0 0 60px rgba(184,204,184,0.15)}
@@ -189,7 +212,11 @@ nav{z-index:9000!important}
 .hl{color:var(--cu);text-shadow:0 0 18px var(--cu-g)}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:start}
+.about-grid{display:grid;grid-template-columns:minmax(280px,1fr) 0.7fr minmax(300px,1fr);gap:2rem;align-items:start}
+.about-text{grid-column:1}
+.about-edu{grid-column:3}
+#about{padding-top:1.5rem}
+#about .sec-hd{margin-bottom:1.4rem}
 .about-text{padding:1.2rem 1.4rem;background:var(--panel);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-left:2px solid rgba(58,143,212,.18)}
 .about-text p{color:var(--tx-d);line-height:1.9;font-size:1.02rem;margin-bottom:.9rem}
 .about-text strong{color:var(--cu)}
@@ -317,7 +344,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 /* Hero focus panel */
 .h-focus{padding:1rem 1.2rem;border:1px solid var(--bd);background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden}
 .h-focus::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--blu),var(--cu),transparent)}
-.hf-hdr{font-family:var(--fmon);font-size:.64rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.72rem}
+.hf-hdr{font-family:var(--fmon);font-size:.84rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tx-d);margin-bottom:.8rem}
 .hf-tags{display:flex;flex-wrap:wrap;gap:.3rem}
 .hf-tag{font-family:var(--fmon);font-size:.74rem;padding:.2rem .55rem;background:rgba(58,143,212,.06);color:var(--blu);border:1px solid rgba(58,143,212,.18)}
 
@@ -326,7 +353,7 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 .exp-side{display:flex;flex-direction:column;gap:.85rem}
 .exp-panel{border:1px solid var(--bd);padding:1.1rem 1.3rem;background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden}
 .exp-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cu),var(--gd),transparent)}
-.ep-hdr{font-family:var(--fmon);font-size:.64rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.8rem;padding-bottom:.45rem;border-bottom:1px solid var(--tagbg)}
+.ep-hdr{font-family:var(--fmon);font-size:.84rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tx-d);margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid var(--tagbg)}
 .ep-tags{display:flex;flex-wrap:wrap;gap:.28rem}
 .ep-tag{font-family:var(--fmon);font-size:.74rem;padding:.14rem .44rem;background:var(--tagbg);color:var(--tx-d);border:1px solid var(--line)}
 .ep-tag.hot{background:var(--cu-d);color:var(--cu);border-color:rgba(200,120,40,.24)}
@@ -339,7 +366,14 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 .edu-cert-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 .edu-col,.cert-col{display:flex;flex-direction:column;gap:.85rem}
 .cert-col .sec-hd{margin-bottom:0}
-.cert-col .cg{grid-template-columns:1fr;gap:.7rem}
+.cert-col .cg{grid-template-columns:repeat(4,minmax(0,1fr));gap:1.4rem;justify-content:stretch}
+@media(max-width:900px){.cert-col .cg{grid-template-columns:repeat(2,1fr)}}
+.cert-col .cc{min-height:200px;border-left:1px solid var(--bd);border-top:2px solid var(--gd);border-radius:14px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:1.4rem 1.2rem;transform:translateY(14px)}
+.cert-col .cc.vis{transform:translateY(0)}
+.cert-col .cc:hover{transform:translateY(-3px)}
+.cert-col .cc-name{font-size:.98rem;line-height:1.35;margin-bottom:.5rem}
+.cert-col .cc-org{font-size:.8rem}
+.cert-col .cc-dt{font-size:.72rem;margin-top:.35rem}
 
 /* REVEAL */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
@@ -350,20 +384,27 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
   .exp-layout{grid-template-columns:1fr}
   .edu-cert-layout{grid-template-columns:1fr}
   .sg{grid-template-columns:repeat(2,1fr)}
+  #hero{min-height:auto}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-left,.hero-rail{grid-column:1}
+  .hero-rail{flex-direction:column;max-height:none;overflow:visible}
+  .about-grid{grid-template-columns:1fr 1fr}
+  .about-text{grid-column:1}
+  .about-edu{grid-column:2}
 }
 @media(max-width:768px){
   nav{padding:1rem 1.2rem}
   .n-links,.n-badge{display:none}
-  #hero{padding:0 1.2rem}
+  #hero{padding:6rem 1.2rem 3rem}
   .hero-inner{grid-template-columns:1fr;gap:2rem}
-  .hero-right{display:none}
+  .hero-rail{flex-direction:column}
   .about-grid{grid-template-columns:1fr}
+  .about-text,.about-edu{grid-column:auto}
   .sg,.cg{grid-template-columns:1fr}
   .pg{grid-template-columns:1fr}
   .pg>.pc.feat,.pg>.pc.wide{grid-column:1}
   .sec{padding:3.5rem 1.2rem}
   .sec-inner{padding:0 1rem}
-  #chipHud{display:none}
 }
 
 /* REDUCED MOTION — respect user preference: calm the page, restore a usable cursor */
@@ -402,7 +443,30 @@ nav.sc{box-shadow:0 4px 20px rgba(20,40,70,.06)}
 }
 /* Hero panels sit over the brightest chip area — keep them a touch more solid */
 .h-stats>div,.h-focus{background:rgba(255,255,255,.76)}
-#chipHud{border-radius:var(--r);background:rgba(255,255,255,.82)}
+/* ASIC flow — slim full-width bar docked to the very bottom edge (never floats over content) */
+#chipHud{position:fixed;left:0;right:0;bottom:0;width:100%;z-index:400;pointer-events:none;overflow:hidden;
+  flex-direction:row!important;flex-wrap:nowrap;align-items:center;gap:1.3rem;
+  padding:.4rem 1.6rem .5rem;border-radius:0!important;border:none!important;border-top:1px solid rgba(58,143,212,.28)!important;
+  background:rgba(255,255,255,.93)!important;box-shadow:0 -8px 30px rgba(20,45,85,.12)!important;transition:opacity .35s}
+@media(max-width:1280px){#chipHud .hud-hdr{display:none}}
+@media(max-width:1040px){#chipHud .hud-grid{display:none!important}}
+#chipHud .hud-hdr{border:none;padding:0;margin:0;flex:0 0 auto;font-size:.66rem;color:var(--tx-f)}
+#chipHud .hud-stageline{flex:0 0 auto}
+#chipHud .hud-row{flex:0 0 auto;margin:0}
+#chipHud .hud-meta,#chipHud .hud-div{display:none}
+#chipHud .hud-grid{display:flex!important;gap:1.2rem;flex:1 1 auto;justify-content:center;margin:0;grid-template-columns:none}
+#chipHud .hud-grid .hud-kv{flex-direction:column;align-items:center;text-align:center;gap:.03rem}
+#chipHud .hud-pipe{display:flex!important;flex:0 0 auto;gap:.28rem;margin:0;grid-template-columns:none}
+#chipHud .hud-ps{padding:.26rem .6rem;font-size:.72rem}
+#chipHud .hud-pct{font-size:1.5rem}
+#chipHud .hud-hdr{font-size:.8rem}
+#chipHud .hud-stage{font-size:.92rem;font-weight:600}
+#chipHud .hud-kw{font-size:.8rem}
+#chipHud .hud-k{font-size:.62rem}
+#chipHud .hud-v{font-size:.86rem}
+#chipHud .hud-seg{height:12px}
+#chipHud .hud-bar{position:absolute;left:0;right:0;bottom:0;width:100%;height:2px;margin:0}
+@media(max-width:768px){#chipHud{display:none}}
 
 /* Soft pill tags — remove the grid of tiny hard boxes */
 .pc-tag,.sk-tag,.hf-tag,.ep-tag{
@@ -458,22 +522,153 @@ nav.sc{background:rgba(255,255,255,.72)!important;backdrop-filter:blur(20px) sat
 .pc-desc{font-size:.92rem;line-height:1.7}
 
 /* Project category jump-links row */
-.pcat-jump{font-family:var(--fmon);font-size:.82rem;color:var(--tx-f);letter-spacing:.5px;margin-top:.7rem;display:flex;flex-wrap:wrap;gap:.3rem .55rem;align-items:center}
-.pcat-jump a{color:var(--cu);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .25s}
-.pcat-jump a:hover{border-bottom-color:var(--cu)}
-.pcat-jump .sep{opacity:.4}
+.pcat-jump{font-family:var(--fmon);font-size:.9rem;color:var(--tx-d);letter-spacing:.5px;margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem .6rem;align-items:center}
+.pcat-jump a{color:var(--cu);text-decoration:none;font-weight:600;background:rgba(185,99,26,.1);border:1px solid rgba(185,99,26,.25);border-radius:999px;padding:.28rem .8rem;transition:all .25s}
+.pcat-jump a:hover{background:var(--cu);color:#fff;border-color:var(--cu);transform:translateY(-1px)}
+.pcat-jump .sep{display:none}
 .pcat{scroll-margin-top:90px}
+
+/* ── Tabbed projects: left category nav + panels + connecting wire ── */
+/* Keep the "Featured Projects" heading pinned to the top while the section scrolls horizontally */
+#projects .sec-hd{position:sticky;top:56px;z-index:30;background:linear-gradient(var(--bg) 70%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:.7rem 0 .6rem!important;margin-bottom:1.2rem!important}
+.proj-layout{display:grid;grid-template-columns:230px 1fr;gap:2.6rem;align-items:start}
+.proj-nav{display:flex;flex-direction:column;gap:.5rem;position:sticky;top:150px}
+.pn-title{font-family:var(--fmon);font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.45rem}
+.pn-title span{color:var(--sig)}
+.pn-tab{position:relative;display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-family:var(--fdis);font-size:.98rem;font-weight:700;color:var(--tx-d);background:var(--panel);border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:.7rem .9rem;cursor:pointer;text-align:left;transition:all .25s;box-shadow:0 6px 16px -12px rgba(20,45,85,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pn-tab:hover{color:var(--cu);transform:translateX(2px)}
+.pn-count{font-family:var(--fmon);font-size:.7rem;font-weight:600;color:var(--tx-f);background:rgba(30,72,120,.08);border-radius:999px;padding:.1rem .5rem}
+.pn-tab.active{color:var(--cu);border-color:var(--bd-h);box-shadow:0 10px 24px -12px rgba(185,99,26,.35)}
+.pn-tab.active .pn-count{background:var(--cu);color:#fff}
+.pn-tab.active::after{content:'';position:absolute;left:100%;top:50%;width:2.6rem;height:2px;transform:translateY(-50%);background:linear-gradient(90deg,var(--cu),var(--gd));box-shadow:0 0 8px var(--cu-g);z-index:6}
+.pn-tab.active::before{content:'';position:absolute;left:calc(100% + 2.6rem - 5px);top:50%;width:10px;height:10px;transform:translateY(-50%);border-radius:50%;background:var(--gd);box-shadow:0 0 10px var(--gd),0 0 4px var(--gd);z-index:7;animation:etlPulse 2s ease-in-out infinite}
+.proj-content{position:relative;border-left:2px solid var(--bd);padding-left:2.6rem;min-width:0}
+.proj-panel{display:block;margin-bottom:4rem;min-width:0}
+.proj-panel:last-child{margin-bottom:0}
+.pp-title{font-family:var(--fdis);font-size:1.25rem;font-weight:700;color:var(--tx);margin-bottom:1rem;letter-spacing:.5px}
+.pp-title::before{content:'▸ ';color:var(--cu)}
+/* per-category horizontal card scroller (pinned + GSAP-driven) */
+.pp-scroll{overflow:hidden;min-width:0}
+.proj-panel .pg{display:flex!important;flex-direction:row;gap:1rem;grid-template-columns:none!important;align-items:stretch}
+.proj-panel .pc{flex:0 0 clamp(300px,25vw,350px);height:min(66vh,500px);display:flex;flex-direction:column;opacity:1;transform:none;overflow:hidden}
+.proj-panel .pc-desc{font-size:.82rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.proj-panel .pc-link{margin-top:auto;padding-top:.6rem}
+.proj-panel .pc-metrics{margin-bottom:.7rem}
+@media(max-width:900px){
+  .proj-layout{grid-template-columns:1fr;gap:1.1rem}
+  .proj-nav{flex-direction:row;flex-wrap:wrap;position:static}
+  .pn-tab{flex:1 1 40%}
+  .pn-tab.active::after,.pn-tab.active::before{display:none}
+  .proj-content{border-left:none;padding-left:0}
+  .pp-scroll{overflow-x:auto}
+  .proj-panel .pg{flex-wrap:wrap}
+  .proj-panel .pc{flex:1 1 100%;height:auto}
+  .exp-scroll .tl{flex-wrap:wrap}
+  .exp-scroll .ti{flex:1 1 100%}
+}
 
 /* Work Experience — clearer vertical timeline flow */
 .tl::before{width:2px;opacity:.55;background:linear-gradient(180deg,var(--cu) 0%,var(--gd) 42%,var(--blu) 78%,transparent)}
 .ti-dot{width:13px;height:13px;left:-6px;border-width:3px;background:#fff;box-shadow:0 0 0 4px rgba(185,99,26,.1),0 0 10px var(--cu-g)}
 .ti-date{background:var(--cu-d)!important;border-color:rgba(185,99,26,.3)!important;color:var(--cu)!important;font-weight:600;border-radius:999px}
 .ti-card{border-radius:14px}
+/* Animated pulse travelling down the timeline rail */
+.tl{position:relative}
+.tl::after{content:'';position:absolute;left:-3px;top:0;width:8px;height:8px;border-radius:50%;background:var(--sig);box-shadow:0 0 10px var(--sig-g),0 0 4px var(--sig);animation:tlPulse 4s ease-in-out infinite;z-index:2;pointer-events:none}
+@keyframes tlPulse{0%{top:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:100%;opacity:0}}
+@media(prefers-reduced-motion:reduce){.tl::after{display:none}}
 
-/* Semiconductor skill icons */
-.sk-ico{opacity:1;color:var(--cu);margin-bottom:.6rem;height:24px}
-.sk-ico svg{width:23px;height:23px;display:block}
-.sg{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+/* Semiconductor skill icons + compact skill cards */
+.sk-ico{opacity:1;color:var(--cu);margin-bottom:.45rem;height:20px}
+.sk-ico svg{width:19px;height:19px;display:block}
+.sg{grid-template-columns:repeat(5,minmax(0,1fr));gap:.8rem}
+@media(max-width:1400px){.sg{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1080px){.sg{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.sg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sk{padding:.8rem .85rem;border-radius:12px}
+.sk-name{font-size:.8rem;margin-bottom:.5rem;letter-spacing:.5px}
+.sk-tags{gap:.28rem}
+.sk-tag{font-size:.66rem;padding:.14rem .5rem}
+
+/* Command-deck hero tuning */
+.exp-layout{grid-template-columns:1fr!important}
+.hero-rail .h-stats>div{padding:.7rem .8rem}
+.hero-rail .hs-n{font-size:1.4rem}
+.hero-rail .hs-l{font-size:.56rem;letter-spacing:1.1px}
+.hero-rail .h-stats{gap:.55rem}
+.hero-rail .h-focus{margin-top:0}
+.rail-edu{display:flex;flex-direction:column;gap:.6rem}
+.re-row{display:flex;flex-direction:column;gap:.12rem}
+.re-deg{font-family:var(--fdis);font-size:.9rem;font-weight:700;color:var(--cu);line-height:1.2}
+.re-meta{font-family:var(--fmon);font-size:.7rem;color:var(--tx-f);letter-spacing:.3px}
+/* About text (moved into the hero) + hero education panel */
+.about-lead{margin:.4rem 0 1.6rem}
+.al-title{font-family:var(--fdis);font-size:1.5rem;font-weight:700;margin-bottom:.7rem;color:var(--tx);letter-spacing:.5px}
+.about-lead p{color:var(--tx-d);line-height:1.75;font-size:.95rem;margin-bottom:.7rem}
+.about-lead p:last-child{margin-bottom:0}
+.about-lead strong{color:var(--cu)}
+.hero-edu{margin-top:1.6rem;padding:1.1rem 1.3rem;border-radius:14px;background:var(--panel);border:1px solid rgba(255,255,255,.55);box-shadow:0 10px 26px -14px rgba(20,45,85,.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.hero-rail .exp-panel{padding:.9rem 1rem}
+.hero-rail .ep-metric-grid{gap:.4rem}
+.hero-rail .ep-m{padding:.5rem .55rem}
+.hero-rail .ep-mv{font-size:1.05rem}
+.h-facts{margin-top:1.3rem}
+
+/* Work Experience — summary + scrollable cards + horizontal timeline */
+.exp-wrap{display:grid;grid-template-columns:.82fr 1.6fr;gap:2rem;align-items:start}
+.exp-summary{position:sticky;top:6rem;padding:1.4rem 1.5rem;border-radius:16px;background:var(--panel);border:1px solid rgba(255,255,255,.55);box-shadow:0 16px 36px -18px rgba(20,45,85,.3);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.es-big{font-family:var(--fdis);font-size:1.55rem;font-weight:700;color:var(--tx);margin-bottom:.8rem;line-height:1.1}
+.es-big .es-n{color:var(--cu)}
+.es-p{font-size:.95rem;color:var(--tx-d);line-height:1.7;margin-bottom:1rem}
+.es-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.9rem}
+.es-tag{font-family:var(--fmon);font-size:.72rem;padding:.2rem .62rem;border-radius:999px;background:rgba(30,72,120,.08);color:var(--tx-d)}
+.es-hint{font-family:var(--fmon);font-size:.7rem;color:var(--sig);letter-spacing:2px;text-transform:uppercase}
+.exp-scroll{overflow-x:auto;overflow-y:hidden;min-width:0;padding:.2rem 0 1.1rem;scrollbar-width:thin;scrollbar-color:var(--cu) transparent}
+.exp-wrap{min-width:0}
+.exp-wrap>*{min-width:0}
+.exp-scroll::-webkit-scrollbar{height:6px}
+.exp-scroll::-webkit-scrollbar-track{background:transparent}
+.exp-scroll::-webkit-scrollbar-thumb{background:var(--cu);border-radius:3px}
+.exp-scroll .tl{display:flex;flex-direction:row;gap:1rem;padding-left:0;align-items:stretch}
+.exp-scroll .tl::before,.exp-scroll .tl::after{display:none}
+.exp-scroll .ti{flex:0 0 clamp(340px,31vw,420px);padding:0;display:flex}
+.exp-scroll .ti-dot{display:none}
+.exp-scroll .ti-card{height:100%;width:100%;padding:1.3rem 1.4rem;display:flex;flex-direction:column}
+.exp-scroll .ti-card .ti-ul li{font-size:.88rem;line-height:1.6;margin-bottom:.65rem}
+.exp-scroll .ti-card .ti-ul li:last-child{margin-bottom:0}
+.exp-scroll .ti-card .ti-role{font-size:1rem}
+.exp-scroll .ti-card .ti-co{font-size:.8rem;margin-bottom:1rem}
+/* horizontal career timeline */
+.exp-timeline{margin-top:2.6rem}
+.etl{display:grid;grid-template-columns:repeat(6,1fr);position:relative;gap:.8rem}
+.etl::before{content:'';position:absolute;top:6px;left:6%;right:6%;height:2px;background:rgba(20,45,85,.12);border-radius:2px}
+/* multicolored travelling light (matches the loader gradient) synced to horizontal scroll */
+.etl-fill{position:absolute;top:5px;left:6%;height:4px;width:0;border-radius:3px;background:linear-gradient(90deg,var(--blu),var(--sig),var(--cu),var(--gd));background-size:200% 100%;box-shadow:0 0 12px rgba(58,143,212,.5),0 0 6px var(--sig-g);animation:etlShine 2.4s linear infinite;transition:width .15s linear}
+.etl-fill::after{content:'';position:absolute;right:-3px;top:50%;width:11px;height:11px;transform:translateY(-50%);border-radius:50%;background:var(--gd);box-shadow:0 0 12px var(--gd),0 0 20px rgba(224,176,48,.6)}
+@keyframes etlShine{to{background-position:200% 0}}
+.etl-node.lit .etl-dot{border-color:var(--sig);box-shadow:0 0 0 4px rgba(10,116,66,.14),0 0 10px var(--sig-g)}
+.etl-node.lit .etl-date{color:var(--sig)}
+@media(prefers-reduced-motion:reduce){.etl-fill{animation:none}}
+.etl-node{position:relative;padding-top:1.7rem;text-align:center}
+.etl-dot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--cu);box-shadow:0 0 0 4px rgba(185,99,26,.1)}
+.etl-node.current .etl-dot{border-color:var(--sig);box-shadow:0 0 0 4px rgba(10,116,66,.14),0 0 10px var(--sig-g);animation:etlPulse 2s ease-in-out infinite}
+@keyframes etlPulse{50%{box-shadow:0 0 0 8px rgba(10,116,66,.04),0 0 16px var(--sig-g)}}
+.etl-kind{display:block;font-family:var(--fmon);font-size:.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx-f);margin-bottom:.2rem}
+.etl-date{display:block;font-family:var(--fdis);font-size:1.45rem;font-weight:700;color:var(--cu);line-height:1.1}
+.etl-node.current .etl-date{color:var(--sig)}
+.etl-role{display:block;font-family:var(--fbod);font-size:.98rem;color:var(--tx);font-weight:700;margin-top:.3rem;line-height:1.25}
+.etl-co{display:block;font-family:var(--fmon);font-size:.78rem;color:var(--tx-d);margin-top:.22rem;line-height:1.35}
+/* Education milestones blended into the timeline — blue, distinct from copper roles */
+.etl-node.edu .etl-dot{border-color:var(--blu);box-shadow:0 0 0 4px rgba(58,143,212,.12),0 0 8px var(--blu-g)}
+.etl-node.edu .etl-date,.etl-node.edu .etl-kind{color:var(--blu)}
+.etl-node.edu.lit .etl-dot{border-color:var(--blu)}
+@media(max-width:900px){
+  .exp-wrap{grid-template-columns:1fr}
+  .exp-summary{position:static}
+  .exp-scroll{max-height:none}
+  .etl{grid-template-columns:1fr 1fr;gap:1.4rem}
+  .etl::before{display:none}
+}
 
 /* Hero tagline — make it clearly visible on the light theme */
 .h-pre{color:var(--cu)!important;opacity:1;font-weight:600;letter-spacing:3px}
@@ -502,14 +697,13 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
 .ft-socials a:hover{color:#fff;background:var(--cu);border-color:var(--cu);transform:translateY(-3px);box-shadow:0 14px 28px -10px var(--cu-g)}
 
 /* ASIC-flow HUD only on wide desktops (sits clear in the margin); hidden where it would overlap content */
-@media(max-width:1600px){#chipHud{display:none!important}}
 
 /* Education + Certifications: align the two columns to the same top line */
 .edu-cert-layout{align-items:start}
 .edu-col .sec-hd,.cert-col .sec-hd{margin-bottom:1rem;min-height:2.6rem}
 </style>
 </head>
-<body>
+<body class="loading">
 
 <!-- LOADER -->
 <div id="loader" role="status" aria-live="polite" aria-label="Loading portfolio">
@@ -580,58 +774,28 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
 <!-- CONTENT VEIL -->
 <div id="veil" aria-hidden="true"></div>
 
-<!-- CHIP HUD — ASIC implementation flow monitor -->
-<div id="chipHud" aria-hidden="true">
-  <div class="hud-hdr">// ASIC IMPLEMENTATION FLOW</div>
-  <div class="hud-kw" id="hudKw">▸ SPEC_FREEZE</div>
-  <div class="hud-stage" id="hudLabel">// SPEC &amp; PLANNING</div>
-  <div class="hud-row">
-    <span class="hud-pct" id="hudPct">0%</span>
-    <div class="hud-segs" id="hudSegs"></div>
-  </div>
-  <div class="hud-meta"><span id="hudStageName">STAGE 1 / 8</span> &nbsp;·&nbsp; DESIGN: MAC_8×8_TPU</div>
-  <div class="hud-meta">CLK 50 MHz &nbsp;·&nbsp; SKY130 &nbsp;·&nbsp; 25,030 CELLS</div>
-  <div class="hud-div"></div>
-  <div class="hud-grid">
-    <div class="hud-kv"><span class="hud-k">FMAX</span><span class="hud-v" id="hudFreq">— MHz</span></div>
-    <div class="hud-kv"><span class="hud-k">UTIL</span><span class="hud-v" id="hudUtil">—</span></div>
-    <div class="hud-kv"><span class="hud-k">WNS</span><span class="hud-v" id="hudWns">—</span></div>
-    <div class="hud-kv"><span class="hud-k">TNS</span><span class="hud-v" id="hudTns">—</span></div>
-    <div class="hud-kv"><span class="hud-k">POWER</span><span class="hud-v" id="hudPwr">—</span></div>
-    <div class="hud-kv"><span class="hud-k">IR-DROP</span><span class="hud-v" id="hudIr">—</span></div>
-    <div class="hud-kv"><span class="hud-k">COVERAGE</span><span class="hud-v" id="hudCov">—</span></div>
-    <div class="hud-kv"><span class="hud-k">TEMP</span><span class="hud-v" id="hudTemp">27 °C</span></div>
-    <div class="hud-kv"><span class="hud-k">DRC</span><span class="hud-v" id="hudDrc">—</span></div>
-    <div class="hud-kv"><span class="hud-k">LVS</span><span class="hud-v" id="hudLvs">—</span></div>
-  </div>
-  <div class="hud-div"></div>
-  <div class="hud-pipe" id="hudPipe">
-    <span class="hud-ps act">SPEC</span>
-    <span class="hud-ps">RTL</span>
-    <span class="hud-ps">VER</span>
-    <span class="hud-ps">SYN</span>
-    <span class="hud-ps">P&amp;R</span>
-    <span class="hud-ps">CTS</span>
-    <span class="hud-ps">STA</span>
-    <span class="hud-ps">GDS</span>
-  </div>
-  <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
-</div>
-
 <!-- CANVASES -->
 <canvas id="bgCanvas" aria-hidden="true"></canvas>
 <canvas id="threeCanvas" aria-hidden="true"></canvas>
 
 <!-- NAV -->
 <nav id="nav" aria-label="Primary">
-  <a href="#hero" class="n-logo" aria-label="Abhishek Varma — home">ABHISHEK VARMA<small>VLSI · VERIFICATION ENGINEER</small></a>
+  <div class="n-contact">
+    <div class="h-info">
+      <a href="tel:+15513476950"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.4.6 3.6.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg>(551) 347-6950</a>
+      <a href="mailto:abhishekvarma827@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>abhishekvarma827@gmail.com</a>
+      <a href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg>GitHub</a>
+      <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Jose, CA · Open to Relocation</span>
+    </div>
+    <a href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D" class="btn-p n-cta">Get In Touch</a>
+  </div>
   <ul class="n-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
+    <li><a href="#certs">Certifications</a></li>
   </ul>
   <div class="n-badge">Open to Work</div>
 </nav>
@@ -644,22 +808,44 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
   <div class="hero-inner">
     <!-- LEFT: identity + contact + CTA -->
     <div class="hero-left">
-      <div class="h-pre">// VLSI · FPGA · UVM · RTL-to-GDS · ML Acceleration</div>
       <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
       <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
-      <div class="h-info">
-        <a href="tel:+15513476950"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.4.6 3.6.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg>(551) 347-6950</a>
-        <a href="mailto:abhishekvarma827@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>abhishekvarma827@gmail.com</a>
-        <a href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg>GitHub</a>
-        <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>LinkedIn</a>
-        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Jose, CA · Open to Relocation</span>
-      </div>
-      <div class="h-btns">
-        <a href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0AA%20few%20details%3A%0A-%20Role%2FTeam%3A%20%0A-%20Location%2FWork%20Auth%3A%20%0A-%20Next%20steps%3A%20%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D" class="btn-p">Get In Touch</a>
+      <div class="about-lead" id="about">
+        <h2 class="al-title">About <span class="hl">Myself</span></h2>
+        <p>Graduate specializing in <strong>VLSI &amp; Microelectronics</strong> at Illinois Institute of Technology (GPA 3.60/4.0), with 3+ years of experience spanning protocol verification, RTL design, physical design, and ML hardware acceleration.</p>
+        <p>Architect of end-to-end UVM verification environments for <strong>AMBA AHB, APB, AXI4, SPI, and UART</strong> protocols — achieving 99.8% functional coverage and 100% assertion closure. Hands-on tapeout experience executing a full <strong>RTL-to-GDS flow on SkyWater 130nm PDK</strong> via Yosys + OpenROAD, delivering a 25,030 standard-cell design clean at 50 MHz.</p>
+        <p>Currently on <strong>F-1 OPT status</strong>, authorized to work through June 2026 with STEM OPT extension eligibility.</p>
       </div>
     </div>
-    <!-- RIGHT: stats 2×2 + focus tags -->
-    <div class="hero-right">
+    <!-- RIGHT rail: ASIC flow + metrics + focus + stack (middle column left clear for the 3D chip) -->
+    <div class="hero-rail">
+      <div id="chipHud" class="exp-panel" aria-hidden="true">
+        <div class="hud-hdr">ASIC IMPLEMENTATION FLOW</div>
+        <div class="hud-stageline"><span class="hud-stage" id="hudLabel">// SPEC &amp; PLANNING</span><span class="hud-kw" id="hudKw">▸ SPEC_FREEZE</span></div>
+        <div class="hud-row"><span class="hud-pct" id="hudPct">0%</span><div class="hud-segs" id="hudSegs"></div></div>
+        <div class="hud-meta"><span id="hudStageName">STAGE 1 / 8</span> · MAC_8×8 · SKY130 · 25,030 CELLS</div>
+        <div class="hud-div"></div>
+        <div class="hud-grid">
+          <div class="hud-kv"><span class="hud-k">FMAX</span><span class="hud-v" id="hudFreq">— MHz</span></div>
+          <div class="hud-kv"><span class="hud-k">UTIL</span><span class="hud-v" id="hudUtil">—</span></div>
+          <div class="hud-kv"><span class="hud-k">WNS</span><span class="hud-v" id="hudWns">—</span></div>
+          <div class="hud-kv"><span class="hud-k">COVERAGE</span><span class="hud-v" id="hudCov">—</span></div>
+          <div class="hud-kv"><span class="hud-k">DRC</span><span class="hud-v" id="hudDrc">—</span></div>
+          <div class="hud-kv"><span class="hud-k">LVS</span><span class="hud-v" id="hudLvs">—</span></div>
+        </div>
+        <div class="hud-div"></div>
+        <div class="hud-pipe" id="hudPipe">
+          <span class="hud-ps act">SPEC</span>
+          <span class="hud-ps">RTL</span>
+          <span class="hud-ps">VER</span>
+          <span class="hud-ps">SYN</span>
+          <span class="hud-ps">P&amp;R</span>
+          <span class="hud-ps">CTS</span>
+          <span class="hud-ps">STA</span>
+          <span class="hud-ps">GDS</span>
+        </div>
+        <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
+      </div>
       <div class="h-stats">
         <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Years Experience</span></div>
         <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Functional Coverage</span></div>
@@ -671,7 +857,7 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <div><span class="hs-n" data-t="40" data-s="%">0</span><span class="hs-l">Cycle-Time Cut</span></div>
       </div>
       <div class="h-focus">
-        <div class="hf-hdr">// Current Focus Areas</div>
+        <div class="hf-hdr">Current Focus Areas</div>
         <div class="hf-tags">
           <span class="hf-tag">SystemVerilog</span>
           <span class="hf-tag">UVM</span>
@@ -685,100 +871,8 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
           <span class="hf-tag">AI-Assisted EDA</span>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section class="sec" id="about">
-  <div class="sec-inner" style="margin:0 auto">
-    <div class="sec-hd">
-      <div class="sec-tag">01 // Profile</div>
-      <h2 class="sec-title">About <span class="hl">Myself</span></h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-text rv">
-        <p>Graduate specializing in <strong>VLSI &amp; Microelectronics</strong> at Illinois Institute of Technology (GPA 3.60/4.0), with 3+ years of experience spanning protocol verification, RTL design, physical design, and ML hardware acceleration.</p>
-        <p>Architect of end-to-end UVM verification environments for <strong>AMBA AHB, APB, AXI4, SPI, and UART</strong> protocols — achieving 99.8% functional coverage and 100% assertion closure. Hands-on tapeout experience executing a full <strong>RTL-to-GDS flow on SkyWater 130nm PDK</strong> via Yosys + OpenROAD, delivering a 25,030 standard-cell design clean at 50 MHz.</p>
-        <p>Currently on <strong>F-1 OPT status</strong>, authorized to work through June 2026 with STEM OPT extension eligibility.</p>
-      </div>
-      <div class="about-panel rv">
-        <div class="info-row"><span class="lbl">// Status</span><span class="val">Open to Opportunities</span></div>
-        <div class="info-row"><span class="lbl">// Location</span><span class="val">San Jose, CA</span></div>
-        <div class="info-row"><span class="lbl">// Degree</span><span class="val">MAS · VLSI &amp; Microelectronics</span></div>
-        <div class="info-row"><span class="lbl">// GPA</span><span class="val">3.60 / 4.0</span></div>
-        <div class="info-row"><span class="lbl">// Work Auth</span><span class="val">F-1 OPT → STEM OPT</span></div>
-        <div class="info-row"><span class="lbl">// Focus</span><span class="val">ASIC · FPGA · Verification</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section class="sec" id="experience">
-  <div class="sec-inner" style="margin:0 auto">
-    <div class="sec-hd">
-      <div class="sec-tag">02 // Work History</div>
-      <h2 class="sec-title">Work <span class="hl">Experience</span></h2>
-    </div>
-    <div class="exp-layout">
-    <div class="tl">
-
-      <div class="ti">
-        <div class="ti-dot"></div>
-        <div class="ti-card">
-          <div class="ti-top"><h3 class="ti-role">Hardware Design &amp; Verification Engineer</h3><span class="ti-date">Jun 2026 – Present</span></div>
-          <p class="ti-co">Twinwing Labs Inc · San Francisco, CA</p>
-          <ul class="ti-ul">
-            <li>Develop reusable UVM testbenches in SystemVerilog for low-latency ASIC datapath logic, protocol parsers, and order-execution pipelines supporting HFT systems — writing directed and constrained-random tests and assertions for nanosecond-scale timing-critical behavior, driving coverage closure and regression debug, and leveraging AI tools including Claude Code to accelerate testbench development</li>
-            <li>Create custom IP blocks in Xilinx Vivado, verifying functional correctness through simulation and running static timing analysis (STA) checks to close timing across clock domains ahead of synthesis and place-and-route</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="ti">
-        <div class="ti-dot"></div>
-        <div class="ti-card">
-          <div class="ti-top"><h3 class="ti-role">Electronics Design Engineer — Volunteer</h3><span class="ti-date">Aug 2025 – Jun 2026</span></div>
-          <p class="ti-co">Community Dreams Foundation · VLSIVault Educational Platform · Remote</p>
-          <ul class="ti-ul">
-            <li>Serve as EPM across 6 concurrent RTL projects for a 9-member engineering team, directing ISA-compliant CPU microarchitecture development from single-cycle to 5-stage pipelined implementation (IF/ID/EX/MEM/WB) with EX/MEM &amp; MEM/WB forwarding, load-use stall + bubble injection, and BEQ/JAL control-hazard flushing — verified cycle-accurately in Verilator with GTKWave waveform annotation</li>
-            <li>Led 8 RTL design tracks spanning MMIO peripheral integration and protocol verification (UART, SPI, I2C); delivered synthesizable SystemVerilog for a programmable timer and W1C interrupt controller covering the full lifecycle: irq_to_cpu → EPC save → ISR vector → RTI return</li>
-            <li>Authored a Python assembler generating ROM-compatible hex for end-to-end firmware bring-up (assemble → simulate → HALT → signature check), reducing team manual rework by 20% and accelerating readiness for STA and synthesis sign-off</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="ti">
-        <div class="ti-dot"></div>
-        <div class="ti-card">
-          <div class="ti-top"><h3 class="ti-role">Research Assistant</h3><span class="ti-date">Jun 2025 – Aug 2025</span></div>
-          <p class="ti-co">Illinois Institute of Technology · VLSI &amp; SoC Laboratory (Prof. Erdal Oruklu) · Chicago, IL</p>
-          <ul class="ti-ul">
-            <li>Conducted comprehensive literature review and detailed technical documentation for an FPGA-based CNN accelerator project, analyzing and benchmarking deep learning architectures including AlexNet, VGG-16, and Ultra-LeNet for ultrasonic Non-Destructive Evaluation (NDE) applications</li>
-            <li>Assisted in full experimental setup, data acquisition, and signal preprocessing for ultrasonic flaw detection leveraging Wavelet Packet Decomposition (WPD), supporting end-to-end validation and accuracy evaluation of the Ultra-LeNet inference model on a Zynq FPGA platform</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="ti">
-        <div class="ti-dot"></div>
-        <div class="ti-card">
-          <div class="ti-top"><h3 class="ti-role">Verification Engineer</h3><span class="ti-date">Jul 2021 – Aug 2023</span></div>
-          <p class="ti-co">Aceic Design Technologies · Bangalore, India</p>
-          <ul class="ti-ul">
-            <li>Architected end-to-end UVM-based verification infrastructure for AMBA AHB-to-APB Bridge, AXI4 Interconnect, SPI Master/Slave, and UART blocks — developed 30+ reusable VIP components including protocol-aware monitors, TLM analysis ports, predictive scoreboards, and golden reference models; implemented 50+ functional covergroups and SVA assertions achieving 99.8% functional coverage and 100% assertion closure across 200+ test scenarios, reducing verification cycle time by 40%</li>
-            <li>Developed a comprehensive regression automation pipeline using GNU Makefile scripting to orchestrate RTL compilation, 500+ test case execution, UCDB merging, and HTML coverage report generation; identified and resolved 20+ RTL protocol bugs through SVA-based assertion failure triage, waveform forensics, and directed test injection in QuestaSim — achieving 100% protocol specification compliance</li>
-          </ul>
-        </div>
-      </div>
-
-    </div><!-- /.tl -->
-
-    <!-- RIGHT: tech stack + metrics -->
-    <div class="exp-side rv">
       <div class="exp-panel">
-        <div class="ep-hdr">// Core Tech Stack</div>
+        <div class="ep-hdr">Core Tech Stack</div>
         <div class="ep-tags">
           <span class="ep-tag hot">SystemVerilog</span>
           <span class="ep-tag hot">UVM 1.2</span>
@@ -796,31 +890,90 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
           <span class="ep-tag">OpenROAD</span>
         </div>
       </div>
-      <div class="exp-panel">
-        <div class="ep-hdr">// Key Achievements</div>
-        <div class="ep-metric-grid">
-          <div class="ep-m"><span class="ep-mv">40%</span><span class="ep-ml">Cycle Time Reduction</span></div>
-          <div class="ep-m"><span class="ep-mv">99.8%</span><span class="ep-ml">Functional Coverage</span></div>
-          <div class="ep-m"><span class="ep-mv">500+</span><span class="ep-ml">Test Cases</span></div>
-          <div class="ep-m"><span class="ep-mv">30+</span><span class="ep-ml">VIP Components</span></div>
-          <div class="ep-m"><span class="ep-mv">20+</span><span class="ep-ml">RTL Bugs Found</span></div>
-          <div class="ep-m"><span class="ep-mv">200+</span><span class="ep-ml">Test Scenarios</span></div>
-        </div>
-      </div>
-      <div class="exp-panel">
-        <div class="ep-hdr">// Protocols Verified</div>
-        <div class="ep-tags">
-          <span class="ep-tag hot">AMBA AHB</span>
-          <span class="ep-tag hot">AMBA APB</span>
-          <span class="ep-tag hot">AXI4 Interconnect</span>
-          <span class="ep-tag hot">SPI Master/Slave</span>
-          <span class="ep-tag hot">UART</span>
-          <span class="ep-tag hot">I²C</span>
-        </div>
-      </div>
-    </div><!-- /.exp-side -->
+    </div>
+  </div>
+</section>
 
-    </div><!-- /.exp-layout -->
+<!-- EXPERIENCE -->
+<section class="sec" id="experience">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">02 // Work History</div>
+      <h2 class="sec-title">Experience &amp; <span class="hl">Education</span></h2>
+    </div>
+    <div class="exp-wrap">
+      <div class="exp-summary rv">
+        <div class="es-big"><span class="es-n">4</span> Roles · <span class="es-n">2</span> Degrees</div>
+        <p class="es-p">A path across the full silicon stack — from AMBA protocol verification at Aceic, to FPGA/ML research at Illinois Tech, to RTL leadership on VLSIVault, and now low-latency HFT hardware design &amp; verification at Twinwing Labs.</p>
+        <div class="es-tags"><span class="es-tag">UVM</span><span class="es-tag">RTL Design</span><span class="es-tag">Physical Design</span><span class="es-tag">FPGA</span><span class="es-tag">STA</span></div>
+        <div class="es-hint">▾ scroll all roles</div>
+      </div>
+      <div class="exp-scroll">
+        <div class="tl">
+
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Verification Engineer</h3><span class="ti-date">Jul 2021 – Aug 2023</span></div>
+          <p class="ti-co">Aceic Design Technologies · Bangalore, India</p>
+          <ul class="ti-ul">
+            <li>Architected end-to-end UVM verification for AMBA AHB-to-APB Bridge, AXI4 Interconnect, SPI, and UART — 30+ reusable VIP components and 50+ covergroups/SVA, achieving 99.8% coverage and 100% assertion closure across 200+ scenarios (−40% cycle time)</li>
+            <li>Built a GNU Make regression pipeline running 500+ tests with UCDB merge and HTML coverage; triaged 20+ RTL protocol bugs via SVA and waveform forensics in QuestaSim to 100% spec compliance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Research Assistant</h3><span class="ti-date">Jun 2025 – Aug 2025</span></div>
+          <p class="ti-co">Illinois Institute of Technology · VLSI &amp; SoC Laboratory · Chicago, IL</p>
+          <ul class="ti-ul">
+            <li>Literature review and technical documentation for an FPGA-based CNN accelerator, benchmarking AlexNet, VGG-16, and Ultra-LeNet for ultrasonic Non-Destructive Evaluation (NDE)</li>
+            <li>Ran experimental setup, data acquisition, and Wavelet-Packet signal preprocessing, validating the Ultra-LeNet inference model on a Zynq FPGA platform</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Electronics Design Engineer</h3><span class="ti-date">Aug 2025 – Jun 2026</span></div>
+          <p class="ti-co">Community Dreams Foundation · VLSIVault · Remote</p>
+          <ul class="ti-ul">
+            <li>EPM across 6 concurrent RTL projects for a 9-member team — directed CPU microarchitecture from single-cycle to 5-stage pipeline (forwarding, load-use stall, hazard flushing), verified cycle-accurately in Verilator + GTKWave</li>
+            <li>Led 8 RTL tracks across MMIO integration and UART/SPI/I2C verification; authored a Python assembler for firmware bring-up that cut team rework by 20%</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ti">
+        <div class="ti-dot"></div>
+        <div class="ti-card">
+          <div class="ti-top"><h3 class="ti-role">Hardware Design &amp; Verification Engineer</h3><span class="ti-date">Jun 2026 – Present</span></div>
+          <p class="ti-co">Twinwing Labs Inc · San Francisco, CA</p>
+          <ul class="ti-ul">
+            <li>Develop reusable UVM testbenches in SystemVerilog for low-latency ASIC datapath, protocol parsers, and order-execution pipelines for HFT — directed and constrained-random tests plus assertions, driving coverage closure with AI tools including Claude Code</li>
+            <li>Create custom IP blocks in Xilinx Vivado, verifying functional correctness and running STA to close timing across clock domains ahead of synthesis and place-and-route</li>
+          </ul>
+        </div>
+      </div>
+
+        </div><!-- /.tl -->
+      </div><!-- /.exp-scroll -->
+    </div><!-- /.exp-wrap -->
+
+    <div class="exp-timeline rv">
+      <div class="etl">
+        <div class="etl-fill"></div>
+        <div class="etl-node edu"><span class="etl-dot"></span><span class="etl-kind">Degree</span><span class="etl-date">2018–21</span><span class="etl-role">B.Tech · Electrical Engineering</span><span class="etl-co">Shri Vaishnav Inst. of Tech &amp; Science</span></div>
+        <div class="etl-node"><span class="etl-dot"></span><span class="etl-kind">Role</span><span class="etl-date">2021–23</span><span class="etl-role">Verification Engineer</span><span class="etl-co">Aceic Design Technologies</span></div>
+        <div class="etl-node edu"><span class="etl-dot"></span><span class="etl-kind">Degree</span><span class="etl-date">2023–25</span><span class="etl-role">M.A.Sc · VLSI &amp; Microelectronics</span><span class="etl-co">Illinois Institute of Technology</span></div>
+        <div class="etl-node"><span class="etl-dot"></span><span class="etl-kind">Role</span><span class="etl-date">2025</span><span class="etl-role">Research Assistant</span><span class="etl-co">Illinois Tech · VLSI/SoC Lab</span></div>
+        <div class="etl-node"><span class="etl-dot"></span><span class="etl-kind">Role</span><span class="etl-date">2025–26</span><span class="etl-role">Electronics Design Engineer</span><span class="etl-co">Community Dreams · VLSIVault</span></div>
+        <div class="etl-node current"><span class="etl-dot"></span><span class="etl-kind">Role</span><span class="etl-date">2026–Now</span><span class="etl-role">HW Design &amp; Verification Engr</span><span class="etl-co">Twinwing Labs · San Francisco</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -830,11 +983,19 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     <div class="sec-hd">
       <div class="sec-tag">03 // Portfolio</div>
       <h2 class="sec-title">Featured <span class="hl">Projects</span></h2>
-      <p class="pcat-jump">16 projects · jump to: <a href="#cat-pd">Physical Design</a><span class="sep">·</span><a href="#cat-tcad">Device / TCAD</a><span class="sep">·</span><a href="#cat-verif">Verification</a><span class="sep">·</span><a href="#cat-fpga">FPGA / ML</a></p>
     </div>
-    <!-- ── Physical Design, ASIC & Cell Characterization ── -->
-    <div class="pcat" id="cat-pd"><span class="pcat-n">A //</span><span class="pcat-t">Physical Design, ASIC &amp; Cell Characterization</span></div>
-    <div class="pg">
+    <div class="proj-layout">
+      <div class="proj-nav">
+        <div class="pn-title">16 Projects<span>· jump to</span></div>
+        <button class="pn-tab active" data-cat="pd"><span class="pn-label">Physical Design</span><span class="pn-count">5</span></button>
+        <button class="pn-tab" data-cat="tcad"><span class="pn-label">Device / TCAD</span><span class="pn-count">3</span></button>
+        <button class="pn-tab" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
+        <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA / ML</span><span class="pn-count">4</span></button>
+      </div>
+      <div class="proj-content">
+        <div class="proj-panel active" data-cat="pd" id="cat-pd">
+          <h3 class="pp-title">Physical Design, ASIC &amp; Cell Characterization</h3>
+          <div class="pg">
 
       <div class="pc feat">
         <div class="pc-badge">★ Featured · Tapeout</div>
@@ -902,11 +1063,11 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <a href="https://drive.google.com/file/d/1OtWIEFC1b-5sm0gISjOUpCRjY72KOgln/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
 
-    </div>
-
-    <!-- ── Device / TCAD Simulation ── -->
-    <div class="pcat" id="cat-tcad"><span class="pcat-n">B //</span><span class="pcat-t">Device / TCAD Simulation</span></div>
-    <div class="pg">
+          </div>
+        </div>
+        <div class="proj-panel" data-cat="tcad" id="cat-tcad">
+          <h3 class="pp-title">Device / TCAD Simulation</h3>
+          <div class="pg">
 
       <div class="pc wide">
         <div class="pc-badge">TCAD · DRAM · Micron-Style</div>
@@ -946,11 +1107,11 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <a href="https://drive.google.com/file/d/1miagZjMNyxn_FZHdOUsk4NwuywWy-fr0/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
 
-    </div>
-
-    <!-- ── RTL Design & Functional Verification ── -->
-    <div class="pcat" id="cat-verif"><span class="pcat-n">C //</span><span class="pcat-t">RTL Design &amp; Functional Verification</span></div>
-    <div class="pg">
+          </div>
+        </div>
+        <div class="proj-panel" data-cat="verif" id="cat-verif">
+          <h3 class="pp-title">RTL Design &amp; Functional Verification</h3>
+          <div class="pg">
 
       <div class="pc feat">
         <div class="pc-badge">★ Featured · Verification</div>
@@ -1005,11 +1166,11 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <a href="https://drive.google.com/file/d/1HbVpOPBz9ZbC2zSqk3pbNxQtPP--yHIg/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
 
-    </div>
-
-    <!-- ── FPGA, Accelerators & ML ── -->
-    <div class="pcat" id="cat-fpga"><span class="pcat-n">D //</span><span class="pcat-t">FPGA, Accelerators &amp; ML</span></div>
-    <div class="pg">
+          </div>
+        </div>
+        <div class="proj-panel" data-cat="fpga" id="cat-fpga">
+          <h3 class="pp-title">FPGA, Accelerators &amp; ML</h3>
+          <div class="pg">
 
       <div class="pc feat">
         <div class="pc-badge">★ Featured · FPGA · HFT</div>
@@ -1065,23 +1226,10 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <a href="https://drive.google.com/file/d/1A-v2bTlDViljRoQQtxjMCkVAVHjEJTs8/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
 
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- ROADMAP -->
-<section class="sec" id="roadmap">
-  <div class="sec-inner">
-    <div class="sec-hd">
-      <div class="sec-tag rv">04 // Career Pathway</div>
-      <h2 class="sec-title rv">VLSI Design &amp; Verification <span class="hl">Roadmap</span></h2>
-    </div>
-    <div class="rm-legend rv">
-      <span><i class="rm-dot-sm act"></i> category has current portfolio work</span>
-      <span><i class="rm-dot-sm fut"></i> planned / future</span>
-    </div>
-    <!-- Cards populated by JS -->
-    <div class="rm-grid" id="rmGrid"></div>
   </div>
 </section>
 
@@ -1108,55 +1256,28 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
 </section>
 
 <!-- EDUCATION + CERTIFICATIONS (side by side) -->
-<section class="sec" id="education">
+<section class="sec" id="certs">
   <div class="sec-inner" style="margin:0 auto">
-    <div class="edu-cert-layout">
-
-      <!-- LEFT: Education -->
-      <div class="edu-col">
-        <div class="sec-hd">
-          <div class="sec-tag">06 // Academic</div>
-          <h2 class="sec-title">Education</h2>
-        </div>
-        <div class="eg">
-          <div class="ec rv">
-            <h3 class="ec-deg">Master of Applied Science</h3>
-            <p class="ec-sch">Illinois Institute of Technology · Chicago, Illinois</p>
-            <div class="ec-meta"><span>VLSI &amp; Microelectronics</span><span class="gpa">GPA: 3.60 / 4.0</span><span>Aug 2023 – Jun 2025</span></div>
-            <p class="ec-crs"><strong>Coursework:</strong> Introduction &amp; Advanced VLSI Design, High Performance VLSI Design, Computer Architecture, Hardware Acceleration for ML</p>
-          </div>
-          <div class="ec rv">
-            <h3 class="ec-deg">Bachelor of Technology</h3>
-            <p class="ec-sch">Shri Vaishnav Institute of Technology &amp; Science · Indore, India</p>
-            <div class="ec-meta"><span>Electrical Engineering</span><span class="gpa">GPA: 3.44 / 4.0</span><span>Jul 2018 – Aug 2021</span></div>
-            <p class="ec-crs"><strong>Coursework:</strong> Circuit Theory, Analog &amp; Digital Electronics, Microprocessor &amp; Microcontroller, Artificial Neural Network, Data Structure &amp; Algorithm</p>
-          </div>
-        </div>
+    <div class="cert-col">
+      <div class="sec-hd">
+        <div class="sec-tag">06 // Credentials</div>
+        <h2 class="sec-title"><span class="hl">Certifications</span></h2>
       </div>
-
-      <!-- RIGHT: Certifications -->
-      <div class="cert-col">
-        <div class="sec-hd">
-          <div class="sec-tag">07 // Credentials</div>
-          <h2 class="sec-title">Certifications</h2>
-        </div>
-        <div class="cg">
-          <div class="cc rv"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
-          <div class="cc rv"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
-          <div class="cc rv"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
-          <div class="cc rv"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
-        </div>
+      <div class="cg">
+        <div class="cc rv"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
+        <div class="cc rv"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
+        <div class="cc rv"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
+        <div class="cc rv"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
       </div>
-
     </div>
   </div>
 </section>
 
 </div><!-- /main -->
 
-<footer>
+<footer id="contact">
   <div class="ft-name">ABHISHEK VARMA</div>
-  <div class="ft-sub">// VLSI · Verification · ASIC · ML Acceleration · FPGA · Cell Characterization</div>
+  <div class="ft-sub">VLSI · Verification · ASIC · ML Acceleration · FPGA · Cell Characterization</div>
   <div class="ft-socials">
     <a href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg></a>
     <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
@@ -1500,6 +1621,7 @@ function renderNodes(now){
 }
 
 function frame(now){
+  if(document.hidden){ requestAnimationFrame(frame); return; }   // skip work while backgrounded
   const dt = Math.min((now - lastTime) / 1000, 0.05);
   lastTime = now;
 
@@ -1537,7 +1659,7 @@ import { OutputPass }      from 'three/addons/postprocessing/OutputPass.js';
 
 const canvas   = document.getElementById('threeCanvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
@@ -1553,11 +1675,12 @@ cam.lookAt(0, 0, 0);
 
 window.addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
   cam.aspect = innerWidth / innerHeight;
   cam.updateProjectionMatrix();
   composer.setSize(innerWidth, innerHeight);
-  bloom.resolution.set(innerWidth, innerHeight);
+  if(bloom) bloom.resolution.set(innerWidth, innerHeight);
+  window.__scrollDirty = true;
 });
 
 /* ── PCB TEXTURE GENERATORS ── */
@@ -1830,7 +1953,7 @@ const dieR=0.69,padR=dieR+0.06,wireBaseY=LT/2+0.11,wireCol=new THREE.Color(0xe0b
 bondWires.forEach(w=>{w.visible=false;scene.add(w);});
 
 /* ── CIRCUIT NODE NETWORK ── */
-const NODE_N = 42;
+const NODE_N = 32;
 const nodePts = [];
 const rng = (a,b) => a + Math.random()*(b-a);
 for(let i = 0; i < NODE_N; i++){
@@ -1871,7 +1994,7 @@ nodePts.forEach(p => {
 });
 
 // Data packets (Points system)
-const PKT_N = 82;
+const PKT_N = 56;
 const pktPos = new Float32Array(PKT_N * 3);
 const pktGeo = new THREE.BufferGeometry();
 pktGeo.setAttribute('position', new THREE.BufferAttribute(pktPos, 3));
@@ -1929,7 +2052,7 @@ function spawnSonar(){
 }
 
 /* ── PARTICLES ── */
-const ptCnt = 380;
+const ptCnt = 260;
 const ptPos = new Float32Array(ptCnt * 3);
 for(let i = 0; i < ptCnt; i++){
   ptPos[i*3]   = (Math.random()-.5)*18;
@@ -1941,7 +2064,7 @@ ptGeo.setAttribute('position', new THREE.BufferAttribute(ptPos, 3));
 scene.add(new THREE.Points(ptGeo, new THREE.PointsMaterial({color:0x5a76a0,size:0.022,transparent:true,opacity:0.5,sizeAttenuation:true})));
 
 /* ── DEEP STARFIELD (depth) ── */
-const starCnt = 560;
+const starCnt = 380;
 const starPos = new Float32Array(starCnt * 3);
 for(let i = 0; i < starCnt; i++){
   starPos[i*3]   = (Math.random()-.5)*46;
@@ -1997,7 +2120,7 @@ const nocSegs = [
   [0,-0.62, 0,0.62],   // vertical bus
 ];
 BLOCK_DEF.forEach(([bx,bz])=>{ nocSegs.push([bx,bz, bx,0]); nocSegs.push([bx,bz, 0,bz]); });
-const NOC_N = 96;
+const NOC_N = 68;
 const nocPos = new Float32Array(NOC_N*3);
 const nocGeo = new THREE.BufferGeometry();
 nocGeo.setAttribute('position', new THREE.BufferAttribute(nocPos,3));
@@ -2014,11 +2137,38 @@ const arcMesh = new THREE.Mesh(arcGeo, arcMat);
 chipBlocksGroup.add(arcMesh);
 let arcTimer = 1.5, arcLife = 0;
 
+/* ── SIGN-OFF RETICLE + ASCENDING DATA — ignite when the chip powers on, persist to end ── */
+const signoffGroup = new THREE.Group();
+signoffGroup.position.y = 0.32;
+scene.add(signoffGroup);
+const retMatA = new THREE.MeshBasicMaterial({color:0x00d474,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+const retMatB = new THREE.MeshBasicMaterial({color:0x3a8fd4,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+const retA = new THREE.Mesh(new THREE.TorusGeometry(1.55,0.006,6,120), retMatA); retA.rotation.x=-Math.PI/2;
+const retB = new THREE.Mesh(new THREE.TorusGeometry(1.82,0.004,6,120), retMatB); retB.rotation.x=-Math.PI/2;
+const retTicks = new THREE.Group();
+for(let i=0;i<48;i++){
+  const a=i/48*Math.PI*2;
+  const tk=new THREE.Mesh(new THREE.BoxGeometry(0.018,0.002,i%4===0?0.1:0.05), retMatA);
+  tk.position.set(Math.cos(a)*1.68,0,Math.sin(a)*1.68); tk.rotation.y=-a;
+  retTicks.add(tk);
+}
+signoffGroup.add(retA,retB,retTicks);
+const ascN=90, ascPos=new Float32Array(ascN*3), ascSpd=new Float32Array(ascN);
+for(let i=0;i<ascN;i++){
+  const a=Math.random()*Math.PI*2, r=0.35+Math.random()*1.5;
+  ascPos[i*3]=Math.cos(a)*r; ascPos[i*3+1]=Math.random()*2.6-0.3; ascPos[i*3+2]=Math.sin(a)*r;
+  ascSpd[i]=0.35+Math.random()*0.85;
+}
+const ascGeo=new THREE.BufferGeometry();
+ascGeo.setAttribute('position',new THREE.BufferAttribute(ascPos,3));
+const ascMat=new THREE.PointsMaterial({color:0x00d474,size:0.028,transparent:true,opacity:0,sizeAttenuation:true,blending:THREE.AdditiveBlending,depthWrite:false});
+const ascPoints=new THREE.Points(ascGeo,ascMat); scene.add(ascPoints);
+
 /* ── LIGHTS ── */
 scene.add(new THREE.AmbientLight(0xb4c2d4, 1.25));
 const dirL = new THREE.DirectionalLight(0xdce6f4, 2.1);
 dirL.position.set(5,9,5);dirL.castShadow=true;
-dirL.shadow.mapSize.set(2048,2048);
+dirL.shadow.mapSize.set(1024,1024);
 dirL.shadow.camera.near=0.5;dirL.shadow.camera.far=30;
 dirL.shadow.camera.left=dirL.shadow.camera.bottom=-6;
 dirL.shadow.camera.right=dirL.shadow.camera.top=6;
@@ -2029,10 +2179,14 @@ const dieL  = new THREE.PointLight(0xffd080, 0.0, 4);dieL.position.set(0,0.6,0);
 const netL  = new THREE.PointLight(0x00d474, 0.3, 8);netL.position.set(3,1,3);scene.add(netL);
 
 /* ── POST PROCESSING ── */
+const lowPower = ((navigator.hardwareConcurrency || 8) <= 4) || innerWidth < 760;
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, cam));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.22, 0.45, 0.92);
-composer.addPass(bloom);
+let bloom = null;
+if(!lowPower){                                 // skip the expensive bloom pass on low-power devices
+  bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.22, 0.45, 0.92);
+  composer.addPass(bloom);
+}
 composer.addPass(new OutputPass());
 
 /* ── SCROLL ANIMATION ── */
@@ -2157,8 +2311,7 @@ function updateChip(sp){
   dieL.intensity=glowP*1.6+powerP*2.0;
 
   // Bloom (restrained; high threshold so the light backdrop never blooms)
-  bloom.strength=0.22+glowP*0.18+powerP*0.14;
-  bloom.threshold=0.92;
+  if(bloom){ bloom.strength=0.22+glowP*0.18+powerP*0.14; bloom.threshold=0.92; }
   blueL.intensity=glowP*1.3+powerP*1.6;
 
   // Chip sub-blocks — track die top surface
@@ -2183,34 +2336,53 @@ function updateChip(sp){
   waferRing.material.opacity = wOp * 0.8;
   waferFlat.material.opacity = wOp * 0.8;
   wafer.material.emissiveIntensity = 0.12 + wOp*0.1;
-
-  // HUD — percentage + segmented bar + ASIC flow stage + live metrics
-  const pct = Math.round(sp*100);
-  hudFill.style.width = pct+'%';
-  hudPctEl.textContent = pct+'%';
-  const filledSegs = Math.round(pct/100*SEG_N);
-  segs.forEach((s,i)=>s.classList.toggle('on', i<filledSegs));
-
-  setHudStage(sp);
-  updateHudMetrics(sp);
-
-  if(powerP>0.05) hudEl.classList.add('powered');
-  else hudEl.classList.remove('powered');
 }
 
 if(window.gsap && window.ScrollTrigger){
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.create({trigger:'body',start:'top top',end:'bottom bottom',onUpdate(s){updateChip(s.progress);}});
 }
-setTimeout(()=>hudEl.classList.add('show'),3400);
+/* ── ASIC flow panel (pinned in the hero rail) — progress linked to page scroll ── */
+let flowT = 0;
+function tickFlow(){
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const target = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  flowT += (target - flowT) * 0.12;                    // smooth follow of scroll position
+  const pct = Math.round(flowT*100);
+  hudFill.style.width = pct+'%';
+  hudPctEl.textContent = pct+'%';
+  const filledSegs = Math.round(flowT*SEG_N);
+  segs.forEach((s,i)=>s.classList.toggle('on', i<filledSegs));
+  setHudStage(flowT);
+  updateHudMetrics(flowT);
+  hudEl.classList.toggle('powered', flowT > 0.75);
+  requestAnimationFrame(tickFlow);
+}
+requestAnimationFrame(tickFlow);
 
 /* ── RENDER LOOP ── */
 const clock = new THREE.Clock();
+/* Animation pace: slow while the reader is still (chip mostly hidden behind content),
+   faster during scroll transitions when the background is visible between sections. */
+let spd = 0, scrollBoost = 0, lastSY = window.scrollY, idleR = 0;
+window.__scrollDirty = true;
+window.addEventListener('scroll', () => {
+  const dy = Math.abs(window.scrollY - lastSY); lastSY = window.scrollY;
+  scrollBoost = Math.min(2.4, scrollBoost + dy*0.02);
+  window.__scrollDirty = true;
+}, {passive:true});
 function animate(){
   requestAnimationFrame(animate);
+  if(document.hidden) return;                // don't render while the tab is in the background
+  scrollBoost *= 0.93;
+  window.__hb = (window.__hb || 0) * 0.95;   // heading-arrival burst decays after each section
+  const horizPin = window.ScrollTrigger && ScrollTrigger.getAll().some(s => s.vars.id === 'horiz' && s.isActive);
+  const drive = Math.max(scrollBoost, window.__hb);
+  // Run while transitioning (scrolling / a heading just arrived); pause when settled on content or in a horizontal section.
+  spd = horizPin ? 0 : (drive > 0.06 ? Math.min(3, 0.7 + drive) : 0);
   const t  = clock.getElapsedTime();
   animTime = t;
-  const dt = 0.016;
+  const dt = 0.016 * spd;
 
   // Camera choreography — dolly in + orbit as the page scrolls, with idle breathe
   const eIn = scrollP*scrollP*(3-2*scrollP);           // smoothstep of scroll
@@ -2223,7 +2395,7 @@ function animate(){
   cam.lookAt(0, -0.5 + 0.65*eIn, 0);
 
   // Wafer slow spin
-  wafer.rotation.y += 0.0016;
+  wafer.rotation.y += 0.0016*spd;
 
   // Continuous power pulsing (keeps glowing even when the reader stops scrolling)
   if(curPowerP > 0.05){
@@ -2240,7 +2412,7 @@ function animate(){
     nocMat.opacity = clamp((curAssP-0.55)/0.2,0,1) * (0.4 + curPowerP*0.5);
     for(let i=0;i<nocState.length;i++){
       const s=nocState[i];
-      s.t += s.sp*0.016;
+      s.t += s.sp*dt;
       if(s.t>=1){ s.t=0; s.seg=(Math.random()*nocSegs.length)|0; }
       const g=nocSegs[s.seg];
       nocPos[i*3]=g[0]+(g[2]-g[0])*s.t; nocPos[i*3+1]=0.02; nocPos[i*3+2]=g[1]+(g[3]-g[1])*s.t;
@@ -2250,7 +2422,7 @@ function animate(){
 
   // Energy arcs — occasional bright signal sweeps between random blocks
   if(curAssP > 0.7){
-    arcTimer -= 0.016;
+    arcTimer -= dt;
     if(arcTimer<=0 && arcLife<=0){
       arcTimer = 0.8 + Math.random()*1.8; arcLife = 0.55;
       const a=BLOCK_DEF[(Math.random()*BLOCK_DEF.length)|0], b=BLOCK_DEF[(Math.random()*BLOCK_DEF.length)|0];
@@ -2260,21 +2432,37 @@ function animate(){
       arcMesh.geometry.dispose();
       arcMesh.geometry = new THREE.TubeGeometry(arcCurve,20,0.006,5,false);
     }
-    if(arcLife>0){ arcLife-=0.016; arcMat.opacity = Math.max(0, Math.sin((0.55-arcLife)/0.55*Math.PI))*0.7*(0.5+curPowerP*0.5); }
+    if(arcLife>0){ arcLife-=dt; arcMat.opacity = Math.max(0, Math.sin((0.55-arcLife)/0.55*Math.PI))*0.7*(0.5+curPowerP*0.5); }
     else arcMat.opacity=0;
   } else if(arcMat.opacity>0){ arcMat.opacity=0; }
 
+  // Sign-off reticle + ascending data — ignite with the glow, stay lit to the end
+  const sofOp = Math.min(1, curPowerP*1.25);
+  retMatA.opacity = sofOp*0.6;
+  retMatB.opacity = sofOp*0.42;
+  ascMat.opacity  = sofOp*0.75;
+  if(sofOp > 0.02){
+    signoffGroup.rotation.y += 0.0055*spd;
+    retTicks.rotation.y     -= 0.0032*spd;
+    const ap = ascGeo.attributes.position.array;
+    for(let i=0;i<ascN;i++){
+      ap[i*3+1] += ascSpd[i]*dt;
+      if(ap[i*3+1] > 2.4) ap[i*3+1] = -0.3;
+    }
+    ascGeo.attributes.position.needsUpdate = true;
+  }
+
   // Orbital rings
-  ring1.rotation.z += 0.004;
-  ring2.rotation.z -= 0.003;
-  ring3.rotation.y += 0.002;
+  ring1.rotation.z += 0.004*spd;
+  ring2.rotation.z -= 0.003*spd;
+  ring3.rotation.y += 0.002*spd;
 
   // Sonar rings
-  sonarTimer -= 0.016;
+  sonarTimer -= dt;
   if(sonarTimer <= 0){ spawnSonar(); sonarTimer = 2.5 + Math.random()*1.8; }
   for(let i = sonarRings.length-1; i >= 0; i--){
     const sr = sonarRings[i];
-    sr.t += 0.016 * 0.28;
+    sr.t += dt * 0.28;
     const s = 1 + sr.t * 5.5;
     sr.mesh.scale.set(s,s,s);
     sr.mat.opacity = Math.max(0, 0.6 - sr.t*0.65);
@@ -2283,41 +2471,49 @@ function animate(){
 
   // Node pulse
   nodeMeshes.forEach((n, i) => {
-    n.pulseT += 0.016 * (0.8 + i * 0.04);
+    n.pulseT += dt * (0.8 + i * 0.04);
     const pulse = 0.5 + 0.5 * Math.sin(n.pulseT);
     const c = Math.floor(pulse * 0x14 + 0x0a);
     n.mat.opacity = 0.5 + pulse * 0.5;
   });
 
-  // Data packets — green
-  pktState.forEach((p, i) => {
-    p.t += p.speed * 0.016;
+  // Data packets — green (allocation-free lerp)
+  for(let i=0;i<pktState.length;i++){
+    const p=pktState[i];
+    p.t += p.speed * dt;
     if(p.t >= 1){ p.t=0; p.ei=Math.floor(Math.random()*nodeEdges.length); }
-    const [a,b] = nodeEdges[p.ei];
-    const pos = new THREE.Vector3().lerpVectors(nodePts[a], nodePts[b], p.t);
-    pktPos[i*3]=pos.x; pktPos[i*3+1]=pos.y; pktPos[i*3+2]=pos.z;
-  });
+    const A=nodePts[nodeEdges[p.ei][0]], B=nodePts[nodeEdges[p.ei][1]], t=p.t;
+    pktPos[i*3]=A.x+(B.x-A.x)*t; pktPos[i*3+1]=A.y+(B.y-A.y)*t; pktPos[i*3+2]=A.z+(B.z-A.z)*t;
+  }
   pktGeo.attributes.position.needsUpdate = true;
 
-  // Data packets — blue
-  pkt2State.forEach((p, i) => {
-    p.t += p.speed * 0.016;
+  // Data packets — blue (allocation-free lerp)
+  for(let i=0;i<pkt2State.length;i++){
+    const p=pkt2State[i];
+    p.t += p.speed * dt;
     if(p.t >= 1){ p.t=0; p.ei=Math.floor(Math.random()*nodeEdges.length); }
-    const [a,b] = nodeEdges[p.ei];
-    const pos = new THREE.Vector3().lerpVectors(nodePts[a], nodePts[b], p.t);
-    pkt2Pos[i*3]=pos.x; pkt2Pos[i*3+1]=pos.y; pkt2Pos[i*3+2]=pos.z;
-  });
+    const A=nodePts[nodeEdges[p.ei][0]], B=nodePts[nodeEdges[p.ei][1]], t=p.t;
+    pkt2Pos[i*3]=A.x+(B.x-A.x)*t; pkt2Pos[i*3+1]=A.y+(B.y-A.y)*t; pkt2Pos[i*3+2]=A.z+(B.z-A.z)*t;
+  }
   pkt2Geo.attributes.position.needsUpdate = true;
 
   // Ambient particles drift
   const pp = ptGeo.attributes.position.array;
   for(let i = 0; i < ptCnt; i++){
-    pp[i*3+1] += 0.0006;
+    pp[i*3+1] += 0.0006*spd;
     if(pp[i*3+1] > 6) pp[i*3+1] = -6;
   }
   ptGeo.attributes.position.needsUpdate = true;
 
-  composer.render();
+  // Only spend GPU when something is actually moving; freeze the last frame when the reader is settled.
+  if(spd > 0.001 || window.__scrollDirty){
+    composer.render();
+    window.__scrollDirty = false;
+    idleR = 0;
+  } else if(idleR < 3){
+    composer.render();
+    idleR++;
+  }
 }
 animate();
 </script>
@@ -2327,6 +2523,7 @@ animate();
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('loader').classList.add('out');
+    document.body.classList.remove('loading');
     runCounters(); runTypewriter();
   }, 3200);
 });
@@ -2377,55 +2574,109 @@ function runCounters(){
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.rv,.sec-tag,.sec-title,.ti,.pc,.sk,.ec,.cc').forEach(el=>io.observe(el));
 
-/* ── ROADMAP ── */
-(function(){
-  const RM = [
-    {id:'rtl-design',   label:'RTL Design',             phase:'Foundation',    active:true,  summary:'Verilog · SV · FSMs · pipelines · datapath microarchitecture'},
-    {id:'func-verif',   label:'Functional Verification', phase:'Quality',       active:true,  summary:'UVM 1.2 · SVA · constrained-random · coverage closure'},
-    {id:'phys-design',  label:'Physical Design',         phase:'Implementation',active:true,  summary:'Synthesis → P&R → STA · DRC/LVS · RTL-to-GDSII tapeout'},
-    {id:'fpga-proto',   label:'FPGA Prototyping',        phase:'Rapid Proto',   active:true,  summary:'Vivado · HLS · PYNQ board · resource-constrained deployment'},
-    {id:'ml-accel',     label:'ML Accelerator Arch',     phase:'Specialization',active:true,  summary:'Systolic arrays · MAC units · weight-stationary dataflow · DNN'},
-    {id:'analog-spice', label:'Analog / SPICE',          phase:'Mixed-Signal',  active:true,  summary:'SRAM bit-cell · transistor sizing · SPICE characterization'},
-    {id:'ai-eda',       label:'AI-Assisted EDA',         phase:'Emerging',      active:true,  summary:'LLM-generated RTL & UVM testbenches · Copilot-driven flows'},
-    {id:'soc-integ',    label:'SoC Integration',         phase:'Next Step',     active:false, summary:'AXI/AHB protocols · IP integration · chip-level sign-off'},
-    {id:'post-si',      label:'Post-Silicon Validation', phase:'Future',        active:false, summary:'JTAG · BIST · ATE patterns · scan chain insertion'},
-  ];
-  const PJ = [
-    {id:'p-sys',  label:'8×8 Systolic Array NPU'},
-    {id:'p-rv',   label:'RISC-V UVM Testbench'},
-    {id:'p-cnn',  label:'ResNet CNN on PYNQ-Z2'},
-    {id:'p-cpu',  label:'32-bit Pipelined CPU'},
-    {id:'p-sram', label:'6T SRAM Cell'},
-    {id:'p-dram', label:'Dual-Port RAM Verification'},
-  ];
-  const LK = [
-    ['rtl-design','p-sys'],['rtl-design','p-cpu'],
-    ['func-verif','p-rv'],['func-verif','p-dram'],
-    ['phys-design','p-sys'],
-    ['fpga-proto','p-cnn'],
-    ['ml-accel','p-sys'],['ml-accel','p-cnn'],
-    ['analog-spice','p-sram'],
-    ['ai-eda','p-rv'],
-  ];
+/* Run the background animation for a beat each time a main section heading arrives */
+const hio=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting) window.__hb=2.2;}),{threshold:.5});
+document.querySelectorAll('.sec-title,.h-name').forEach(el=>hio.observe(el));
 
-  /* --- render cards with project counts --- */
-  const grid = document.getElementById('rmGrid');
-  RM.forEach((node,i)=>{
-    const cnt = LK.filter(([c])=>c===node.id).length;
-    const el = document.createElement('div');
-    el.className = 'rm-card '+(node.active?'active':'future');
-    el.dataset.rmid = node.id;
-    el.style.cssText = `opacity:0;transform:translateY(10px);transition-delay:${i*0.045}s`;
-    el.innerHTML = `<div class="rm-ind"></div><div class="rm-phase">${node.phase}</div><div class="rm-label">${node.label}</div><div class="rm-summary">${node.summary}</div>${cnt?`<div class="rm-cnt">${cnt} project${cnt>1?'s':''}</div>`:''}`;
-    grid.appendChild(el);
-    io.observe(el);
+
+/* Projects: each category is a pinned horizontal-scroll; the left nav syncs to the active one.
+   Scroll down → a category pins and its cards glide sideways; between categories the page scrolls
+   vertically, then the next category begins its horizontal run. */
+window.addEventListener('load', () => { setTimeout(setupProjScroll, 350); });
+function setupProjScroll(){
+  const tabs = document.querySelectorAll('.pn-tab');
+  const panels = [...document.querySelectorAll('.proj-panel')];
+  if(!tabs.length || !panels.length) return;
+  const setActive = cat => tabs.forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+
+  // click a category → jump to its section
+  tabs.forEach(t => t.addEventListener('click', () => {
+    const p = panels.find(p => p.dataset.cat === t.dataset.cat);
+    if(p) p.scrollIntoView({behavior:'smooth', block:'start'});
+  }));
+
+  const desktop = window.innerWidth >= 900 && !matchMedia('(prefers-reduced-motion: reduce)').matches && window.gsap && window.ScrollTrigger;
+  if(!desktop){ setActive('pd'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  panels.forEach(panel => {
+    const pg = panel.querySelector('.pg');
+    const wrap = document.createElement('div');           // clipping viewport for the card row
+    wrap.className = 'pp-scroll';
+    pg.parentNode.insertBefore(wrap, pg);
+    wrap.appendChild(pg);
+
+    const cat = panel.dataset.cat;
+    const getDist = () => Math.max(0, pg.scrollWidth - wrap.clientWidth);
+    const DWELL = 0.12;
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        id: 'horiz',
+        trigger: panel,
+        start: 'top 150px',
+        end: () => '+=' + (getDist() + 700),
+        pin: true,
+        scrub: 0.5,
+        invalidateOnRefresh: true,
+        onToggle: self => { if(self.isActive) setActive(cat); },
+        onEnter: () => setActive(cat),
+        onEnterBack: () => setActive(cat)
+      }
+    });
+    tl.to({}, {duration: DWELL});                                        // hold at the start
+    tl.to(pg, {x: () => -getDist(), ease:'none', duration: 1 - 2*DWELL}); // glide the cards
+    tl.to({}, {duration: DWELL});                                        // hold at the end
   });
-})();
+  setActive('pd');
+  ScrollTrigger.refresh();
+}
 
 /* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});
 });
+
+/* ── Experience: pin the section and drive the cards horizontally on vertical scroll,
+      lighting the bottom timeline with the loader's multicolored bar as it advances ── */
+window.addEventListener('load', () => { setTimeout(setupExpScroll, 300); });
+function setupExpScroll(){
+  if(window.innerWidth < 900) return;                                   // desktop only
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!(window.gsap && window.ScrollTrigger)) return;
+  gsap.registerPlugin(ScrollTrigger);
+  const sec = document.getElementById('experience');
+  const track = sec.querySelector('.exp-scroll .tl');
+  const scroller = sec.querySelector('.exp-scroll');
+  const fill = sec.querySelector('.etl-fill');
+  const nodes = sec.querySelectorAll('.etl-node');
+  if(!track || !scroller) return;
+  scroller.style.overflow = 'hidden';                                   // transform-driven, not native scroll
+  const getDist = () => Math.max(0, track.scrollWidth - scroller.clientWidth);
+  const DWELL = 0.14;   // fraction of the pin held still at each end
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      id: 'horiz',
+      trigger: sec,
+      start: 'top top',
+      end: () => '+=' + (getDist() + 800),   // extra scroll budget for the two dwells
+      pin: true,
+      scrub: 0.5,
+      invalidateOnRefresh: true,
+      onUpdate: self => {
+        const p = self.progress;
+        const moveP = Math.max(0, Math.min(1, (p - DWELL) / (1 - 2*DWELL)));
+        if(fill) fill.style.width = (moveP * 88) + '%';                  // fills the 6%..94% line span
+        nodes.forEach((n,i) => {
+          const thr = nodes.length > 1 ? i/(nodes.length-1) : 0;
+          n.classList.toggle('lit', moveP >= thr - 0.03);
+        });
+      }
+    }
+  });
+  tl.to({}, {duration: DWELL});                                          // hold at the start
+  tl.to(track, {x: () => -getDist(), ease:'none', duration: 1 - 2*DWELL}); // scroll the cards
+  tl.to({}, {duration: DWELL});                                          // hold at the end
+}
 </script>
 </body>
 </html>
