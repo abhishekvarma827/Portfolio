@@ -12,11 +12,28 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Abhishek Varma | VLSI Design &amp; Verification Engineer">
 <meta property="og:description" content="UVM verification at 99.8% functional coverage, RTL-to-GDS tapeout on SkyWater 130nm, and ML hardware acceleration.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Abhishek Varma — ASIC · VLSI · Verification Engineer">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Abhishek Varma | VLSI Design &amp; Verification Engineer">
 <meta name="twitter:description" content="UVM verification at 99.8% functional coverage, RTL-to-GDS tapeout on SkyWater 130nm, and ML hardware acceleration.">
+<meta name="twitter:image" content="og-image.png">
 <!-- Favicon — silicon die glyph -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23030608'/%3E%3Crect x='9' y='9' width='14' height='14' rx='1.5' fill='none' stroke='%23c87828' stroke-width='2'/%3E%3Crect x='13.5' y='13.5' width='5' height='5' fill='%233a8fd4'/%3E%3Cg stroke='%23c87828' stroke-width='2'%3E%3Cpath d='M12 9V5M16 9V5M20 9V5M12 23v4M16 23v4M20 23v4M9 12H5M9 16H5M9 20H5M23 12h4M23 16h4M23 20h4'/%3E%3C/g%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person",
+"name":"Abhishek Varma",
+"jobTitle":"VLSI Design & Verification Engineer",
+"description":"UVM verification engineer with hands-on RTL-to-GDS tapeout experience on SkyWater 130nm, specializing in AMBA protocol verification, RTL design, and ML hardware acceleration.",
+"email":"mailto:abhishekvarma827@gmail.com",
+"telephone":"+1-551-347-6950",
+"address":{"@type":"PostalAddress","addressLocality":"San Jose","addressRegion":"CA","addressCountry":"US"},
+"alumniOf":[{"@type":"CollegeOrUniversity","name":"Illinois Institute of Technology"},{"@type":"CollegeOrUniversity","name":"Shri Vaishnav Institute of Technology and Science"}],
+"knowsAbout":["VLSI","ASIC Verification","UVM","SystemVerilog","RTL-to-GDS","Physical Design","FPGA","RISC-V","SkyWater 130nm PDK"],
+"sameAs":["https://github.com/abhishekvarma827","https://www.linkedin.com/in/abhishekvarma10/"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,8 +43,8 @@
   "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
 }}
 </script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <style>
 :root{
   --bg:#eef2f7;--bg1:#e4eaf1;--bg2:#d7dfe9;
@@ -51,6 +68,10 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 #threeCanvas{position:fixed;inset:0;z-index:1;pointer-events:none}
+/* Sits ABOVE the #veil (z-index:2) and page content so the end-of-page confetti is
+   actually visible across the full width — bgCanvas/threeCanvas are behind the veil,
+   which deliberately dims most of the screen edge-to-edge for text readability. */
+#celebCanvas{position:fixed;inset:0;z-index:500;pointer-events:none}
 /* Content veil — dark on both edges, transparent window where chip floats */
 #veil{position:fixed;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(to right,
@@ -71,11 +92,16 @@ body{font-family:var(--fbod);background:var(--bg);color:var(--tx);overflow-x:hid
 /* Raise the animated circuit canvas above the page (but below the loader) while loading */
 body.loading #bgCanvas{z-index:99990}
 .ld-core{position:relative;width:128px;height:128px;display:flex;align-items:center;justify-content:center}
+.ld-core::before{content:'';position:absolute;inset:-16px;z-index:-1;border-radius:50%;background:conic-gradient(from 0deg,transparent 0deg,rgba(58,143,212,.4) 26deg,transparent 66deg,transparent 360deg);filter:blur(7px);animation:rot 2.6s linear infinite;opacity:.75}
+.ld-core::after{content:'';position:absolute;inset:0;z-index:-1;border-radius:50%;animation:ldPulse 1.9s ease-out infinite}
+@keyframes ldPulse{0%{box-shadow:0 0 0 0 rgba(200,120,40,.32)}70%{box-shadow:0 0 0 24px rgba(200,120,40,0)}100%{box-shadow:0 0 0 0 rgba(200,120,40,0)}}
 .ld-ring{position:absolute;inset:0;width:128px;height:128px}
 .ld-ring svg{width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(58,143,212,.4))}
 .ld-ring .s1{animation:rot 1.8s cubic-bezier(.5,0,.5,1) infinite;transform-origin:52px 52px}
 .ld-ring .s2{animation:rot 1.15s linear infinite reverse;transform-origin:52px 52px}
 .ld-ring .s3{animation:rot 3.2s linear infinite;transform-origin:52px 52px}
+.ld-ring .s4{animation:rot .68s linear infinite reverse;transform-origin:52px 52px}
+.ld-ring .ld-comet{animation:rot 1.8s cubic-bezier(.5,0,.5,1) infinite;transform-origin:52px 52px;filter:drop-shadow(0 0 5px #ffd080)}
 @keyframes rot{to{transform:rotate(360deg)}}
 .ld-pct{position:relative;font-family:var(--fdis);font-size:2.4rem;font-weight:700;color:var(--gd);letter-spacing:1px;text-shadow:0 0 20px rgba(224,176,48,.55);line-height:1}
 .ld-txt{font-family:var(--fdis);font-size:1.8rem;font-weight:700;color:var(--tx);letter-spacing:6px;text-transform:uppercase;text-shadow:0 0 24px rgba(184,204,184,.2)}
@@ -92,6 +118,12 @@ body.loading #bgCanvas{z-index:99990}
 #cDot{position:fixed;width:6px;height:6px;background:var(--cu);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--cu-g);transition:width .2s,height .2s}
 #cRing{position:fixed;width:30px;height:30px;border:1px solid rgba(200,120,40,.4);border-radius:50%;pointer-events:none;z-index:99997;transform:translate(-50%,-50%);transition:width .28s,height .28s,border-color .28s}
 #sBar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blu),var(--cu),var(--gd));z-index:99996;box-shadow:0 0 6px var(--blu-g);transition:width .06s linear}
+/* Back-to-top button */
+#toTop{position:fixed;right:1.4rem;bottom:calc(58px + 1.1rem);z-index:500;width:46px;height:46px;border-radius:50%;border:1px solid var(--bd-h);background:var(--panel);color:var(--cu);cursor:pointer;opacity:0;pointer-events:none;transform:translateY(12px) scale(.9);transition:opacity .3s,transform .3s,background .25s,color .25s;box-shadow:0 10px 26px -12px rgba(20,45,85,.5);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center}
+#toTop.show{opacity:1;pointer-events:auto;transform:none}
+#toTop:hover{background:var(--cu);color:#fff;border-color:var(--cu);transform:translateY(-2px)}
+#toTop:focus-visible{outline:2px solid var(--cu);outline-offset:3px}
+@media(max-width:768px){#toTop{bottom:1.1rem;right:1.1rem}}
 
 /* HUD — advanced ASIC flow monitor */
 #chipHud{
@@ -273,11 +305,50 @@ nav{z-index:9000!important}
 
 /* SKILLS */
 .sg{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-.sk{border:1px solid var(--bd);padding:1.1rem;background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:all .35s;opacity:0;transform:translateY(12px)}
+.sk{border:1px solid var(--bd);padding:1.1rem;background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:opacity .35s,transform .35s,border-color .35s;opacity:0;transform:translateY(12px)}
+/* Cascade in one card at a time instead of the whole grid popping together */
+.sk:nth-child(1){transition-delay:0s}
+.sk:nth-child(2){transition-delay:.06s}
+.sk:nth-child(3){transition-delay:.12s}
+.sk:nth-child(4){transition-delay:.18s}
+.sk:nth-child(5){transition-delay:.24s}
+.sk:nth-child(6){transition-delay:.3s}
+.sk:nth-child(7){transition-delay:.36s}
+.sk:nth-child(8){transition-delay:.42s}
+.sk:nth-child(9){transition-delay:.48s}
+.sk:nth-child(10){transition-delay:.54s}
 .sk.vis{opacity:1;transform:translateY(0)}
-.sk:hover{border-color:var(--bd-h)}
+.sk:hover{border-color:var(--bd-h);transition-delay:0s}
 .sk::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cu),var(--gd));transform:scaleX(0);transform-origin:left;transition:transform .38s}
 .sk:hover::before{transform:scaleX(1)}
+/* Scan-sweep — a light band crosses each card once, right as it lands, like it's
+   being read/verified rather than just fading into place */
+.sk::after{content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);pointer-events:none;opacity:0}
+.sk.vis::after{animation:skSweep .85s ease-out both}
+.sk:nth-child(1).vis::after{animation-delay:.15s}
+.sk:nth-child(2).vis::after{animation-delay:.21s}
+.sk:nth-child(3).vis::after{animation-delay:.27s}
+.sk:nth-child(4).vis::after{animation-delay:.33s}
+.sk:nth-child(5).vis::after{animation-delay:.39s}
+.sk:nth-child(6).vis::after{animation-delay:.45s}
+.sk:nth-child(7).vis::after{animation-delay:.51s}
+.sk:nth-child(8).vis::after{animation-delay:.57s}
+.sk:nth-child(9).vis::after{animation-delay:.63s}
+.sk:nth-child(10).vis::after{animation-delay:.69s}
+@keyframes skSweep{0%{left:-60%;opacity:.9}60%{opacity:.6}100%{left:130%;opacity:0}}
+/* Icon power-on pulse, timed just behind the sweep */
+.sk.vis .sk-ico{animation:skIconPulse .6s ease-out both}
+.sk:nth-child(1).vis .sk-ico{animation-delay:.35s}
+.sk:nth-child(2).vis .sk-ico{animation-delay:.41s}
+.sk:nth-child(3).vis .sk-ico{animation-delay:.47s}
+.sk:nth-child(4).vis .sk-ico{animation-delay:.53s}
+.sk:nth-child(5).vis .sk-ico{animation-delay:.59s}
+.sk:nth-child(6).vis .sk-ico{animation-delay:.65s}
+.sk:nth-child(7).vis .sk-ico{animation-delay:.71s}
+.sk:nth-child(8).vis .sk-ico{animation-delay:.77s}
+.sk:nth-child(9).vis .sk-ico{animation-delay:.83s}
+.sk:nth-child(10).vis .sk-ico{animation-delay:.89s}
+@keyframes skIconPulse{0%{filter:drop-shadow(0 0 0 transparent);transform:scale(.7)}55%{filter:drop-shadow(0 0 6px var(--cu-g));transform:scale(1.2)}100%{filter:drop-shadow(0 0 0 transparent);transform:scale(1)}}
 .sk-ico{font-size:1rem;margin-bottom:.4rem;opacity:.5}
 .sk-name{font-family:var(--fdis);font-size:.9rem;font-weight:700;color:var(--cu);letter-spacing:1px;margin-bottom:.45rem}
 .sk-tags{display:flex;flex-wrap:wrap;gap:.24rem}
@@ -309,6 +380,25 @@ nav{z-index:9000!important}
 .rm-legend{display:flex;gap:1.6rem;margin-bottom:1.4rem;font-family:var(--fmon);font-size:.74rem;color:var(--tx-f);letter-spacing:1px;flex-wrap:wrap}
 .rm-legend span{display:flex;align-items:center;gap:.45rem}
 .rm-dot-sm{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* Career rail — a progress line that draws itself across the whole roadmap, connecting
+   every phase into one continuous path instead of the cards just sitting side by side */
+.rm-rail{position:relative;margin-bottom:1.8rem;padding:0 6px}
+.rm-rail-line{position:absolute;top:9px;left:6px;right:6px;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.rm-rail-fill{height:100%;width:0;background:linear-gradient(90deg,var(--sig),var(--cu),var(--gd));background-size:200% 100%;box-shadow:0 0 10px var(--sig-g);transition:width 1.8s cubic-bezier(.4,0,.2,1) .1s}
+.rm-rail.vis .rm-rail-fill{width:100%;animation:etlShine 2.4s linear infinite}
+/* Same grid definition as .rm-grid below (including its mobile override) so each node
+   sits exactly above its own card at every width — a flex space-between row here would
+   drift out of sync with the card grid's gaps/wrapping the moment there's more than a
+   couple of columns, which is exactly what was happening before. */
+.rm-rail-nodes{position:relative;display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.65rem;row-gap:1.6rem}
+.rm-rail-node{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:.35rem;opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease;transition-delay:calc(var(--d) * .12s)}
+.rm-rail.vis .rm-rail-node{opacity:1;transform:translateY(0)}
+.rm-rail-dot{width:12px;height:12px;border-radius:50%;background:#fff;border:2.5px solid var(--sig);box-shadow:0 0 0 3px rgba(10,116,66,.14)}
+.rm-rail-node.future .rm-rail-dot{border-color:rgba(58,143,212,.42);border-style:dashed;background:transparent}
+.rm-rail-node.current .rm-rail-dot{animation:etlPulse 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(10,116,66,.14),0 0 10px var(--sig-g)}
+.rm-rail-node b{font-family:var(--fmon);font-size:.66rem;color:var(--tx-f);font-weight:600;letter-spacing:.5px}
+.rm-rail-node.future b{color:rgba(58,143,212,.6)}
+@media(prefers-reduced-motion:reduce){.rm-rail-fill{animation:none;transition-duration:.3s}.rm-rail-node{transition-delay:0s}.rm-rail-node.current .rm-rail-dot{animation:none}}
 .rm-dot-sm.act{background:var(--sig);box-shadow:0 0 7px var(--sig-g)}
 .rm-dot-sm.fut{border:1px dashed rgba(58,143,212,.42);background:transparent}
 .rm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.65rem;margin-bottom:2rem}
@@ -331,10 +421,30 @@ nav{z-index:9000!important}
 .rm-card.future .rm-ind{background:transparent;border:1px dashed rgba(58,143,212,.35);box-shadow:none}
 @media(max-width:768px){
   .rm-grid{grid-template-columns:1fr 1fr}
+  .rm-rail-nodes{grid-template-columns:1fr 1fr}
 }
 /* FOOTER */
-footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(--bd);text-align:center;background:var(--panel);backdrop-filter:blur(20px)}
-.ft-name{font-family:var(--fdis);font-size:1.6rem;font-weight:700;color:var(--cu);text-shadow:0 0 20px var(--cu-g);margin-bottom:.3rem}
+footer{position:relative;z-index:2;padding:4rem 0 calc(2rem + 58px);border-top:1px solid var(--bd);text-align:center;background:var(--panel);backdrop-filter:blur(20px)}
+/* Circuit-trace divider — draws itself in like a PCB signal trace when the footer comes into view */
+.ft-trace{display:block;width:min(600px,80%);height:24px;margin:0 auto 1.6rem;overflow:visible}
+.ft-trace path{fill:none;stroke:var(--cu);stroke-width:1.6;opacity:.55;stroke-dasharray:640;stroke-dashoffset:640;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1) .1s,opacity .3s}
+footer:hover .ft-trace path{opacity:.9}
+/* Cursor-reactive footer sparks */
+.ft-cursor-spark{position:absolute;width:5px;height:5px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:ftCursorSpark .65s ease-out forwards;z-index:5}
+@keyframes ftCursorSpark{0%{opacity:.9;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(.2) translateY(-14px)}}
+.ft-trace circle{fill:var(--gd);opacity:0;transition:opacity .4s ease 1.5s}
+.ft-trace.vis path{stroke-dashoffset:0}
+.ft-trace.vis circle{opacity:.85}
+.ft-name{font-family:var(--fdis);font-size:1.6rem;font-weight:700;color:var(--cu);text-shadow:0 0 20px var(--cu-g);margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.6rem}
+/* Status LED — a small "system online" pulse next to the name */
+.ft-led-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;width:9px;height:9px}
+.ft-led{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--sig);box-shadow:0 0 8px var(--sig-g);animation:ftPulse 2.2s ease-in-out infinite}
+/* Spark burst — fires once when the footer name (and its LED) first comes into view */
+.ft-spark{position:absolute;top:50%;left:50%;width:3px;height:3px;border-radius:50%;background:var(--gd);opacity:0;pointer-events:none;transform:translate(-50%,-50%) rotate(var(--a)) translateX(0) scale(1)}
+.ft-name.vis .ft-spark{animation:ftSpark 1s cubic-bezier(.2,.8,.3,1) .4s both}
+@keyframes ftSpark{0%{opacity:1;transform:translate(-50%,-50%) rotate(var(--a)) translateX(0) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--a)) translateX(24px) scale(.3)}}
+@media(prefers-reduced-motion:reduce){.ft-name.vis .ft-spark{animation:none;opacity:0}}
+@keyframes ftPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 .ft-sub{font-family:var(--fmon);font-size:.80rem;color:var(--tx-f);letter-spacing:4px;text-transform:uppercase;margin-bottom:2rem}
 .ft-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
 .ft-links a{font-family:var(--fmon);font-size:.82rem;color:var(--tx-d);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
@@ -368,9 +478,26 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
 .cert-col .sec-hd{margin-bottom:0}
 .cert-col .cg{grid-template-columns:repeat(4,minmax(0,1fr));gap:1.4rem;justify-content:stretch}
 @media(max-width:900px){.cert-col .cg{grid-template-columns:repeat(2,1fr)}}
-.cert-col .cc{min-height:200px;border-left:1px solid var(--bd);border-top:2px solid var(--gd);border-radius:14px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:1.4rem 1.2rem;transform:translateY(14px)}
-.cert-col .cc.vis{transform:translateY(0)}
-.cert-col .cc:hover{transform:translateY(-3px)}
+/* Certifications "stamp" entrance — each card scales/rotates down into place like a
+   seal being stamped, with a brief impact ring, instead of a plain fade. Staggered per
+   card since the IntersectionObserver fires for all four at roughly the same scroll frame. */
+.cert-col .cc{min-height:200px;border-left:1px solid var(--bd);border-top:2px solid var(--gd);border-radius:14px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:1.4rem 1.2rem;position:relative;overflow:hidden;
+  transform:translateY(10px) scale(1.32) rotate(-7deg);
+  transition:opacity .35s ease,transform .65s cubic-bezier(.34,1.56,.64,1)}
+.cert-col .cc:nth-child(1){transition-delay:0s}
+.cert-col .cc:nth-child(2){transition-delay:.09s}
+.cert-col .cc:nth-child(3){transition-delay:.18s}
+.cert-col .cc:nth-child(4){transition-delay:.27s}
+.cert-col .cc.vis{transform:translateY(0) scale(1) rotate(0deg)}
+.cert-col .cc:hover{transition:transform .25s ease;transform:translateY(-3px) scale(1) rotate(0deg)}
+.cert-col .cc::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(185,99,26,.45);opacity:0;pointer-events:none}
+.cert-col .cc.vis::after{animation:stampRing .55s ease-out}
+.cert-col .cc:nth-child(1).vis::after{animation-delay:0s}
+.cert-col .cc:nth-child(2).vis::after{animation-delay:.09s}
+.cert-col .cc:nth-child(3).vis::after{animation-delay:.18s}
+.cert-col .cc:nth-child(4).vis::after{animation-delay:.27s}
+@keyframes stampRing{0%{box-shadow:0 0 0 0 rgba(185,99,26,.45);opacity:1}100%{box-shadow:0 0 0 16px rgba(185,99,26,0);opacity:0}}
+@media(prefers-reduced-motion:reduce){.cert-col .cc.vis::after{animation:none}}
 .cert-col .cc-name{font-size:.98rem;line-height:1.35;margin-bottom:.5rem}
 .cert-col .cc-org{font-size:.8rem}
 .cert-col .cc-dt{font-size:.72rem;margin-top:.35rem}
@@ -393,18 +520,29 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
   .about-edu{grid-column:2}
 }
 @media(max-width:768px){
-  nav{padding:1rem 1.2rem}
-  .n-links,.n-badge{display:none}
-  #hero{padding:6rem 1.2rem 3rem}
-  .hero-inner{grid-template-columns:1fr;gap:2rem}
+  nav{padding:.55rem 1rem;gap:.7rem}
+  .n-contact,.n-badge{display:none}
+  .n-links{display:flex!important;gap:1.15rem;overflow-x:auto;-webkit-overflow-scrolling:touch;flex:1;scrollbar-width:none;margin:0;padding:0}
+  .n-links::-webkit-scrollbar{display:none}
+  .n-links a{font-size:.74rem;white-space:nowrap;letter-spacing:1px}
+  #hero{padding:5.5rem 1.1rem 3rem;min-height:auto}
+  .hero-inner{grid-template-columns:1fr;gap:1.6rem}
+  .hero-left,.hero-rail{grid-column:1}
   .hero-rail{flex-direction:column}
+  .h-name{font-size:clamp(2.6rem,15vw,3.6rem)}
+  .al-title{font-size:1.25rem}
   .about-grid{grid-template-columns:1fr}
   .about-text,.about-edu{grid-column:auto}
-  .sg,.cg{grid-template-columns:1fr}
+  .sg,.cg,.cert-col .cg{grid-template-columns:1fr}
   .pg{grid-template-columns:1fr}
   .pg>.pc.feat,.pg>.pc.wide{grid-column:1}
-  .sec{padding:3.5rem 1.2rem}
-  .sec-inner{padding:0 1rem}
+  .proj-panel .pc{flex-basis:82vw}
+  .exp-scroll .ti{flex-basis:80vw}
+  .etl{grid-template-columns:1fr 1fr;gap:1.6rem 1rem}
+  .sec{padding:3.2rem 1.1rem}
+  .sec-inner{padding:0}
+  #projects .sec-hd{position:static}
+  .proj-nav{top:auto}
 }
 
 /* REDUCED MOTION — respect user preference: calm the page, restore a usable cursor */
@@ -413,7 +551,16 @@ footer{position:relative;z-index:2;padding:4rem 0 2rem;border-top:1px solid var(
   body{cursor:auto}
   #cDot,#cRing{display:none}
   .rv,.sec-tag,.sec-title,.ti,.pc,.sk,.ec,.cc,.rm-card{opacity:1!important;transform:none!important}
+  #cChip,#bgCanvas{opacity:.5}
 }
+/* TOUCH DEVICES — no mouse means mousemove never fires, so the JS-driven cDot/cRing
+   would otherwise sit frozen at (0,0); restore the native cursor and hide the dot/ring */
+@media(hover:none),(pointer:coarse){
+  body{cursor:auto}
+  #cDot,#cRing{display:none}
+}
+/* Keyboard focus states (visible only for keyboard users) */
+a:focus-visible,button:focus-visible,.pn-tab:focus-visible,.btn-p:focus-visible,.btn-s:focus-visible,.pc-link:focus-visible,.ft-socials a:focus-visible,.n-links a:focus-visible,.h-info a:focus-visible{outline:2px solid var(--cu);outline-offset:3px;border-radius:4px}
 
 /* LIGHT-THEME DEPTH — soft shadows so translucent panels separate from the page */
 .pc,.ti-card,.sk,.ec,.cc,.about-panel,.exp-panel,.h-focus,.h-stats>div,.rm-card,#chipHud{
@@ -444,12 +591,19 @@ nav.sc{box-shadow:0 4px 20px rgba(20,40,70,.06)}
 /* Hero panels sit over the brightest chip area — keep them a touch more solid */
 .h-stats>div,.h-focus{background:rgba(255,255,255,.76)}
 /* ASIC flow — slim full-width bar docked to the very bottom edge (never floats over content) */
-#chipHud{position:fixed;left:0;right:0;bottom:0;width:100%;z-index:400;pointer-events:none;overflow:hidden;
+#chipHud{position:fixed;left:0;right:0;bottom:0;width:100%;height:58px;z-index:400;pointer-events:none;overflow:hidden;
   flex-direction:row!important;flex-wrap:nowrap;align-items:center;gap:1.3rem;
-  padding:.4rem 1.6rem .5rem;border-radius:0!important;border:none!important;border-top:1px solid rgba(58,143,212,.28)!important;
+  padding:0 1.6rem;border-radius:0!important;border:none!important;border-top:1px solid rgba(58,143,212,.28)!important;
   background:rgba(255,255,255,.93)!important;box-shadow:0 -8px 30px rgba(20,45,85,.12)!important;transition:opacity .35s}
-@media(max-width:1280px){#chipHud .hud-hdr{display:none}}
-@media(max-width:1040px){#chipHud .hud-grid{display:none!important}}
+/* Fixed slots so cycling text/values never reflow OR overflow the bar */
+#chipHud .hud-stageline{width:186px;overflow:hidden;white-space:nowrap}
+#chipHud .hud-stage{display:inline-block}
+#chipHud .hud-kw{display:none}
+#chipHud .hud-segs{display:none}
+#chipHud .hud-grid .hud-kv{min-width:4rem}
+#chipHud .hud-v{min-width:3.4rem;text-align:center;display:inline-block}
+#chipHud .hud-pct{min-width:3rem;text-align:right}
+#chipHud .hud-pipe{flex-wrap:nowrap}
 #chipHud .hud-hdr{border:none;padding:0;margin:0;flex:0 0 auto;font-size:.66rem;color:var(--tx-f)}
 #chipHud .hud-stageline{flex:0 0 auto}
 #chipHud .hud-row{flex:0 0 auto;margin:0}
@@ -466,6 +620,10 @@ nav.sc{box-shadow:0 4px 20px rgba(20,40,70,.06)}
 #chipHud .hud-v{font-size:.86rem}
 #chipHud .hud-seg{height:12px}
 #chipHud .hud-bar{position:absolute;left:0;right:0;bottom:0;width:100%;height:2px;margin:0}
+/* Progressively drop bar sections on narrower screens so it never overflows (placed after the base rules to win) */
+@media(max-width:1280px){#chipHud .hud-hdr{display:none!important}}
+@media(max-width:1500px){#chipHud .hud-grid{display:none!important}}
+@media(max-width:860px){#chipHud .hud-pipe{display:none!important}}
 @media(max-width:768px){#chipHud{display:none}}
 
 /* Soft pill tags — remove the grid of tiny hard boxes */
@@ -516,6 +674,15 @@ nav.sc{background:rgba(255,255,255,.72)!important;backdrop-filter:blur(20px) sat
 
 /* Remove the "01 // Profile" style section tags */
 .sec-tag{display:none!important}
+
+/* ── Slicker reveals — premium ease-out glide (kept off elements with transform hovers) ── */
+.rv{transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);transform:translateY(28px)}
+.sec-title{transition:opacity .8s cubic-bezier(.16,1,.3,1) .05s,transform .8s cubic-bezier(.16,1,.3,1) .05s;transform:translateY(20px)}
+.ti{transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);transform:translateX(-24px)}
+.pc:not(.vis){transform:translateY(30px)}
+.sk:not(.vis){transform:translateY(22px)}
+/* Nav glides on its state change */
+nav{transition:background .5s ease,padding .5s cubic-bezier(.16,1,.3,1)}
 
 /* All projects in 2 columns (no full-width cards) so more fits per screen */
 .pg>.pc.feat,.pg>.pc.wide{grid-column:auto}
@@ -716,6 +883,9 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <path class="s2" d="M52,18 A34,34 0 0 1 86,52" stroke="#c87828" stroke-width="2" stroke-linecap="round"/>
         <circle cx="52" cy="52" r="23" stroke="#0a1626" stroke-width="1" stroke-dasharray="3 5"/>
         <path class="s3" d="M52,29 A23,23 0 0 1 75,52" stroke="#00d474" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="52" cy="52" r="12" stroke="#0a1a12" stroke-width="1" stroke-dasharray="2 3"/>
+        <path class="s4" d="M52,40 A12,12 0 0 1 64,52" stroke="#ffd080" stroke-width="1.4" stroke-linecap="round"/>
+        <g class="ld-comet"><circle cx="52" cy="6" r="2.3" fill="#ffe0a0"/></g>
       </svg>
     </div>
     <div class="ld-pct" id="ldPct">0%</div>
@@ -774,9 +944,15 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
 <!-- CONTENT VEIL -->
 <div id="veil" aria-hidden="true"></div>
 
+<!-- Back to top -->
+<button id="toTop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
 <!-- CANVASES -->
 <canvas id="bgCanvas" aria-hidden="true"></canvas>
 <canvas id="threeCanvas" aria-hidden="true"></canvas>
+<canvas id="celebCanvas" aria-hidden="true"></canvas>
 
 <!-- NAV -->
 <nav id="nav" aria-label="Primary">
@@ -788,6 +964,7 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
       <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>LinkedIn</a>
       <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Jose, CA · Open to Relocation</span>
     </div>
+    <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" class="btn-s n-cta">Resume</a>
     <a href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D" class="btn-p n-cta">Get In Touch</a>
   </div>
   <ul class="n-links">
@@ -796,6 +973,7 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#certs">Certifications</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
   </ul>
   <div class="n-badge">Open to Work</div>
 </nav>
@@ -986,11 +1164,11 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     </div>
     <div class="proj-layout">
       <div class="proj-nav">
-        <div class="pn-title">16 Projects<span>· jump to</span></div>
-        <button class="pn-tab active" data-cat="pd"><span class="pn-label">Physical Design</span><span class="pn-count">5</span></button>
+        <div class="pn-title">16 Projects <span>· jump to</span></div>
+        <button class="pn-tab active" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
+        <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA / RTL</span><span class="pn-count">4</span></button>
+        <button class="pn-tab" data-cat="pd"><span class="pn-label">Physical Design</span><span class="pn-count">5</span></button>
         <button class="pn-tab" data-cat="tcad"><span class="pn-label">Device / TCAD</span><span class="pn-count">3</span></button>
-        <button class="pn-tab" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
-        <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA / ML</span><span class="pn-count">4</span></button>
       </div>
       <div class="proj-content">
         <div class="proj-panel active" data-cat="pd" id="cat-pd">
@@ -1034,7 +1212,7 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         </div>
         <p class="pc-desc">Implemented a complete standard-cell ASIC design flow for an 8-bit accumulator in Verilog — RTL simulation in Cadence SimVision, logic synthesis via Design Compiler targeting the GSCL45nm library, and place-and-route in Cadence Encounter with buffer insertion. Ran post-synthesis and post-P&R simulations to validate functional correctness across all stages, executed formal equivalence checking (ESP) in Formality between RTL and final netlist, and generated a full GDS2 layout with area, timing, and power sign-off reports.</p>
         <div class="pc-tags"><span class="pc-tag">Verilog</span><span class="pc-tag">Design Compiler</span><span class="pc-tag">Cadence Encounter</span><span class="pc-tag">Formality</span><span class="pc-tag">GSCL45nm</span></div>
-        <a href="https://abhishekvarma827.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
+        <a href="https://drive.google.com/file/d/1KrMy8YvRE6exvSKzPb3cs7b7n1h76c1m/view" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
 
       <div class="pc">
@@ -1264,10 +1442,77 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <h2 class="sec-title"><span class="hl">Certifications</span></h2>
       </div>
       <div class="cg">
-        <div class="cc rv"><h4 class="cc-name">Advanced VLSI Design &amp; Verification</h4><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
-        <div class="cc rv"><h4 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h4><p class="cc-org">Cadence Design Systems</p></div>
-        <div class="cc rv"><h4 class="cc-name">SystemVerilog Assertions</h4><p class="cc-org">Cadence Design Systems</p></div>
-        <div class="cc rv"><h4 class="cc-name">SystemVerilog Accelerated Verification with UVM</h4><p class="cc-org">Cadence Design Systems</p></div>
+        <div class="cc rv"><h3 class="cc-name">Advanced VLSI Design &amp; Verification</h3><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
+        <div class="cc rv"><h3 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h3><p class="cc-org">Cadence Design Systems</p></div>
+        <div class="cc rv"><h3 class="cc-name">SystemVerilog Assertions</h3><p class="cc-org">Cadence Design Systems</p></div>
+        <div class="cc rv"><h3 class="cc-name">SystemVerilog Accelerated Verification with UVM</h3><p class="cc-org">Cadence Design Systems</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="sec" id="roadmap">
+  <div class="sec-inner" style="margin:0 auto">
+    <div class="sec-hd">
+      <div class="sec-tag">07 // Trajectory</div>
+      <h2 class="sec-title">Career <span class="hl">Roadmap</span></h2>
+    </div>
+    <div class="rm-legend">
+      <span><span class="rm-dot-sm act"></span>Completed / Active</span>
+      <span><span class="rm-dot-sm fut"></span>In Progress</span>
+    </div>
+    <div class="rm-rail rv">
+      <div class="rm-rail-line"><div class="rm-rail-fill"></div></div>
+      <div class="rm-rail-nodes">
+        <span class="rm-rail-node active" style="--d:0"><i class="rm-rail-dot"></i><b>2018</b></span>
+        <span class="rm-rail-node active" style="--d:1"><i class="rm-rail-dot"></i><b>2021</b></span>
+        <span class="rm-rail-node active" style="--d:2"><i class="rm-rail-dot"></i><b>2023</b></span>
+        <span class="rm-rail-node active" style="--d:3"><i class="rm-rail-dot"></i><b>2025</b></span>
+        <span class="rm-rail-node active current" style="--d:4"><i class="rm-rail-dot"></i><b>2026</b></span>
+        <span class="rm-rail-node future" style="--d:5"><i class="rm-rail-dot"></i><b>Next</b></span>
+      </div>
+    </div>
+    <div class="rm-grid">
+      <div class="rm-card active rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">2018 – 2021</div>
+        <div class="rm-label">B.Tech · Electrical Engineering</div>
+        <div class="rm-summary">Shri Vaishnav Institute of Technology &amp; Science — foundation in circuits, digital logic, and embedded systems.</div>
+      </div>
+      <div class="rm-card active rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">2021 – 2023</div>
+        <div class="rm-label">Verification Engineer</div>
+        <div class="rm-summary">Aceic Design Technologies — UVM environments for AMBA AHB/APB/AXI4, SPI, and UART.</div>
+        <div class="rm-cnt">99.8% Coverage</div>
+      </div>
+      <div class="rm-card active rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">2023 – 2025</div>
+        <div class="rm-label">M.A.Sc · VLSI &amp; Microelectronics</div>
+        <div class="rm-summary">Illinois Institute of Technology — graduate specialization plus FPGA/ML research on ultrasonic NDE.</div>
+        <div class="rm-cnt">GPA 3.60/4.0</div>
+      </div>
+      <div class="rm-card active rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">2025 – 2026</div>
+        <div class="rm-label">RTL Leadership &amp; Tapeout</div>
+        <div class="rm-summary">VLSIVault — CPU microarchitecture across 6 concurrent RTL projects; RTL-to-GDS tapeout on SkyWater 130nm.</div>
+        <div class="rm-cnt">25,030 Std Cells</div>
+      </div>
+      <div class="rm-card active rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">2026 – Present</div>
+        <div class="rm-label">HW Design &amp; Verification Engineer</div>
+        <div class="rm-summary">Twinwing Labs — UVM testbenches for low-latency HFT ASIC datapaths, custom Vivado IP, and cross-clock-domain STA closure.</div>
+        <div class="rm-cnt">Current Role</div>
+      </div>
+      <div class="rm-card future rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">Jun 2026 →</div>
+        <div class="rm-label">STEM OPT Extension</div>
+        <div class="rm-summary">Extending U.S. work authorization beyond the initial OPT period under STEM OPT eligibility.</div>
       </div>
     </div>
   </div>
@@ -1276,15 +1521,28 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
 </div><!-- /main -->
 
 <footer id="contact">
-  <div class="ft-name">ABHISHEK VARMA</div>
-  <div class="ft-sub">VLSI · Verification · ASIC · ML Acceleration · FPGA · Cell Characterization</div>
+  <svg class="ft-trace rv" viewBox="0 0 600 40" aria-hidden="true" preserveAspectRatio="none">
+    <path d="M0,20 L230,20 L250,6 L350,6 L370,20 L600,20"/>
+    <circle cx="230" cy="20" r="3.4"/><circle cx="370" cy="20" r="3.4"/><circle cx="300" cy="6" r="3.4"/>
+  </svg>
+  <div class="ft-name rv">
+    <span class="ft-led-wrap" aria-hidden="true">
+      <span class="ft-led"></span>
+      <span class="ft-spark" style="--a:0deg"></span><span class="ft-spark" style="--a:45deg"></span>
+      <span class="ft-spark" style="--a:90deg"></span><span class="ft-spark" style="--a:135deg"></span>
+      <span class="ft-spark" style="--a:180deg"></span><span class="ft-spark" style="--a:225deg"></span>
+      <span class="ft-spark" style="--a:270deg"></span><span class="ft-spark" style="--a:315deg"></span>
+    </span>ABHISHEK VARMA
+  </div>
+  <div class="ft-sub rv">VLSI · Verification · ASIC · ML Acceleration · FPGA · Cell Characterization</div>
   <div class="ft-socials">
     <a href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg></a>
     <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
     <a href="mailto:abhishekvarma827@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
     <a href="tel:+15513476950" aria-label="Phone" title="Call"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.4.6 3.6.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg></a>
+    <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" aria-label="Download Resume" title="Download Resume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42l2.3 2.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg></a>
   </div>
-  <p class="ft-copy">© 2026 Abhishek Varma · Built with passion for silicon · F-1 OPT · Authorized to Work · Jun 2026</p>
+  <p class="ft-copy rv">© 2026 Abhishek Varma · Built with passion for silicon</p>
 </footer>
 
 <!-- ═══════════════════════════════════════════════════
@@ -1379,6 +1637,32 @@ function drawHex(x, y, glow, col){
 }
 
 let lastHexSpawn = 0;
+/* ── POINTER-REACTIVE IGNITION — the hex grid glows faintly near the cursor ── */
+let ptrX = -9999, ptrY = -9999;
+const MOUSE_R = 100;
+window.addEventListener('pointermove', e => { ptrX = e.clientX; ptrY = e.clientY; }, {passive:true});
+window.addEventListener('pointerleave', () => { ptrX = -9999; ptrY = -9999; }, {passive:true});
+function igniteNearPointer(){
+  if(ptrY < -9000) return;
+  const r0 = Math.round((ptrY + HR) / HHY);
+  for(let dr = -3; dr <= 3; dr++){
+    const r = r0 + dr;
+    if(r < 0 || r >= hexRows) continue;
+    const c0 = Math.round((ptrX + HW - (r % 2) * (HW * 0.5)) / HW);
+    for(let dc = -3; dc <= 3; dc++){
+      const c = c0 + dc;
+      if(c < 0 || c >= hexCols) continue;
+      const {x, y} = hxCenter(r, c);
+      const ddx = x - ptrX, ddy = y - ptrY;
+      const dist2 = ddx * ddx + ddy * ddy;
+      if(dist2 < MOUSE_R * MOUSE_R){
+        const f = 1 - Math.sqrt(dist2) / MOUSE_R;
+        const h = hexData[r][c];
+        h.g = Math.max(h.g, 0.16 * f);
+      }
+    }
+  }
+}
 function updateHex(now, dt){
   if(now - lastHexSpawn > 90){
     lastHexSpawn = now;
@@ -1398,6 +1682,7 @@ function updateHex(now, dt){
       }
     }
   }
+  igniteNearPointer();
   for(let r = 0; r < hexRows; r++)
     for(let c = 0; c < hexCols; c++){
       const h = hexData[r][c];
@@ -1616,8 +1901,54 @@ function renderCornerReadouts(now){
   }
 }
 
-function renderNodes(now){
-  // Periodic "activation" nodes that pulse and fade
+/* ── SIGNAL BURSTS — a bright pulse occasionally leaps between two random hex cells ── */
+let nodeBursts = [];
+let nextBurstAt = 2 + Math.random() * 3;
+function spawnBurst(){
+  if(hexRows < 2 || hexCols < 2) return;
+  const a = hxCenter(Math.floor(Math.random() * hexRows), Math.floor(Math.random() * hexCols));
+  const b = hxCenter(Math.floor(Math.random() * hexRows), Math.floor(Math.random() * hexCols));
+  const dx = b.x - a.x, dy = b.y - a.y;
+  if(dx * dx + dy * dy < 40 * 40) return;   // too close — skip, try again next tick
+  nodeBursts.push({
+    x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+    t: 0, dur: 0.4 + Math.random() * 0.4,
+    col: Math.random() > 0.5 ? [58, 143, 212] : [0, 212, 116]
+  });
+}
+function renderNodes(now, dt){
+  if(now / 1000 >= nextBurstAt){
+    nextBurstAt = now / 1000 + 1.6 + Math.random() * 2.6;
+    spawnBurst();
+  }
+  for(let i = nodeBursts.length - 1; i >= 0; i--){
+    const b = nodeBursts[i];
+    b.t += dt;
+    const p = Math.min(1, b.t / b.dur);
+    if(p >= 1){ nodeBursts.splice(i, 1); continue; }
+    const px = b.x1 + (b.x2 - b.x1) * p, py = b.y1 + (b.y2 - b.y1) * p;
+    const [r, g, bl] = b.col;
+    const len = Math.hypot(b.x2 - b.x1, b.y2 - b.y1) || 1;
+    const ux = (b.x2 - b.x1) / len, uy = (b.y2 - b.y1) / len;
+    const tailLen = 26;
+    const tx0 = px - ux * tailLen, ty0 = py - uy * tailLen;
+
+    const grd = X.createLinearGradient(tx0, ty0, px, py);
+    grd.addColorStop(0, `rgba(${r},${g},${bl},0)`);
+    grd.addColorStop(1, `rgba(${r},${g},${bl},0.75)`);
+    X.strokeStyle = grd;
+    X.lineWidth = 1.6;
+    X.beginPath(); X.moveTo(tx0, ty0); X.lineTo(px, py); X.stroke();
+
+    const hg = X.createRadialGradient(px, py, 0, px, py, 11);
+    hg.addColorStop(0, `rgba(${r},${g},${bl},0.5)`);
+    hg.addColorStop(1, `rgba(${r},${g},${bl},0)`);
+    X.fillStyle = hg;
+    X.beginPath(); X.arc(px, py, 11, 0, Math.PI * 2); X.fill();
+
+    X.fillStyle = `rgba(${r},${g},${bl},0.85)`;
+    X.beginPath(); X.arc(px, py, 1.9, 0, Math.PI * 2); X.fill();
+  }
 }
 
 function frame(now){
@@ -1635,6 +1966,7 @@ function frame(now){
   updateTraces(dt);
   renderTraces();
   renderJunctions(now);
+  renderNodes(now, dt);
   renderScanBeam(now);
   renderCornerReadouts(now);
 
@@ -1657,13 +1989,43 @@ import { RenderPass }      from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass }      from 'three/addons/postprocessing/OutputPass.js';
 
-const canvas   = document.getElementById('threeCanvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+const canvas = document.getElementById('threeCanvas');
+
+/* ── CAPABILITY FLAGS ──
+   reduceMotion3D: honor the OS/browser motion preference — the CSS layer already
+   does this for transitions, but the three.js scene runs its own animation loop
+   and needs to opt in separately.
+   lowPower: also fold in narrow viewports and low core-count devices, since this
+   scene runs a lot of concurrent systems (particles, packets, comets, satellites…)
+   that a weak mobile GPU shouldn't be asked to carry. */
+const reduceMotion3D = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const lowPower = reduceMotion3D || innerWidth < 820 || !!(navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+const maxPR = lowPower ? 1 : 1.75;
+// Zeroes out only the handful of animations in this scene that run continuously off the wall
+// clock regardless of scroll activity (camera idle jitter, satellite orbit, scan-box sweep,
+// the "keep glowing after you stop scrolling" pulse). Everything else here is already driven
+// by scroll-derived `spd`/`dt`, which naturally goes to 0 and freezes on its own when idle —
+// that motion is user-triggered, not autoplay, so reduced-motion doesn't need to touch it.
+const motionK = reduceMotion3D ? 0 : 1;
+
+/* ── RENDERER — guarded: WebGL can be unavailable (disabled, blocklisted GPU,
+   privacy-hardened browsers). Fail quietly and let the rest of the page stand
+   on its own rather than throwing and leaving a dead gap in the hero. ── */
+let renderer = null;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, alpha: true, powerPreference: 'high-performance' });
+} catch (e) {
+  console.warn('3D chip scene disabled — WebGL unavailable:', e);
+}
+if (!renderer) {
+  canvas.style.display = 'none';
+} else {
+
+renderer.setPixelRatio(Math.min(devicePixelRatio, maxPR));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = !lowPower;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
@@ -1675,7 +2037,7 @@ cam.lookAt(0, 0, 0);
 
 window.addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, maxPR));
   cam.aspect = innerWidth / innerHeight;
   cam.updateProjectionMatrix();
   composer.setSize(innerWidth, innerHeight);
@@ -1726,6 +2088,21 @@ function drawRouting(ctx, sz){
     ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();
     ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
+  // SoC module footprints — CPU/GPU/RAM/MEM CTRL ringed around the center, where the
+  // die sits directly above; matches the 3D module blocks overlaid on this layer.
+  const cx=sz/2, cy=sz/2, mw=sz*0.22, mh=sz*0.13, off=sz*0.30;
+  function modBlk(x,y,w,h,label){
+    ctx.fillStyle='#9fc0e6';ctx.fillRect(x-w/2,y-h/2,w,h);
+    ctx.strokeStyle='#2f66c0';ctx.lineWidth=2.5;ctx.strokeRect(x-w/2,y-h/2,w,h);
+    ctx.fillStyle='rgba(20,50,100,0.7)';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font=`bold ${Math.round(h*0.36)}px "JetBrains Mono",monospace`;
+    ctx.fillText(label,x,y);
+  }
+  modBlk(cx,cy-off,mw,mh,'CPU');
+  modBlk(cx+off,cy,mh,mw,'GPU');
+  modBlk(cx,cy+off,mw,mh,'RAM');
+  modBlk(cx-off,cy,mh,mw,'MEM CTRL');
+
   const traces=[
     [[sz/2,360],[sz/2,180],[160,180],[160,60]],
     [[sz/2,360],[sz/2,180],[sz-160,180],[sz-160,60]],
@@ -1813,10 +2190,16 @@ function drawPackage(ctx, sz){
   ctx.beginPath();ctx.arc(40,40,14,0,Math.PI*2);
   ctx.fillStyle='#d3dae4';ctx.fill();
   ctx.strokeStyle='rgba(185,99,26,0.6)';ctx.lineWidth=3;ctx.stroke();
-  ctx.font='bold 80px "Space Grotesk",sans-serif';ctx.fillStyle='rgba(50,85,135,0.42)';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('VLSI',sz/2,sz/2-30);
+  // Shrink-to-fit — "Custom ASIC Chip" is much longer than the old short codename,
+  // so pick the largest size that still fits comfortably within the package face.
+  ctx.fillStyle='rgba(50,85,135,0.42)';ctx.textAlign='center';ctx.textBaseline='middle';
+  const chipName='Custom ASIC Chip';
+  let nameSize=80;
+  do{ ctx.font=`bold ${nameSize}px "Space Grotesk",sans-serif`; nameSize-=2; }
+  while(ctx.measureText(chipName).width > sz*0.78 && nameSize>20);
+  ctx.fillText(chipName,sz/2,sz/2-30);
   ctx.font='42px "JetBrains Mono",monospace';ctx.fillStyle='rgba(70,105,150,0.35)';
-  ctx.fillText('CHIP',sz/2,sz/2+35);
+  ctx.fillText('SKY130A',sz/2,sz/2+35);
   [[200,150,sz-200,150],[200,sz-150,sz-200,sz-150],[150,200,150,sz-200],[sz-150,200,sz-150,sz-200]].forEach(([x1,y1,x2,y2])=>{
     ctx.strokeStyle='rgba(90,130,170,0.22)';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
@@ -1826,6 +2209,21 @@ function drawPackage(ctx, sz){
 function drawDieFace(ctx, sz){
   // Light silicon base
   ctx.fillStyle='#d6e5f6';ctx.fillRect(0,0,sz,sz);
+
+  // Sea of standard cells — a dense field of tiny cell rows under everything else,
+  // like an actual die micrograph, so the macro blocks read as "placed" on real logic
+  // rather than floating over empty silicon.
+  const cw=11, ch=6, cgap=2;
+  for(let ry=10; ry<sz-10; ry+=ch+cgap){
+    const rowShade = 6 + Math.floor(Math.random()*8);
+    for(let rx=10; rx<sz-10; rx+=cw+cgap){
+      if(Math.random()<0.08) continue; // scattered empty slots — fill/well gaps
+      const v = rowShade + Math.floor(Math.random()*10);
+      ctx.fillStyle = `rgba(${150-v},${172-v},${205-v},0.55)`;
+      ctx.fillRect(rx, ry, cw, ch);
+    }
+  }
+
   // Fine grid
   ctx.strokeStyle='rgba(60,95,155,0.2)';ctx.lineWidth=0.6;
   for(let i=32;i<sz;i+=32){
@@ -1833,13 +2231,22 @@ function drawDieFace(ctx, sz){
     ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();
   }
   const sc=sz/1.38,cx=sz/2,cy=sz/2;
+  const blocks=[]; // remembered so routing/stubs below can connect real block edges
   function blk(wx,wz,ww,wd,fill,stroke,lbl,lc){
     const px=cx+wx*sc-ww*sc/2,py=cy+wz*sc-wd*sc/2,pw=ww*sc,ph=wd*sc;
     ctx.fillStyle=fill;ctx.fillRect(px,py,pw,ph);
+    // Internal macro rows — faint lines hinting at the standard-cell rows placed inside
+    // this hard macro, so big blocks don't read as flat solid rectangles.
+    ctx.save();
+    ctx.strokeStyle = stroke; ctx.globalAlpha = 0.16; ctx.lineWidth = 1;
+    const rowH = Math.max(6, ph/9);
+    for(let ry=py+rowH; ry<py+ph; ry+=rowH){ ctx.beginPath(); ctx.moveTo(px+2,ry); ctx.lineTo(px+pw-2,ry); ctx.stroke(); }
+    ctx.restore();
     ctx.strokeStyle=stroke;ctx.lineWidth=2.5;ctx.strokeRect(px,py,pw,ph);
     ctx.fillStyle=lc;ctx.textAlign='center';ctx.textBaseline='middle';
     const fs=Math.min(pw/(lbl.length*0.62),ph*0.32,30);
     if(fs>7){ctx.font=`bold ${fs}px "JetBrains Mono",monospace`;ctx.fillText(lbl,px+pw/2,py+ph/2);}
+    blocks.push({px,py,pw,ph,cx:px+pw/2,cy:py+ph/2,stroke});
   }
   // Neural Engine (NPU) — violet/purple
   blk(0.0,-0.05,0.42,0.50,'rgba(124,58,232,0.42)','#7a2fe0','NPU','rgba(48,12,96,0.92)');
@@ -1856,7 +2263,44 @@ function drawDieFace(ctx, sz){
   blk( 0.47, 0.0, 0.18,0.62,'rgba(214,116,26,0.44)','#dd7d24','MEM','rgba(84,42,2,0.92)');
   // ADC/DAC — yellow/gold
   blk( 0.10, 0.54,0.38,0.10,'rgba(196,163,26,0.46)','#c8971a','ADC','rgba(74,58,2,0.92)');
-  // NoC bus lines
+
+  // Pin stubs — short ticks off each macro's border, like the pin escape routing
+  // leaving a hard macro before it joins the global routing fabric.
+  blocks.forEach(b=>{
+    ctx.strokeStyle=b.stroke; ctx.globalAlpha=0.5; ctx.lineWidth=1.6;
+    const nTop=Math.max(2,Math.round(b.pw/26));
+    for(let i=1;i<nTop;i++){
+      const x=b.px+b.pw*i/nTop;
+      ctx.beginPath();ctx.moveTo(x,b.py);ctx.lineTo(x,b.py-9);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x,b.py+b.ph);ctx.lineTo(x,b.py+b.ph+9);ctx.stroke();
+    }
+    const nSide=Math.max(2,Math.round(b.ph/26));
+    for(let i=1;i<nSide;i++){
+      const y=b.py+b.ph*i/nSide;
+      ctx.beginPath();ctx.moveTo(b.px,y);ctx.lineTo(b.px-9,y);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(b.px+b.pw,y);ctx.lineTo(b.px+b.pw+9,y);ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+  });
+
+  // Point-to-point routing — real block-to-block interconnect (clock from PLL to each
+  // core, cores/SRAM into the NPU, NPU/SRAM into the memory controller, ADC into NPU)
+  // instead of just two straight bus lines, plus a via dot at every bend.
+  function route(a,b,col,w){
+    const midX = a.cx + (b.cx-a.cx)*0.5;
+    ctx.strokeStyle=col; ctx.lineWidth=w; ctx.beginPath();
+    ctx.moveTo(a.cx,a.cy); ctx.lineTo(midX,a.cy); ctx.lineTo(midX,b.cy); ctx.lineTo(b.cx,b.cy); ctx.stroke();
+    ctx.fillStyle=col;
+    [[a.cx,a.cy],[midX,a.cy],[midX,b.cy],[b.cx,b.cy]].forEach(([x,y])=>{ ctx.beginPath(); ctx.arc(x,y,2.6,0,Math.PI*2); ctx.fill(); });
+  }
+  const [NPU,PLL,C0,C1,C2,C3,SRAM,MEM,ADC] = blocks;
+  ctx.globalAlpha=0.55;
+  route(PLL,C0,'#d61f78',2); route(PLL,C1,'#d61f78',1.4); route(PLL,C2,'#d61f78',1.4); route(PLL,C3,'#d61f78',1.4); // clock fanout
+  route(C0,NPU,'#2f66e0',2); route(C1,NPU,'#2f66e0',2); route(C2,NPU,'#2f66e0',2); route(C3,NPU,'#2f66e0',2);       // core data into NPU
+  route(SRAM,NPU,'#0aa5c4',2.6); route(NPU,MEM,'#dd7d24',3); route(SRAM,MEM,'#0aa5c4',1.6); route(ADC,NPU,'#c8971a',2);
+  ctx.globalAlpha=1;
+
+  // NoC bus lines (primary crossbar) — kept as the two thick spine traces through the center
   ctx.strokeStyle='rgba(60,120,195,0.28)';ctx.lineWidth=4;
   ctx.beginPath();ctx.moveTo(cx-0.64*sc,cy);ctx.lineTo(cx+0.64*sc,cy);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx,cy-0.64*sc);ctx.lineTo(cx,cy+0.64*sc);ctx.stroke();
@@ -1864,20 +2308,25 @@ function drawDieFace(ctx, sz){
   ctx.strokeStyle='rgba(70,45,170,0.6)';ctx.lineWidth=5;ctx.strokeRect(4,4,sz-8,sz-8);
 }
 
-/* ── CHIP LAYERS ── */
+/* ── CHIP LAYERS — staggered arrival, each with its own back-eased "settle" bounce,
+   instead of every layer gliding into place in perfect lockstep. ── */
 const LW=4.2,LT=0.072,LD=4.2;
 const LCFG=[
-  {yI:-2.0,yF:-0.22,w:LW,t:LT,d:LD,fn:drawSubstrate,ro:0.88,me:0.08},
-  {yI:-1.0,yF:-0.11,w:LW,t:LT,d:LD,fn:drawRouting,  ro:0.84,me:0.10},
-  {yI: 0.0,yF: 0.0, w:LW,t:LT,d:LD,fn:drawDieLayer, ro:0.82,me:0.12},
-  {yI: 1.0,yF: 0.06,w:LW,t:0.018,d:LD,fn:null,glass:true},
-  {yI: 1.8,yF: 0.22,w:1.6,t:0.18,d:1.6,fn:drawPackage,ro:0.55,me:0.45},
+  {yI:-2.0,yF:-0.22,w:LW,t:LT,d:LD,fn:drawSubstrate,ro:0.88,me:0.08,stag:0.00},
+  {yI:-1.0,yF:-0.11,w:LW,t:LT,d:LD,fn:drawRouting,  ro:0.84,me:0.10,stag:0.09},
+  {yI: 0.0,yF: 0.0, w:LW,t:LT,d:LD,fn:drawDieLayer, ro:0.82,me:0.12,stag:0.18},
+  {yI: 1.0,yF: 0.06,w:LW,t:0.018,d:LD,fn:null,glass:true,        stag:0.27},
+  {yI: 1.8,yF: 0.22,w:1.6,t:0.18,d:1.6,fn:drawPackage,ro:0.55,me:0.45,stag:0.36},
 ];
 const layers3d=[];
 LCFG.forEach((cfg,i)=>{
   let mat;
   if(cfg.glass){
-    mat=new THREE.MeshPhysicalMaterial({color:0x80c0ff,transmission:0.92,transparent:true,opacity:0.18,roughness:0.0,metalness:0.05,reflectivity:0.9,ior:1.5,side:THREE.DoubleSide});
+    // Plain transparency instead of PBR transmission — transmission needs an environment
+    // map to reflect/refract; without one (and rendered through the bloom composer on top),
+    // a roughness:0 "glass" material was just mirroring the light sources directly back at
+    // the camera as a blown-out white plane instead of reading as translucent mold compound.
+    mat=new THREE.MeshStandardMaterial({color:0x9cd0ff,transparent:true,opacity:0.16,roughness:0.55,metalness:0.05,side:THREE.DoubleSide});
   } else {
     mat=new THREE.MeshStandardMaterial({map:makeTex(cfg.fn),roughness:cfg.ro,metalness:cfg.me});
   }
@@ -1885,16 +2334,39 @@ LCFG.forEach((cfg,i)=>{
   const mesh=new THREE.Mesh(geo,mat);
   mesh.position.y=cfg.yI;mesh.castShadow=true;mesh.receiveShadow=true;
   scene.add(mesh);
-  const eMat=new THREE.LineBasicMaterial({color:cfg.glass?0x4080ff:(i===4?0x304870:0x1a4030),transparent:true,opacity:cfg.glass?0.5:0.7});
+  const baseEdgeOp = cfg.glass?0.5:0.7;
+  const eMat=new THREE.LineBasicMaterial({color:cfg.glass?0x4080ff:(i===4?0x304870:0x1a4030),transparent:true,opacity:baseEdgeOp});
   const eLines=new THREE.LineSegments(new THREE.EdgesGeometry(geo),eMat);
   eLines.position.y=cfg.yI;scene.add(eLines);
-  layers3d.push({mesh,edges:eLines,yI:cfg.yI,yF:cfg.yF});
+  layers3d.push({mesh,edges:eLines,yI:cfg.yI,yF:cfg.yF,stag:cfg.stag,halfW:cfg.w/2,t:cfg.t,baseEdgeOp,flash:0,prevLp:0,lp:0});
 });
+
+/* ── LAYER CONNECTORS — TSV-style via pillars that appear at each boundary only once
+   BOTH neighboring layers have actually landed, so the stack visibly "connects"
+   layer-by-layer rather than the layers just quietly happening to be near each other. */
+const layerConnectors=[];
+for(let i=0;i<layers3d.length-1;i++){
+  const ring = Math.min(layers3d[i].halfW, layers3d[i+1].halfW) * 0.72;
+  const n = lowPower ? 4 : 8;
+  const pillars=[];
+  for(let j=0;j<n;j++){
+    const a=(j/n)*Math.PI*2;
+    const mat=new THREE.MeshBasicMaterial({color:0x4fd8ff,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+    const mesh=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,1,8),mat);
+    mesh.position.set(Math.cos(a)*ring,0,Math.sin(a)*ring);
+    scene.add(mesh);
+    pillars.push({mesh,mat});
+  }
+  layerConnectors.push({lo:i,hi:i+1,pillars,flash:0,wasConnected:false});
+}
 
 /* ── DIE CHIP ── */
 const dieTex=makeTex(drawDieFace);
 const dieGeo=new THREE.BoxGeometry(1.38,0.11,1.38);
-const dieMat=new THREE.MeshStandardMaterial({map:dieTex,roughness:0.18,metalness:0.55,emissive:new THREE.Color(0.4,0.2,0.02),emissiveIntensity:0.0});
+// roughness/metalness dialed down from a near-mirror finish — at 0.18/0.55 the scene's
+// directional light threw a tight, blown-out specular hotspot straight at the camera,
+// washing out the die's circuitry texture underneath it regardless of power state.
+const dieMat=new THREE.MeshStandardMaterial({map:dieTex,roughness:0.42,metalness:0.28,emissive:new THREE.Color(0.4,0.2,0.02),emissiveIntensity:0.0});
 const dieMesh=new THREE.Mesh(dieGeo,dieMat);
 dieMesh.position.y=LT/2+0.055;dieMesh.castShadow=true;scene.add(dieMesh);
 const dieEdgeMat=new THREE.LineBasicMaterial({color:0xffd080,transparent:true,opacity:0.0});
@@ -1935,6 +2407,74 @@ BLOCK_DEF.forEach(([bx,bz,bw,bd,emCol,baseCol])=>{
   chipBlockMeshes.push({mat, edgeMat:eMat, emCol:new THREE.Color(emCol)});
 });
 
+/* ── ROUTING-LAYER SOC MODULES — real 3D CPU/GPU/RAM/MEM-CTRL blocks overlaid on the
+   routing layer (matching the labels baked into its texture), not just flat artwork.
+   They fade in once that layer lands, then the ring of traces between them draws in
+   right after — modules first, then visibly wired together. ── */
+const RBH = 0.07;
+// One consistent blue for all four modules (was a different color per block) — reads as
+// a unified module set instead of a rainbow, and matches the routing layer's own blue tone.
+const ROUTE_MOD_COL = 0x2068ff, ROUTE_MOD_BASE = 0x4a7fd8;
+const ROUTE_BLOCK_DEF = [
+  // [x, z, w, d, emissive, base, label] — pushed out near the layer's outer edge
+  // (away from the die's own bright glow at the center, which was washing them out)
+  [ 0.0, -1.65, 1.0, 0.6, ROUTE_MOD_COL, ROUTE_MOD_BASE, 'CPU'],
+  [ 1.65,  0.0, 0.6, 1.0, ROUTE_MOD_COL, ROUTE_MOD_BASE, 'GPU'],
+  [ 0.0,  1.65, 1.0, 0.6, ROUTE_MOD_COL, ROUTE_MOD_BASE, 'RAM'],
+  [-1.65,  0.0, 0.6, 1.0, ROUTE_MOD_COL, ROUTE_MOD_BASE, 'MEM CTRL'],
+];
+const routeBlocksGroup = new THREE.Group();
+scene.add(routeBlocksGroup);
+const routeBlockMeshes = [];
+ROUTE_BLOCK_DEF.forEach(([bx,bz,bw,bd,emCol])=>{
+  const geo = new THREE.BoxGeometry(bw, RBH, bd);
+  // Unlit (MeshBasicMaterial) on purpose — a lit material here gets washed toward white
+  // by the scene's own ambient/directional light, the same overexposure problem the die
+  // itself had. Normal (not additive) blending too: additive would ADD this color on top
+  // of the already-bright die glow nearby and saturate straight to white either way.
+  const mat = new THREE.MeshBasicMaterial({color:emCol, transparent:true, opacity:0.0});
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(bx, RBH/2, bz);
+  routeBlocksGroup.add(mesh);
+  const eMat = new THREE.LineBasicMaterial({color:emCol,transparent:true,opacity:0.0,blending:THREE.AdditiveBlending});
+  const eLines = new THREE.LineSegments(new THREE.EdgesGeometry(geo), eMat);
+  eLines.position.copy(mesh.position);
+  routeBlocksGroup.add(eLines);
+  routeBlockMeshes.push({mat, edgeMat:eMat});
+});
+// Ring of connecting traces: CPU → GPU → RAM → MEM CTRL → CPU
+const routeTraces = [];
+for(let i=0;i<ROUTE_BLOCK_DEF.length;i++){
+  const a=ROUTE_BLOCK_DEF[i], b=ROUTE_BLOCK_DEF[(i+1)%ROUTE_BLOCK_DEF.length];
+  const p0=new THREE.Vector3(a[0],RBH+0.006,a[1]), p1=new THREE.Vector3(b[0],RBH+0.006,b[1]);
+  const mid=new THREE.Vector3((p0.x+p1.x)/2,RBH+0.006,(p0.z+p1.z)/2);
+  const rMat=new THREE.MeshBasicMaterial({color:0xffe08a,transparent:true,opacity:0,blending:THREE.AdditiveBlending});
+  const mesh=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([p0,mid,p1]),8,0.022,6,false), rMat);
+  routeBlocksGroup.add(mesh);
+  routeTraces.push(mesh);
+}
+let routeConnected = false, routeFlash = 0;
+
+/* ── CLOCK TREE — PLL feeds the CPU column; lights up hardest during Clock-Tree-Synthesis ──
+   PLL and CPU0-3 all share x=-0.38 in BLOCK_DEF, so a single trunk down that column
+   doubles as the literal clock-distribution spine feeding each core in real CTS. */
+const CT_X = -0.38, CT_Z0 = -0.43, CT_Z1 = 0.23, CT_Y = BH + 0.007;
+const ctTrunk = new THREE.Mesh(
+  new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(CT_X, CT_Y, CT_Z0), new THREE.Vector3(CT_X, CT_Y, CT_Z1)]), 8, 0.0035, 5, false),
+  new THREE.MeshBasicMaterial({color:0xffe08a, transparent:true, opacity:0, blending:THREE.AdditiveBlending})
+);
+chipBlocksGroup.add(ctTrunk);
+const ctTapMats = [-0.43,-0.28,-0.11,0.06,0.23].map(z=>{
+  const mat = new THREE.MeshBasicMaterial({color:0xffe08a, transparent:true, opacity:0, side:THREE.DoubleSide, blending:THREE.AdditiveBlending});
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.013,0.019,16), mat);
+  ring.rotation.x = -Math.PI/2; ring.position.set(CT_X, CT_Y+0.001, z);
+  chipBlocksGroup.add(ring);
+  return mat;
+});
+const ctPulseMat = new THREE.MeshBasicMaterial({color:0xfff2c0, transparent:true, opacity:0, blending:THREE.AdditiveBlending});
+const ctPulse = new THREE.Mesh(new THREE.SphereGeometry(0.015,10,10), ctPulseMat);
+chipBlocksGroup.add(ctPulse);
+
 /* ── BOND WIRES ── */
 function makeBondWire(p0,p1,h,col){
   const mid=new THREE.Vector3((p0.x+p1.x)/2,Math.max(p0.y,p1.y)+h,(p0.z+p1.z)/2);
@@ -1953,7 +2493,7 @@ const dieR=0.69,padR=dieR+0.06,wireBaseY=LT/2+0.11,wireCol=new THREE.Color(0xe0b
 bondWires.forEach(w=>{w.visible=false;scene.add(w);});
 
 /* ── CIRCUIT NODE NETWORK ── */
-const NODE_N = 32;
+const NODE_N = lowPower ? 16 : 32;
 const nodePts = [];
 const rng = (a,b) => a + Math.random()*(b-a);
 for(let i = 0; i < NODE_N; i++){
@@ -1994,7 +2534,7 @@ nodePts.forEach(p => {
 });
 
 // Data packets (Points system)
-const PKT_N = 56;
+const PKT_N = lowPower ? 24 : 56;
 const pktPos = new Float32Array(PKT_N * 3);
 const pktGeo = new THREE.BufferGeometry();
 pktGeo.setAttribute('position', new THREE.BufferAttribute(pktPos, 3));
@@ -2052,7 +2592,7 @@ function spawnSonar(){
 }
 
 /* ── PARTICLES ── */
-const ptCnt = 260;
+const ptCnt = lowPower ? 100 : 260;
 const ptPos = new Float32Array(ptCnt * 3);
 for(let i = 0; i < ptCnt; i++){
   ptPos[i*3]   = (Math.random()-.5)*18;
@@ -2074,6 +2614,36 @@ for(let i = 0; i < starCnt; i++){
 const starGeo = new THREE.BufferGeometry();
 starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
 scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({color:0x8ea2c0,size:0.028,transparent:true,opacity:0.32,sizeAttenuation:true,depthWrite:false})));
+
+/* ── COMETS — occasional streaks crossing the deep starfield (allocation-free per frame) ── */
+const MAX_COMETS = 3;
+const comets = [];
+for(let i = 0; i < MAX_COMETS; i++){
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+  const mat = new THREE.LineBasicMaterial({color:0xcfe6ff, transparent:true, opacity:0, blending:THREE.AdditiveBlending, depthWrite:false});
+  const line = new THREE.Line(geo, mat);
+  line.frustumCulled = false;
+  scene.add(line);
+  comets.push({geo, mat, active:false, pos:new THREE.Vector3(), dir:new THREE.Vector3(), t:0, life:1, speed:0});
+}
+let cometTimer = 4.0;
+function spawnComet(){
+  const slot = comets.find(c => !c.active);
+  if(!slot) return;
+  const ex=23, ey=15, ez=23;
+  const side = Math.floor(Math.random()*4);
+  let start, dir;
+  if(side===0){       start=new THREE.Vector3(-ex,(Math.random()-.5)*ey*1.5,(Math.random()-.5)*ez*1.5); dir=new THREE.Vector3(1,(Math.random()-.5)*0.35,(Math.random()-.5)*0.5); }
+  else if(side===1){  start=new THREE.Vector3( ex,(Math.random()-.5)*ey*1.5,(Math.random()-.5)*ez*1.5); dir=new THREE.Vector3(-1,(Math.random()-.5)*0.35,(Math.random()-.5)*0.5); }
+  else if(side===2){  start=new THREE.Vector3((Math.random()-.5)*ex*1.5, ey, (Math.random()-.5)*ez*1.5); dir=new THREE.Vector3((Math.random()-.5)*0.45,-1,(Math.random()-.5)*0.45); }
+  else {               start=new THREE.Vector3((Math.random()-.5)*ex*1.5, (Math.random()-.5)*ey*1.5, -ez); dir=new THREE.Vector3((Math.random()-.5)*0.5,(Math.random()-.5)*0.35,1); }
+  dir.normalize();
+  slot.pos.copy(start); slot.dir.copy(dir);
+  slot.speed = 10 + Math.random()*7;
+  slot.t = 0; slot.life = 1.0 + Math.random()*0.6;
+  slot.active = true;
+}
 
 /* ── SILICON WAFER BASE ── */
 const wafer = new THREE.Mesh(
@@ -2120,7 +2690,7 @@ const nocSegs = [
   [0,-0.62, 0,0.62],   // vertical bus
 ];
 BLOCK_DEF.forEach(([bx,bz])=>{ nocSegs.push([bx,bz, bx,0]); nocSegs.push([bx,bz, 0,bz]); });
-const NOC_N = 68;
+const NOC_N = lowPower ? 30 : 68;
 const nocPos = new Float32Array(NOC_N*3);
 const nocGeo = new THREE.BufferGeometry();
 nocGeo.setAttribute('position', new THREE.BufferAttribute(nocPos,3));
@@ -2164,6 +2734,45 @@ ascGeo.setAttribute('position',new THREE.BufferAttribute(ascPos,3));
 const ascMat=new THREE.PointsMaterial({color:0x00d474,size:0.028,transparent:true,opacity:0,sizeAttenuation:true,blending:THREE.AdditiveBlending,depthWrite:false});
 const ascPoints=new THREE.Points(ascGeo,ascMat); scene.add(ascPoints);
 
+// Power-on flash state — the celebratory bloom pulse when the chip finishes powering
+// on (no text plaque; see the trigger further down in the render loop).
+let signoffFired = false, signoffFlash = 0;
+// Page-finale — fires once when the reader scrolls to the very bottom of the whole page
+// (distinct from signoffFlash, which fires when the chip itself finishes powering on early)
+let pageFinaleFired = false, pageFinaleFlash = 0;
+
+/* ── VERTICAL VIA-BEAMS — energy climbing the layer stack as it assembles ── */
+const viaGroup = new THREE.Group(); scene.add(viaGroup);
+const viaBeams = [];
+[[-0.45,-0.45],[0.45,-0.45],[-0.45,0.45],[0.45,0.45],[0,0.6],[0,-0.6],[-0.62,0],[0.62,0]].forEach(([vx,vz])=>{
+  const colMat = new THREE.MeshBasicMaterial({color:0x2a6aa8,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+  const col = new THREE.Mesh(new THREE.CylinderGeometry(0.005,0.005,2.0,6), colMat);
+  col.position.set(vx,0.15,vz); viaGroup.add(col);
+  const sparkMat = new THREE.MeshBasicMaterial({color:0xaef0ff,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+  const spark = new THREE.Mesh(new THREE.SphereGeometry(0.022,8,8), sparkMat);
+  viaGroup.add(spark);
+  viaBeams.push({colMat, spark, sparkMat, x:vx, z:vz, t:Math.random()});
+});
+
+/* ── HOLOGRAPHIC SCAN-BOX — wireframe frame that sweeps around the die ── */
+const scanBox = new THREE.LineSegments(
+  new THREE.EdgesGeometry(new THREE.BoxGeometry(1.72,0.94,1.72)),
+  new THREE.LineBasicMaterial({color:0x3a8fd4,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false})
+);
+scanBox.position.y = 0.4; scene.add(scanBox);
+const scanPlaneMat = new THREE.MeshBasicMaterial({color:0x00d474,transparent:true,opacity:0,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false});
+const scanPlane = new THREE.Mesh(new THREE.PlaneGeometry(1.72,1.72), scanPlaneMat);
+scanPlane.rotation.x = -Math.PI/2; scene.add(scanPlane);
+
+/* ── ORBITING DATA SATELLITES — small nodes circling the chip ── */
+const sats = [];
+for(let i=0;i<5;i++){
+  const sm = new THREE.MeshBasicMaterial({color:i%2?0x00d474:0x3a8fd4,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+  const mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(0.038,0), sm);
+  scene.add(mesh);
+  sats.push({mesh, sm, r:2.15+i*0.34, yBase:0.25+Math.sin(i*1.3)*0.5, sp:(0.22+i*0.1)*(i%2?1:-1), ph:i*1.7, tilt:(i-2)*0.22});
+}
+
 /* ── LIGHTS ── */
 scene.add(new THREE.AmbientLight(0xb4c2d4, 1.25));
 const dirL = new THREE.DirectionalLight(0xdce6f4, 2.1);
@@ -2179,7 +2788,7 @@ const dieL  = new THREE.PointLight(0xffd080, 0.0, 4);dieL.position.set(0,0.6,0);
 const netL  = new THREE.PointLight(0x00d474, 0.3, 8);netL.position.set(3,1,3);scene.add(netL);
 
 /* ── POST PROCESSING ── */
-const lowPower = ((navigator.hardwareConcurrency || 8) <= 4) || innerWidth < 760;
+// (lowPower already computed above, alongside reduceMotion3D)
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, cam));
 let bloom = null;
@@ -2275,20 +2884,78 @@ function updateHudMetrics(sp){
 function easeOut(t){return 1-Math.pow(1-t,3);}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function lerp(a,b,t){return a+(b-a)*t;}
+// "Back ease out" — overshoots past 1 mid-transition then settles exactly at 1,
+// giving each layer a small mechanical bounce as it clicks into its final position.
+function easeOutBack(t){const c1=1.70158,c3=c1+1;const x=t-1;return 1+c3*x*x*x+c1*x*x;}
 
 let animTime = 0; // updated every frame so updateChip can read it for pulse
 let scrollP = 0;  // raw scroll progress 0..1 (camera choreography)
 let curAssP = 0, curPowerP = 0; // shared so the render loop can keep pulsing when idle
 
-function updateChip(sp){
-  const assP  = easeOut(clamp(sp/0.75,0,1));
-  const powerP = clamp((sp-0.75)/0.25,0,1);
-  scrollP = sp; curAssP = assP; curPowerP = powerP;
+// buildSp: fast, hero-scoped progress (0 at page top, 1 after ~one screen of scroll) —
+// drives the layer stack-up + power-on so the whole build finishes before the reader
+// ever reaches the next section, for an immediate payoff rather than one smeared
+// across the entire page.
+// camSp: slow, whole-page progress — keeps the camera's far-to-close dolly/orbit
+// spanning the full scroll, independent of how fast the chip itself finished building.
+function updateChip(buildSp, camSp){
+  const assP  = easeOut(clamp(buildSp/0.75,0,1));
+  const powerP = clamp((buildSp-0.75)/0.25,0,1);
+  scrollP = camSp; curAssP = assP; curPowerP = powerP;
 
   layers3d.forEach(L=>{
-    const y=lerp(L.yI,L.yF,assP);
-    L.mesh.position.y=y;L.edges.position.y=y;
+    // Each layer gets its own staggered window of assP so they land one at a time
+    // (substrate → routing → die → encapsulant → package) rather than in lockstep,
+    // with a small back-eased overshoot as it "clicks" into its final position.
+    const lp = easeOutBack(clamp((assP - L.stag) / (1 - L.stag), 0, 1));
+    L.lp = lp;
+    const y = lerp(L.yI, L.yF, lp);
+    L.mesh.position.y=y; L.edges.position.y=y;
+
+    // Landing flash — brief edge brightening the instant a layer's own progress
+    // crosses its settle point; reversible, so scrolling back and forth re-triggers it.
+    if(L.prevLp < 0.995 && lp >= 0.995) L.flash = 1;
+    L.prevLp = lp;
+    L.flash *= reduceMotion3D ? 0 : 0.9;
+    L.edges.material.opacity = clamp(L.baseEdgeOp + L.flash * 0.6, 0, 1);
   });
+
+  // Layer connectors — via pillars bridge each boundary's gap and light up only once
+  // BOTH neighboring layers have settled, with a flash the instant the connection completes.
+  layerConnectors.forEach(C=>{
+    const lo=layers3d[C.lo], hi=layers3d[C.hi];
+    const loTopY = lo.mesh.position.y + lo.t/2;
+    const hiBotY = hi.mesh.position.y - hi.t/2;
+    const gap = Math.max(0.002, hiBotY - loTopY);
+    const bothLanded = lo.lp >= 0.995 && hi.lp >= 0.995;
+    if(bothLanded && !C.wasConnected) C.flash = 1;
+    C.wasConnected = bothLanded;
+    C.flash *= reduceMotion3D ? 0 : 0.88;
+    const op = clamp((bothLanded ? 0.7 : 0) + C.flash*0.6, 0, 1);
+    C.pillars.forEach(p=>{
+      p.mesh.position.y = (loTopY+hiBotY)/2;
+      p.mesh.scale.y = gap;
+      p.mat.opacity = op;
+    });
+  });
+
+  // Routing-layer SoC modules — track that layer's own surface, fade in once it has
+  // mostly landed, then the ring of traces between them draws in right after (with a
+  // flash the instant the ring completes) — modules appear, then visibly get connected.
+  const rLayer = layers3d[1];
+  routeBlocksGroup.position.y = rLayer.mesh.position.y + rLayer.t/2 + 0.01;
+  const rFade = clamp((rLayer.lp - 0.55) / 0.35, 0, 1);
+  routeBlockMeshes.forEach(({mat, edgeMat}) => {
+    mat.opacity = rFade * 0.97;
+    edgeMat.opacity = rFade * 0.9;
+  });
+  const rTraceFade = clamp((rLayer.lp - 0.85) / 0.3, 0, 1);
+  if(rTraceFade >= 0.999 && !routeConnected){ routeConnected = true; routeFlash = 1; }
+  if(rTraceFade < 0.5) routeConnected = false;
+  routeFlash *= reduceMotion3D ? 0 : 0.9;
+  const rTraceOp = clamp(rTraceFade * 0.95 + routeFlash * 0.6, 0, 1);
+  routeTraces.forEach(m => { m.material.opacity = rTraceOp; });
+
   const l2y=layers3d[2].mesh.position.y;
   dieMesh.position.y=l2y+LT/2+0.055;
   dieEdges.position.y=dieMesh.position.y;
@@ -2304,15 +2971,18 @@ function updateChip(sp){
     }
   });
 
-  // Die glow (toned down for the light theme)
+  // Die glow — dialed back from a flat white blowout (the close point lights were
+  // overexposing the die's glossy surface, washing out the circuitry underneath) to a
+  // more restrained direct glow, with the drama shifted onto bloom instead: a soft
+  // halo around the chip reads as "powerful" without erasing the detail that earns it.
   const glowP=clamp((assP-0.78)/0.22,0,1);
-  dieMat.emissiveIntensity=glowP*1.0+powerP*1.0;
+  dieMat.emissiveIntensity=glowP*0.7+powerP*0.75;
   dieEdgeMat.opacity=glowP*0.5;
-  dieL.intensity=glowP*1.6+powerP*2.0;
+  dieL.intensity=glowP*0.9+powerP*1.05;
 
-  // Bloom (restrained; high threshold so the light backdrop never blooms)
-  if(bloom){ bloom.strength=0.22+glowP*0.18+powerP*0.14; bloom.threshold=0.92; }
-  blueL.intensity=glowP*1.3+powerP*1.6;
+  // Bloom carries more of the "powered on" drama now that the raw lights are gentler
+  if(bloom){ bloom.strength=0.22+glowP*0.24+powerP*0.26; bloom.threshold=0.95; }
+  blueL.intensity=glowP*0.7+powerP*0.85;
 
   // Chip sub-blocks — track die top surface
   chipBlocksGroup.position.y = dieMesh.position.y + 0.055;
@@ -2324,6 +2994,16 @@ function updateChip(sp){
     mat.emissiveIntensity = fade * (0.45 + powerP * (0.55 + pulse * 0.35));
     edgeMat.opacity = fade * (0.55 + powerP * pulse * 0.3);
   });
+
+  // Clock tree — fades in with the CPU column, then flares hard through the
+  // Clock-Tree-Synthesis stage (stage 6 of 8, i.e. sp in [0.625, 0.75)
+  const ctFade = clamp((assP - 0.68) / 0.16, 0, 1);
+  const ctStage = clamp(1 - Math.abs(buildSp - 0.6875) / 0.0625, 0, 1);
+  ctTrunk.material.opacity = ctFade * (0.2 + powerP * 0.3 + ctStage * 0.85);
+  ctTapMats.forEach((m, i) => { m.opacity = ctFade * (0.25 + ctStage * 0.65) * (0.6 + 0.4 * Math.sin(animTime * 3 + i * 1.1) * motionK); });
+  const ctT = reduceMotion3D ? 0.5 : (animTime * 0.35) % 1;
+  ctPulse.position.set(CT_X, CT_Y + 0.003, lerp(CT_Z0, CT_Z1, ctT));
+  ctPulseMat.opacity = ctFade * (0.4 + ctStage * 0.6);
 
   // Standard-cell grid — fades in with the die, glows when powered
   const cellFade = clamp((assP - 0.6) / 0.22, 0, 1);
@@ -2338,16 +3018,32 @@ function updateChip(sp){
   wafer.material.emissiveIntensity = 0.12 + wOp*0.1;
 }
 
-if(window.gsap && window.ScrollTrigger){
-  gsap.registerPlugin(ScrollTrigger);
-  ScrollTrigger.create({trigger:'body',start:'top top',end:'bottom bottom',onUpdate(s){updateChip(s.progress);}});
+// window.__targetSp — whole-page scroll fraction, driving the camera dolly, the ASIC-flow
+// HUD, and the page finale. Deliberately NOT a GSAP ScrollTrigger: a trigger:'body' with
+// end:'bottom bottom' caches its "end" the first time it's computed and — confirmed by
+// direct inspection — never recalculates even after explicit refresh() calls once the
+// Experience/Projects pinned sections insert their spacers and grow the real page height
+// afterward, so it permanently under-measures the page and hits 1 halfway down. Computing
+// it directly from the DOM on every scroll sidesteps that caching bug entirely.
+function updatePageProgress(){
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  window.__targetSp = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
 }
-/* ── ASIC flow panel (pinned in the hero rail) — progress linked to page scroll ── */
+window.addEventListener('scroll', updatePageProgress, {passive:true});
+window.addEventListener('resize', updatePageProgress, {passive:true});
+updatePageProgress();
+// Fast, hero-scoped progress shared by the chip build and the HUD panel next to it:
+// 0 at the very top of the page, 1 after roughly one screen of scrolling — so both
+// finish their "build" story before the reader ever reaches the next section.
+function heroSp(){ return Math.min(1, Math.max(0, window.scrollY / window.innerHeight)); }
+
+/* ── ASIC flow panel (pinned in the hero rail) — progress linked to the WHOLE page
+   scroll (not the fast hero-scoped build), so it keeps advancing and only reaches
+   100% at the very bottom, instead of finishing early alongside the chip visual. ── */
 let flowT = 0;
 function tickFlow(){
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  const target = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-  flowT += (target - flowT) * 0.12;                    // smooth follow of scroll position
+  const target = window.__targetSp || 0;
+  flowT += (target - flowT) * 0.3;                     // tightly follow the scroll position
   const pct = Math.round(flowT*100);
   hudFill.style.width = pct+'%';
   hudPctEl.textContent = pct+'%';
@@ -2364,13 +3060,24 @@ requestAnimationFrame(tickFlow);
 const clock = new THREE.Clock();
 /* Animation pace: slow while the reader is still (chip mostly hidden behind content),
    faster during scroll transitions when the background is visible between sections. */
-let spd = 0, scrollBoost = 0, lastSY = window.scrollY, idleR = 0;
+let spd = 0, scrollBoost = 0, lastSY = window.scrollY, idleR = 0, camEase = 0, assEase = 0, buildEase = 0;
+const reduceMotion = reduceMotion3D; // same preference, already read once above
 window.__scrollDirty = true;
 window.addEventListener('scroll', () => {
   const dy = Math.abs(window.scrollY - lastSY); lastSY = window.scrollY;
   scrollBoost = Math.min(2.4, scrollBoost + dy*0.02);
   window.__scrollDirty = true;
 }, {passive:true});
+
+/* Mouse parallax — small camera drift toward the pointer, own listener (module scope is
+   isolated from the classic <script> cursor code later in the page) */
+let pmxT = 0, pmyT = 0, pmx = 0, pmy = 0;
+window.addEventListener('pointermove', e => {
+  pmxT = (e.clientX / innerWidth) - 0.5;
+  pmyT = (e.clientY / innerHeight) - 0.5;
+  window.__scrollDirty = true;
+}, {passive:true});
+
 function animate(){
   requestAnimationFrame(animate);
   if(document.hidden) return;                // don't render while the tab is in the background
@@ -2378,33 +3085,51 @@ function animate(){
   window.__hb = (window.__hb || 0) * 0.95;   // heading-arrival burst decays after each section
   const horizPin = window.ScrollTrigger && ScrollTrigger.getAll().some(s => s.vars.id === 'horiz' && s.isActive);
   const drive = Math.max(scrollBoost, window.__hb);
-  // Run while transitioning (scrolling / a heading just arrived); pause when settled on content or in a horizontal section.
-  spd = horizPin ? 0 : (drive > 0.06 ? Math.min(3, 0.7 + drive) : 0);
+  // Run while transitioning; slow to a gentle crawl while scrolling horizontally (Experience / Projects); pause when settled.
+  const spdTarget = horizPin
+    ? (drive > 0.04 ? Math.min(0.16, 0.05 + drive*0.06) : 0)   // very slow crawl through the horizontal sections
+    : (drive > 0.04 ? Math.min(2.8, 0.7 + drive) : 0);          // lively pace while transitioning between sections
+  spd += ((reduceMotion ? 0 : spdTarget) - spd) * 0.09;   // ease in/out — and stay still under reduced-motion
+  if(spd < 0.0016 && (reduceMotion || spdTarget === 0)) spd = 0;
+
+  // buildEase: fast hero-scoped progress driving the layer stack-up + power-on (finishes
+  // within about one screen of scrolling, well before the reader reaches the next section).
+  buildEase += (heroSp() - buildEase) * 0.12;
+  // assEase: slow whole-page progress, kept separate so the camera's dolly/orbit still
+  // spans the entire page even after the chip itself has already finished building —
+  // held steady during a horizontal-pinned section, then gliding to catch up after.
+  const rawSp = window.__targetSp || 0;
+  assEase += ((horizPin ? assEase : rawSp) - assEase) * 0.12;
+  updateChip(buildEase, assEase);
   const t  = clock.getElapsedTime();
   animTime = t;
   const dt = 0.016 * spd;
 
   // Camera choreography — dolly in + orbit as the page scrolls, with idle breathe
-  const eIn = scrollP*scrollP*(3-2*scrollP);           // smoothstep of scroll
+  camEase += (scrollP - camEase) * 0.07;               // damp the scroll so the camera glides
+  pmx += (pmxT - pmx) * 0.06;                           // damp the pointer for a gentle parallax drift
+  pmy += (pmyT - pmy) * 0.06;
+  const eIn = camEase*camEase*(3-2*camEase);           // smoothstep of the eased scroll
   const radius = 9.6 + (6.0-9.6)*eIn;                   // far → close
   const height = 7.3 + (4.5-7.3)*eIn;                   // high → into the chip
-  const ang = 0.785 + eIn*Math.PI*0.5 + Math.sin(t*0.14)*0.025;  // 45° → ~+90° orbit
-  cam.position.x = Math.cos(ang)*radius + Math.sin(t*0.18)*0.12;
-  cam.position.z = Math.sin(ang)*radius + Math.cos(t*0.13)*0.12;
-  cam.position.y = height + Math.sin(t*0.22)*0.09;
+  const ang = 0.785 + eIn*Math.PI*0.5 + Math.sin(t*0.14)*0.025*motionK;  // 45° → ~+90° orbit
+  cam.position.x = Math.cos(ang)*radius + Math.sin(t*0.18)*0.12*motionK + pmx*0.4*motionK;
+  cam.position.z = Math.sin(ang)*radius + Math.cos(t*0.13)*0.12*motionK;
+  cam.position.y = height + Math.sin(t*0.22)*0.09*motionK - pmy*0.25*motionK;
   cam.lookAt(0, -0.5 + 0.65*eIn, 0);
 
   // Wafer slow spin
   wafer.rotation.y += 0.0016*spd;
 
-  // Continuous power pulsing (keeps glowing even when the reader stops scrolling)
+  // Continuous power pulsing (keeps glowing even when the reader stops scrolling) —
+  // under reduced motion, hold steady at the mid-pulse brightness instead of oscillating
   if(curPowerP > 0.05){
     chipBlockMeshes.forEach(({mat, edgeMat}, i) => {
-      const pulse = 0.5 + 0.5*Math.sin(t*2.8 + i*0.9);
+      const pulse = reduceMotion3D ? 0.5 : (0.5 + 0.5*Math.sin(t*2.8 + i*0.9));
       mat.emissiveIntensity = 0.45 + curPowerP*(0.55 + pulse*0.35);
       edgeMat.opacity = 0.55 + curPowerP*pulse*0.3;
     });
-    cellMat.emissiveIntensity = 0.12 + curPowerP*(0.32 + 0.22*Math.sin(t*2.2));
+    cellMat.emissiveIntensity = 0.12 + curPowerP*(0.32 + 0.22*Math.sin(t*2.2)*motionK);
   }
 
   // NoC currents flowing between blocks on the die
@@ -2420,8 +3145,9 @@ function animate(){
     nocGeo.attributes.position.needsUpdate = true;
   } else if(nocMat.opacity>0){ nocMat.opacity=0; }
 
-  // Energy arcs — occasional bright signal sweeps between random blocks
-  if(curAssP > 0.7){
+  // Energy arcs — occasional bright signal sweeps between random blocks; skipped on
+  // low-power devices since each spawn disposes/rebuilds a tube geometry
+  if(curAssP > 0.7 && !lowPower){
     arcTimer -= dt;
     if(arcTimer<=0 && arcLife<=0){
       arcTimer = 0.8 + Math.random()*1.8; arcLife = 0.55;
@@ -2452,14 +3178,69 @@ function animate(){
     ascGeo.attributes.position.needsUpdate = true;
   }
 
+  // Power-on flash — no text plaque, just a brief bloom pulse once the chip is
+  // essentially at full power (curPowerP -> 1), reversible so it can re-fire.
+  if(curPowerP > 0.98 && !signoffFired){ signoffFired = true; signoffFlash = 1; }
+  if(curPowerP < 0.4) signoffFired = false;
+  if(signoffFlash > 0.001){
+    signoffFlash *= 0.92;
+    if(bloom) bloom.strength += signoffFlash * 0.5;
+  }
+
+  // Page finale — the reader has scrolled to the very bottom of the ENTIRE page (assEase
+  // tracks whole-page progress, unlike buildEase/signoffFlash which resolve early within
+  // the hero). Fire the three comets together and a bloom flash as a closing flourish.
+  if(assEase > 0.985 && !pageFinaleFired){
+    pageFinaleFired = true; pageFinaleFlash = 1;
+    if(!lowPower){ comets.forEach(c => { c.active = false; }); for(let i = 0; i < MAX_COMETS; i++) spawnComet(); }
+  }
+  if(assEase < 0.9) pageFinaleFired = false;
+  if(pageFinaleFlash > 0.001){
+    pageFinaleFlash *= 0.94;
+    if(bloom) bloom.strength += pageFinaleFlash * 0.45;
+  }
+
+  // Via-beams — glowing energy climbing the layer stack once the die is placed
+  const viaOn = clamp((curAssP-0.6)/0.2, 0, 1);
+  const viaBright = viaOn * (0.35 + curPowerP*0.65);
+  const viaBaseY = chipBlocksGroup.position.y - 0.9;
+  viaBeams.forEach(v => {
+    v.colMat.opacity = viaBright * 0.5;
+    v.t += dt * 0.5;
+    if(v.t > 1) v.t -= 1;
+    v.spark.position.set(v.x, viaBaseY + v.t*2.0, v.z);
+    v.sparkMat.opacity = viaBright * (0.5 + 0.5*Math.sin(v.t*Math.PI)) * 0.9;
+  });
+
+  // Holographic scan-box — wireframe frame + a plane sweeping up through the chip
+  const boxOn = clamp((curAssP-0.62)/0.2, 0, 1);
+  scanBox.material.opacity = boxOn * (0.22 + curPowerP*0.3 + 0.08*Math.sin(t*1.6)*motionK);
+  scanBox.position.y = (chipBlocksGroup.position.y + 0.05) + Math.sin(t*0.5)*0.02*motionK;
+  scanBox.rotation.y += 0.0015*spd;
+  const sweep = reduceMotion3D ? 0.5 : (t*0.18) % 1;
+  scanPlane.position.y = (chipBlocksGroup.position.y - 0.35) + sweep*1.0;
+  scanPlaneMat.opacity = boxOn * (1-Math.abs(sweep-0.5)*2) * 0.12;
+
+  // Orbiting data satellites — hold a fixed position/orientation under reduced motion
+  // instead of continuously orbiting/spinning regardless of scroll
+  const satOn = clamp((curAssP-0.55)/0.25, 0, 1);
+  sats.forEach(s => {
+    const ang = s.ph + t*s.sp*motionK;
+    s.mesh.position.set(Math.cos(ang)*s.r, (chipBlocksGroup.position.y||0) + s.yBase + Math.sin(ang*1.3)*0.15 + s.tilt, Math.sin(ang)*s.r);
+    s.mesh.rotation.x += 0.03*motionK; s.mesh.rotation.y += 0.02*motionK;
+    s.sm.opacity = satOn * (0.55 + 0.45*Math.sin(t*2 + s.ph)*motionK);
+  });
+
   // Orbital rings
   ring1.rotation.z += 0.004*spd;
   ring2.rotation.z -= 0.003*spd;
   ring3.rotation.y += 0.002*spd;
 
-  // Sonar rings
-  sonarTimer -= dt;
-  if(sonarTimer <= 0){ spawnSonar(); sonarTimer = 2.5 + Math.random()*1.8; }
+  // Sonar rings — skipped entirely on low-power devices, not just hidden
+  if(!lowPower){
+    sonarTimer -= dt;
+    if(sonarTimer <= 0){ spawnSonar(); sonarTimer = 2.5 + Math.random()*1.8; }
+  }
   for(let i = sonarRings.length-1; i >= 0; i--){
     const sr = sonarRings[i];
     sr.t += dt * 0.28;
@@ -2468,6 +3249,25 @@ function animate(){
     sr.mat.opacity = Math.max(0, 0.6 - sr.t*0.65);
     if(sr.t > 0.95){ scene.remove(sr.mesh); sonarRings.splice(i,1); }
   }
+
+  // Comets — occasional streaks crossing the deep starfield; skipped on low-power devices
+  if(!lowPower){
+    cometTimer -= dt;
+    if(cometTimer <= 0){ spawnComet(); cometTimer = 6 + Math.random()*8; }
+  }
+  comets.forEach(c => {
+    if(!c.active) return;
+    c.t += dt;
+    c.pos.addScaledVector(c.dir, c.speed*dt);
+    const tail = 1.4;
+    const cp = c.geo.attributes.position.array;
+    cp[0]=c.pos.x-c.dir.x*tail; cp[1]=c.pos.y-c.dir.y*tail; cp[2]=c.pos.z-c.dir.z*tail;
+    cp[3]=c.pos.x; cp[4]=c.pos.y; cp[5]=c.pos.z;
+    c.geo.attributes.position.needsUpdate = true;
+    const lp = c.t / c.life;
+    c.mat.opacity = lp < 0.12 ? (lp/0.12)*0.8 : Math.max(0, 0.8*(1-(lp-0.12)/0.88));
+    if(c.t > c.life){ c.active = false; c.mat.opacity = 0; }
+  });
 
   // Node pulse
   nodeMeshes.forEach((n, i) => {
@@ -2506,7 +3306,7 @@ function animate(){
   ptGeo.attributes.position.needsUpdate = true;
 
   // Only spend GPU when something is actually moving; freeze the last frame when the reader is settled.
-  if(spd > 0.001 || window.__scrollDirty){
+  if(spd > 0.001 || window.__scrollDirty || signoffFlash > 0.001 || pageFinaleFlash > 0.001 || routeFlash > 0.001 || layers3d.some(L => L.flash > 0.001) || layerConnectors.some(C => C.flash > 0.001) || Math.abs((window.__targetSp||0) - assEase) > 0.0008 || Math.abs(heroSp() - buildEase) > 0.0008){
     composer.render();
     window.__scrollDirty = false;
     idleR = 0;
@@ -2516,17 +3316,22 @@ function animate(){
   }
 }
 animate();
+} // end if(renderer) — WebGL-available branch
 </script>
 
 <!-- UI SCRIPTS -->
-<script>
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('out');
-    document.body.classList.remove('loading');
-    runCounters(); runTypewriter();
-  }, 3200);
-});
+<script defer>
+function revealSite(){
+  const l=document.getElementById('loader');
+  if(!l || l.classList.contains('out')) return;
+  l.classList.add('out');
+  document.body.classList.remove('loading');
+  try{ runCounters(); }catch(e){}
+  try{ runTypewriter(); }catch(e){}
+}
+window.addEventListener('load', () => setTimeout(revealSite, 3200));
+/* Hard fallback — never leave the loader stuck if Three.js / GSAP is slow or blocked */
+setTimeout(revealSite, 6500);
 
 /* Cursor */
 const cDot=document.getElementById('cDot'), cRing=document.getElementById('cRing');
@@ -2536,19 +3341,117 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
   cDot.style.cssText=`left:${mx}px;top:${my}px`;
   cRing.style.cssText=`left:${rx}px;top:${ry}px`;
   requestAnimationFrame(cl);})();
+
+/* Footer — cursor-reactive sparks; a small trail follows the pointer while it's over
+   the footer, instead of everything down there being purely play-once-on-scroll. */
+(function(){
+  const ft = document.getElementById('contact');
+  if(!ft || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  const sparkColors = ['var(--cu)','var(--blu)','var(--sig)','var(--gd)'];
+  let lastSpark = 0;
+  ft.addEventListener('mousemove', e => {
+    const now = performance.now();
+    if(now - lastSpark < 55) return;
+    lastSpark = now;
+    const r = ft.getBoundingClientRect();
+    const s = document.createElement('span');
+    s.className = 'ft-cursor-spark';
+    s.style.left = (e.clientX - r.left) + 'px';
+    s.style.top = (e.clientY - r.top) + 'px';
+    s.style.background = sparkColors[(Math.random() * sparkColors.length) | 0];
+    ft.appendChild(s);
+    setTimeout(() => s.remove(), 700);
+  }, {passive:true});
+})();
+
+/* End-of-page celebration — a one-time confetti burst the first time the reader scrolls
+   to the very bottom. Runs on its own canvas ABOVE the #veil (unlike the hex-grid
+   background canvas, which the veil deliberately dims across most of the width) so it's
+   actually visible full-width, not just in the narrow center column. */
+(function(){
+  const cv = document.getElementById('celebCanvas');
+  if(!cv || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  const ctx = cv.getContext('2d');
+  let W, H, particles = [], fired = false, running = false, lastT = 0;
+  function resize(){ W = cv.width = innerWidth; H = cv.height = innerHeight; }
+  window.addEventListener('resize', resize, {passive:true});
+  resize();
+
+  function spawn(){
+    const cols = [[185,99,26],[28,122,198],[10,116,66],[183,134,15]];
+    for(let i = 0; i < 90; i++){
+      const c = cols[(Math.random() * cols.length) | 0];
+      particles.push({
+        x: Math.random() * W, y: -20 - Math.random() * H * 0.5,
+        vx: (Math.random() - 0.5) * 70, vy: 70 + Math.random() * 100,
+        rot: Math.random() * Math.PI * 2, vr: (Math.random() - 0.5) * 6,
+        size: 4 + Math.random() * 5, life: 0, maxLife: 2.4 + Math.random() * 1.2,
+        col: c
+      });
+    }
+  }
+  function tick(now){
+    // Clamped both ways: capped so a slow/hitched frame doesn't jump particles too far,
+    // and floored at 0 since a RAF timestamp can legitimately land before the
+    // performance.now() sampled when this loop was kicked off, giving a negative delta
+    // that would otherwise produce an invalid negative alpha on the very first frame.
+    const dt = Math.max(0, Math.min((now - lastT) / 1000, 0.05)); lastT = now;
+    ctx.clearRect(0, 0, W, H);
+    for(let i = particles.length - 1; i >= 0; i--){
+      const p = particles[i];
+      p.life += dt;
+      if(p.life >= p.maxLife || p.y > H + 30){ particles.splice(i, 1); continue; }
+      p.vy += 45 * dt;
+      p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+      const fadeIn = Math.min(1, p.life / 0.2);
+      const fadeOut = Math.max(0, 1 - Math.max(0, p.life - (p.maxLife - 0.5)) / 0.5);
+      const op = fadeIn * fadeOut;
+      ctx.save();
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = `rgba(${p.col[0]},${p.col[1]},${p.col[2]},${(0.9 * op).toFixed(3)})`;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    }
+    if(particles.length){ requestAnimationFrame(tick); }
+    else { running = false; ctx.clearRect(0, 0, W, H); }
+  }
+  function trigger(){
+    if(fired) return;
+    const atBottom = window.scrollY + innerHeight >= document.documentElement.scrollHeight - 40;
+    if(!atBottom) return;
+    fired = true;
+    spawn();
+    if(!running){ running = true; lastT = performance.now(); requestAnimationFrame(tick); }
+  }
+  window.addEventListener('scroll', trigger, {passive:true});
+})();
+
 document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cDot.style.width=cDot.style.height='10px';cRing.style.width=cRing.style.height='48px';cRing.style.borderColor='rgba(200,120,40,.8)';});
   el.addEventListener('mouseleave',()=>{cDot.style.width=cDot.style.height='6px';cRing.style.width=cRing.style.height='30px';cRing.style.borderColor='rgba(200,120,40,.4)';});
 });
 
-/* Scroll progress */
-const sBar=document.getElementById('sBar'),nav=document.getElementById('nav');
+/* Roadmap cards — .sel/cursor:pointer were already styled (mirrors the desktop :hover
+   glow) but nothing ever set .sel, so tapping a card on a touch device (no :hover) did
+   nothing. Tapping now toggles that same highlight, single-select across the cards. */
+document.querySelectorAll('.rm-card.active').forEach(card=>{
+  card.addEventListener('click', () => {
+    const wasSel = card.classList.contains('sel');
+    document.querySelectorAll('.rm-card.sel').forEach(c => c.classList.remove('sel'));
+    if(!wasSel) card.classList.add('sel');
+  });
+});
+
+/* Scroll progress + back-to-top */
+const sBar=document.getElementById('sBar'),nav=document.getElementById('nav'),toTop=document.getElementById('toTop');
 window.addEventListener('scroll',()=>{
   const st=document.documentElement.scrollTop;
   const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
   sBar.style.width=(st/sh*100)+'%';
   nav.classList.toggle('sc',st>60);
+  if(toTop) toTop.classList.toggle('show', st>700);
 },{passive:true});
+if(toTop) toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
 /* Typewriter */
 const ROLES=['VLSI Design & Verification Engineer','RTL-to-GDS Tapeout Engineer','UVM Verification Architect','FPGA & ML Accelerator Designer','Hardware & Systems Engineer'];
@@ -2574,16 +3477,42 @@ function runCounters(){
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.rv,.sec-tag,.sec-title,.ti,.pc,.sk,.ec,.cc').forEach(el=>io.observe(el));
 
-/* Run the background animation for a beat each time a main section heading arrives */
-const hio=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting) window.__hb=2.2;}),{threshold:.5});
+/* Run the background animation clearly each time a main section heading comes into view */
+const hio=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting) window.__hb=3.2;}),{threshold:.35});
 document.querySelectorAll('.sec-title,.h-name').forEach(el=>hio.observe(el));
 
+/* Tag pills — staggered "chip lighting up" entrance, layered on top of the card-level .vis fade.
+   These spans have no CSS transition of their own, so this can't fight the IntersectionObserver reveal above. */
+window.addEventListener('load', () => { setTimeout(setupTagReveal, 200); });
+function setupTagReveal(){
+  if(!(window.gsap && window.ScrollTrigger)) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  const tags = document.querySelectorAll('.pc-tag,.sk-tag,.ep-tag,.hf-tag,.ft-socials a');
+  if(!tags.length) return;
+  gsap.set(tags, {opacity:0, y:6, scale:.85});
+  ScrollTrigger.batch(tags, {
+    start:'top 94%',
+    once:true,
+    onEnter: batch => gsap.to(batch, {opacity:1, y:0, scale:1, duration:.45, ease:'back.out(1.7)', stagger:.02, overwrite:true})
+  });
+}
 
 /* Projects: each category is a pinned horizontal-scroll; the left nav syncs to the active one.
    Scroll down → a category pins and its cards glide sideways; between categories the page scrolls
    vertically, then the next category begins its horizontal run. */
 window.addEventListener('load', () => { setTimeout(setupProjScroll, 350); });
 function setupProjScroll(){
+  // Category order: Verification → FPGA/RTL → Physical Design → Device/TCAD
+  const CAT_ORDER = ['verif','fpga','pd','tcad'];
+  const navEl = document.querySelector('.proj-nav');
+  const contentEl = document.querySelector('.proj-content');
+  if(navEl && contentEl){
+    CAT_ORDER.forEach(cat => {
+      const tab = navEl.querySelector('.pn-tab[data-cat="'+cat+'"]');   if(tab) navEl.appendChild(tab);
+      const panel = contentEl.querySelector('.proj-panel[data-cat="'+cat+'"]'); if(panel) contentEl.appendChild(panel);
+    });
+  }
   const tabs = document.querySelectorAll('.pn-tab');
   const panels = [...document.querySelectorAll('.proj-panel')];
   if(!tabs.length || !panels.length) return;
@@ -2596,7 +3525,7 @@ function setupProjScroll(){
   }));
 
   const desktop = window.innerWidth >= 900 && !matchMedia('(prefers-reduced-motion: reduce)').matches && window.gsap && window.ScrollTrigger;
-  if(!desktop){ setActive('pd'); return; }
+  if(!desktop){ setActive('verif'); return; }
   gsap.registerPlugin(ScrollTrigger);
 
   panels.forEach(panel => {
@@ -2627,7 +3556,7 @@ function setupProjScroll(){
     tl.to(pg, {x: () => -getDist(), ease:'none', duration: 1 - 2*DWELL}); // glide the cards
     tl.to({}, {duration: DWELL});                                        // hold at the end
   });
-  setActive('pd');
+  setActive('verif');
   ScrollTrigger.refresh();
 }
 
@@ -2676,7 +3605,16 @@ function setupExpScroll(){
   tl.to({}, {duration: DWELL});                                          // hold at the start
   tl.to(track, {x: () => -getDist(), ease:'none', duration: 1 - 2*DWELL}); // scroll the cards
   tl.to({}, {duration: DWELL});                                          // hold at the end
+  ScrollTrigger.refresh();
 }
+
+// Safety-net refresh — recalculates each horizontal-pin's own scroll distance
+// (getDist(), via invalidateOnRefresh) after both pins exist and any late webfont/layout
+// reflow has settled. (window.__targetSp itself no longer depends on this — see
+// updatePageProgress() above — but the pins' own internal distances still benefit from it.)
+window.addEventListener('load', () => {
+  setTimeout(() => { if(window.ScrollTrigger) ScrollTrigger.refresh(); }, 900);
+});
 </script>
 </body>
 </html>
