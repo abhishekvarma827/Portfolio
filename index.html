@@ -807,7 +807,7 @@ nav{transition:background .5s ease,padding .5s cubic-bezier(.16,1,.3,1)}
 .exp-scroll .ti-card .ti-co{font-size:.8rem;margin-bottom:1rem}
 /* horizontal career timeline */
 .exp-timeline{margin-top:2.6rem}
-.etl{display:grid;grid-template-columns:repeat(6,1fr);position:relative;gap:.8rem}
+.etl{display:grid;grid-template-columns:repeat(7,1fr);position:relative;gap:.8rem}
 .etl::before{content:'';position:absolute;top:6px;left:6%;right:6%;height:2px;background:rgba(20,45,85,.12);border-radius:2px}
 /* multicolored travelling light (matches the loader gradient) synced to horizontal scroll */
 .etl-fill{position:absolute;top:5px;left:6%;height:4px;width:0;border-radius:3px;background:linear-gradient(90deg,var(--blu),var(--sig),var(--cu),var(--gd));background-size:200% 100%;box-shadow:0 0 12px rgba(58,143,212,.5),0 0 6px var(--sig-g);animation:etlShine 2.4s linear infinite;transition:width .15s linear}
@@ -1081,7 +1081,7 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     </div>
     <div class="exp-wrap">
       <div class="exp-summary rv">
-        <div class="es-big"><span class="es-n">4</span> Roles · <span class="es-n">2</span> Degrees</div>
+        <div class="es-big"><span class="es-n">4</span> Roles · <span class="es-n">3</span> Degrees</div>
         <p class="es-p">A path across the full silicon stack — from AMBA protocol verification at Aceic, to FPGA/ML research at Illinois Tech, to RTL leadership on VLSIVault, and now low-latency HFT hardware design &amp; verification at Twinwing Labs.</p>
         <div class="es-tags"><span class="es-tag">UVM</span><span class="es-tag">RTL Design</span><span class="es-tag">Physical Design</span><span class="es-tag">FPGA</span><span class="es-tag">STA</span></div>
         <div class="es-hint">▾ scroll all roles</div>
@@ -1129,10 +1129,10 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <div class="ti-dot"></div>
         <div class="ti-card">
           <div class="ti-top"><h3 class="ti-role">Hardware Design &amp; Verification Engineer</h3><span class="ti-date">Jun 2026 – Present</span></div>
-          <p class="ti-co">Twinwing Labs Inc · San Francisco, CA</p>
+          <p class="ti-co">Twinwing Labs Inc · San Francisco, CA <a href="https://abhishekvarma827.github.io/HFT_FPGA_DEMO/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-weight:700;text-decoration:none;margin-left:.3rem;">Live Demo ↗</a></p>
           <ul class="ti-ul">
-            <li>Develop reusable UVM testbenches in SystemVerilog for low-latency ASIC datapath, protocol parsers, and order-execution pipelines for HFT — directed and constrained-random tests plus assertions, driving coverage closure with AI tools including Claude Code</li>
-            <li>Create custom IP blocks in Xilinx Vivado, verifying functional correctness and running STA to close timing across clock domains ahead of synthesis and place-and-route</li>
+            <li>Build reusable UVM/cocotb testbenches in SystemVerilog for a low-latency HFT tick-to-trade datapath (NASDAQ ITCH → OUCH, 196,608-order hashed UltraRAM order book) — bit-exact golden-model equivalence, real NASDAQ-day replay, error injection, and a 33-step automated regression (accelerated with Claude Code) driving coverage closure</li>
+            <li>Package custom CDC IP (Gray-code async FIFOs, synchronizers) as 14 Vivado IP-XACT blocks across a 3-clock-domain architecture (156.25 / 250 / 100 MHz); run STA and close timing — fixing the −2.957 ns worst path at 250 MHz with zero-latency pipelining — ahead of synthesis and place-and-route</li>
           </ul>
         </div>
       </div>
@@ -1144,6 +1144,7 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     <div class="exp-timeline rv">
       <div class="etl">
         <div class="etl-fill"></div>
+        <div class="etl-node edu"><span class="etl-dot"></span><span class="etl-kind">Diploma</span><span class="etl-date">2015–18</span><span class="etl-role">Electrical Engineering</span><span class="etl-co">Shri Vaishnav Polytechnic College</span></div>
         <div class="etl-node edu"><span class="etl-dot"></span><span class="etl-kind">Degree</span><span class="etl-date">2018–21</span><span class="etl-role">B.Tech · Electrical Engineering</span><span class="etl-co">Shri Vaishnav Inst. of Tech &amp; Science</span></div>
         <div class="etl-node"><span class="etl-dot"></span><span class="etl-kind">Role</span><span class="etl-date">2021–23</span><span class="etl-role">Verification Engineer</span><span class="etl-co">Aceic Design Technologies</span></div>
         <div class="etl-node edu"><span class="etl-dot"></span><span class="etl-kind">Degree</span><span class="etl-date">2023–25</span><span class="etl-role">M.A.Sc · VLSI &amp; Microelectronics</span><span class="etl-co">Illinois Institute of Technology</span></div>
@@ -1164,9 +1165,10 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     </div>
     <div class="proj-layout">
       <div class="proj-nav">
-        <div class="pn-title">16 Projects <span>· jump to</span></div>
+        <div class="pn-title">17 Projects <span>· jump to</span></div>
         <button class="pn-tab active" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
-        <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA / RTL</span><span class="pn-count">4</span></button>
+        <button class="pn-tab" data-cat="hft"><span class="pn-label">FPGA · HFT</span><span class="pn-count">2</span></button>
+        <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA Accelerators &amp; ML</span><span class="pn-count">3</span></button>
         <button class="pn-tab" data-cat="pd"><span class="pn-label">Physical Design</span><span class="pn-count">5</span></button>
         <button class="pn-tab" data-cat="tcad"><span class="pn-label">Device / TCAD</span><span class="pn-count">3</span></button>
       </div>
@@ -1346,9 +1348,23 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
 
           </div>
         </div>
-        <div class="proj-panel" data-cat="fpga" id="cat-fpga">
-          <h3 class="pp-title">FPGA, Accelerators &amp; ML</h3>
+        <div class="proj-panel" data-cat="hft" id="cat-hft">
+          <h3 class="pp-title">FPGA · High-Frequency Trading Accelerators</h3>
           <div class="pg">
+
+      <div class="pc feat wide">
+        <div class="pc-badge">★ Featured · FPGA · HFT</div>
+        <h3 class="pc-title">Multi-Symbol Level-3 Order Book Accelerator — NASDAQ ITCH on AMD Kria KR260</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">Clock: <span>250 MHz</span></span>
+          <span class="pc-metric">Add-to-Top: <span>24 ns</span></span>
+          <span class="pc-metric">Orders: <span>196,608</span></span>
+          <span class="pc-metric">Replay: <span>14.4 M msg/s</span></span>
+        </div>
+        <p class="pc-desc">Designed and timing-closed a full-depth Level-3 order book in SystemVerilog tracking every live order of 4 stocks (AAPL/MSFT/NVDA/TSLA) from the NASDAQ ITCH feed — a shared 196,608-order store across 52 UltraRAMs with two-choice hashing, per-stock bid/ask price ladders, and a 3-level bitmap that finds the next price level in 5 cycles, with the top 4 levels per side held in registers. Pipelined the critical paths (price ÷100 in DSP blocks, registered RAM outputs) to 250 MHz on the K26 with 0 failing endpoints and 24 ns add-to-top-of-book latency; verified every message against a Python reference with cocotb/QuestaSim, replaying a full NASDAQ day (4,084,599 messages) on the KR260 with 0 mismatches at 14.4 M msg/s, plus an AXI-Lite replay path and a live ARM-served web dashboard.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">Kria KR260</span><span class="pc-tag">UltraRAM</span><span class="pc-tag">NASDAQ ITCH</span><span class="pc-tag">cocotb</span></div>
+        <a href="https://abhishekvarma827.github.io/fpga-L3-orderbook/" target="_blank" rel="noopener noreferrer" class="pc-link">Live Demo ↗</a>
+      </div>
 
       <div class="pc feat">
         <div class="pc-badge">★ Featured · FPGA · HFT</div>
@@ -1363,6 +1379,12 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
         <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">cocotb</span><span class="pc-tag">UltraScale+</span><span class="pc-tag">NASDAQ ITCH</span></div>
         <a href="https://drive.google.com/file/d/16Ycg-DdufeWsuxfrMezxs1uKUhQjNGSz/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
+
+          </div>
+        </div>
+        <div class="proj-panel" data-cat="fpga" id="cat-fpga">
+          <h3 class="pp-title">FPGA Accelerators &amp; ML</h3>
+          <div class="pg">
 
       <div class="pc feat">
         <div class="pc-badge">★ Featured · CNN Accelerator</div>
@@ -1465,15 +1487,22 @@ nav:not(.sc){background:rgba(238,242,247,.4);backdrop-filter:blur(8px);-webkit-b
     <div class="rm-rail rv">
       <div class="rm-rail-line"><div class="rm-rail-fill"></div></div>
       <div class="rm-rail-nodes">
-        <span class="rm-rail-node active" style="--d:0"><i class="rm-rail-dot"></i><b>2018</b></span>
-        <span class="rm-rail-node active" style="--d:1"><i class="rm-rail-dot"></i><b>2021</b></span>
-        <span class="rm-rail-node active" style="--d:2"><i class="rm-rail-dot"></i><b>2023</b></span>
-        <span class="rm-rail-node active" style="--d:3"><i class="rm-rail-dot"></i><b>2025</b></span>
-        <span class="rm-rail-node active current" style="--d:4"><i class="rm-rail-dot"></i><b>2026</b></span>
-        <span class="rm-rail-node future" style="--d:5"><i class="rm-rail-dot"></i><b>Next</b></span>
+        <span class="rm-rail-node active" style="--d:0"><i class="rm-rail-dot"></i><b>2015</b></span>
+        <span class="rm-rail-node active" style="--d:1"><i class="rm-rail-dot"></i><b>2018</b></span>
+        <span class="rm-rail-node active" style="--d:2"><i class="rm-rail-dot"></i><b>2021</b></span>
+        <span class="rm-rail-node active" style="--d:3"><i class="rm-rail-dot"></i><b>2023</b></span>
+        <span class="rm-rail-node active" style="--d:4"><i class="rm-rail-dot"></i><b>2025</b></span>
+        <span class="rm-rail-node active current" style="--d:5"><i class="rm-rail-dot"></i><b>2026</b></span>
+        <span class="rm-rail-node future" style="--d:6"><i class="rm-rail-dot"></i><b>Next</b></span>
       </div>
     </div>
     <div class="rm-grid">
+      <div class="rm-card active rv">
+        <span class="rm-ind"></span>
+        <div class="rm-phase">2015 – 2018</div>
+        <div class="rm-label">Diploma · Electrical Engineering</div>
+        <div class="rm-summary">Shri Vaishnav Polytechnic College — electrical circuits, power electronics, electrical machines, and power-system operation &amp; protection.</div>
+      </div>
       <div class="rm-card active rv">
         <span class="rm-ind"></span>
         <div class="rm-phase">2018 – 2021</div>
@@ -3503,8 +3532,8 @@ function setupTagReveal(){
    vertically, then the next category begins its horizontal run. */
 window.addEventListener('load', () => { setTimeout(setupProjScroll, 350); });
 function setupProjScroll(){
-  // Category order: Verification → FPGA/RTL → Physical Design → Device/TCAD
-  const CAT_ORDER = ['verif','fpga','pd','tcad'];
+  // Category order: Verification → FPGA·HFT → FPGA Accelerators/ML → Physical Design → Device/TCAD
+  const CAT_ORDER = ['verif','hft','fpga','pd','tcad'];
   const navEl = document.querySelector('.proj-nav');
   const contentEl = document.querySelector('.proj-content');
   if(navEl && contentEl){
