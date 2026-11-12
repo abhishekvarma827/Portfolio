@@ -1432,6 +1432,73 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
 .sa-ticker{margin-top:1.1rem}
 .n-loc{margin:0 0 0 .5rem}
 .n-sa-btn{margin:0 .2rem 0 0}
+
+/* ═════════ HOVER COLOUR — each box lights in its own colour and the page takes on that colour ═════════ */
+:root{--amb:124,92,255}
+.proj-panel .pc,.pn-tab{--ac:var(--pc)}
+.exp-scroll .ti-card{--ac:var(--tc)}
+.sk{--ac:var(--k,124,92,255)}
+.now-item{--ac:var(--n)}
+.sa-stat,.sa-blk{--ac:var(--c)}
+.sa-chip{--ac:var(--h)}
+.cc{--ac:124,92,255}.cc:nth-child(2){--ac:236,72,153}.cc:nth-child(3){--ac:6,182,212}.cc:nth-child(4){--ac:249,115,22}
+.glance,.exp-timeline{--ac:124,92,255}
+.etl-node{--ac:124,92,255}.etl-node.edu{--ac:6,182,212}.etl-node.current{--ac:236,72,153}
+#siliconages .sa-panel{--ac:236,72,153}
+.sa-mini,.n-sa-btn{--ac:249,115,22}
+.n-ic,.ft-socials a{--ac:75,50,195}
+
+.pc:hover,.ti-card:hover,.sk:hover,.cc:hover,.glance:hover,.exp-timeline:hover,#siliconages .sa-panel:hover,.sa-mini:hover{
+  animation:none;border-color:rgb(var(--ac))!important;
+  box-shadow:0 0 0 1px rgba(var(--ac),.55),0 26px 54px -22px rgba(var(--ac),.75);
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,0%),rgba(var(--ac),.20),transparent 66%),linear-gradient(rgba(var(--ac),.07),rgba(var(--ac),.07)),#fff}
+.now-item:hover{background:rgba(var(--ac),.2);border-color:rgb(var(--ac));box-shadow:0 14px 28px -16px rgba(var(--ac),.9)}
+.sa-stat,.sa-chip,.pn-tab,.etl-node{transition:background .25s,border-color .25s,box-shadow .25s,transform .25s}
+.sa-stat:hover{background:rgba(var(--ac),.16);box-shadow:0 0 0 1px rgb(var(--ac)),0 10px 20px -12px rgba(var(--ac),.9)}
+.pn-tab:hover{border-color:rgb(var(--ac));color:var(--tx);box-shadow:0 12px 24px -14px rgba(var(--ac),.9)}
+.etl-node{border-radius:14px}
+.etl-node:hover{background:rgba(var(--ac),.1);box-shadow:0 0 0 1px rgba(var(--ac),.45)}
+.sa-blk{transition:box-shadow .25s,background .25s}
+.sa-blk:hover{background:rgba(var(--c),.34);box-shadow:inset 0 0 0 2px rgb(var(--c)),0 0 18px rgba(var(--c),.7)}
+
+/* the page itself: a soft pool of the hovered colour follows the pointer, plus a faint all-over wash */
+#ambWash,#ambBlob{position:fixed;pointer-events:none;z-index:2;opacity:0;transition:opacity .55s ease}
+#ambWash{inset:0;background:rgba(var(--amb),.07)}
+#ambBlob{left:0;top:0;width:90vmax;height:90vmax;margin:-45vmax 0 0 -45vmax;border-radius:50%;will-change:transform;
+  background:radial-gradient(closest-side,rgba(var(--amb),.30),rgba(var(--amb),.12) 45%,transparent 72%)}
+html.amb-on #ambWash,html.amb-on #ambBlob{opacity:1}
+#cDot,#cRing,#sBar,.sec-title::after{transition:background .4s,border-color .4s,box-shadow .4s,width .2s,height .2s}
+html.amb-on #cDot{background:rgb(var(--amb));box-shadow:0 0 12px rgba(var(--amb),.9)}
+html.amb-on #cRing{border-color:rgba(var(--amb),.7)!important}
+html.amb-on #sBar{background:rgb(var(--amb));box-shadow:0 0 12px rgba(var(--amb),.7)}
+html.amb-on #chipHud::before{background:rgb(var(--amb))}
+html.amb-on nav{border-bottom-color:rgba(var(--amb),.5)}
+@media(hover:none),(prefers-reduced-motion:reduce){#ambWash,#ambBlob{display:none}}
+
+/* Silicon Ages uses the full screen while held: the panel stretches and the lesson ticker sits just above the flow bar */
+@media(min-width:981px){
+  #siliconages .sec-inner{display:flex;flex-direction:column;min-height:calc(100vh - 68px - 58px - 58px)}
+  #siliconages .sa-panel{flex:1 1 auto}
+  #siliconages .sa-ticker{margin-top:1rem}
+  #siliconages{padding-bottom:5rem}
+}
+
+/* footer: a row of chip cells with a wave of light running through them */
+.ft-cells{display:flex;justify-content:center;gap:7px;margin:0 auto 1.7rem;flex-wrap:nowrap}
+.ft-cells i{width:17px;height:17px;border-radius:5px;background:rgba(var(--c),.24);animation:ftCell 3s ease-in-out infinite;animation-delay:calc(var(--i)*.085s)}
+@keyframes ftCell{0%,34%,100%{background:rgba(var(--c),.24);transform:none;box-shadow:none}14%{background:rgb(var(--c));transform:translateY(-8px) scale(1.16);box-shadow:0 10px 16px -6px rgba(var(--c),.8)}}
+.ft-name{display:block;background-size:200% 100%;animation:gradSlide 6s ease-in-out infinite alternate}
+@media(max-width:640px){.ft-cells{gap:4px}.ft-cells i{width:10px;height:10px;border-radius:3px}}
+@media(prefers-reduced-motion:reduce){.ft-cells i,.ft-name{animation:none}}
+
+/* At a glance: one text size for labels and values; heading matches "Now building" */
+.gl-h{font-size:1.05rem}
+.glance dl>div{align-items:baseline}
+.glance dt,.glance dd,.glance dd b{font-family:var(--fbod);font-size:.92rem;line-height:1.45;letter-spacing:0}
+.glance dt{padding-top:0;font-weight:700}
+.now-t{font-size:.86rem}.now-t b{font-size:.95rem}
+/* ticker sits just above the flow bar */
+@media(min-width:981px){#siliconages .sa-ticker{margin-top:.55rem;gap:.4rem}}
 </style>
 </head>
 <body class="loading">
@@ -1519,6 +1586,8 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
 
 <!-- CONTENT VEIL -->
 <div id="veil" aria-hidden="true"></div>
+<div id="ambWash" aria-hidden="true"></div>
+<div id="ambBlob" aria-hidden="true"></div>
 
 <!-- Back to top -->
 <button id="toTop" aria-label="Back to top" title="Back to top">
@@ -2072,19 +2141,8 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
 </div><!-- /main -->
 
 <footer id="contact">
-  <svg class="ft-trace rv" viewBox="0 0 600 40" aria-hidden="true" preserveAspectRatio="none">
-    <path d="M0,20 L230,20 L250,6 L350,6 L370,20 L600,20"/>
-    <circle cx="230" cy="20" r="3.4"/><circle cx="370" cy="20" r="3.4"/><circle cx="300" cy="6" r="3.4"/>
-  </svg>
-  <div class="ft-name rv">
-    <span class="ft-led-wrap" aria-hidden="true">
-      <span class="ft-led"></span>
-      <span class="ft-spark" style="--a:0deg"></span><span class="ft-spark" style="--a:45deg"></span>
-      <span class="ft-spark" style="--a:90deg"></span><span class="ft-spark" style="--a:135deg"></span>
-      <span class="ft-spark" style="--a:180deg"></span><span class="ft-spark" style="--a:225deg"></span>
-      <span class="ft-spark" style="--a:270deg"></span><span class="ft-spark" style="--a:315deg"></span>
-    </span>ABHISHEK VARMA
-  </div>
+  <div class="ft-cells rv" aria-hidden="true"><i style="--i:0;--c:124,92,255"></i><i style="--i:1;--c:79,107,255"></i><i style="--i:2;--c:34,166,232"></i><i style="--i:3;--c:20,184,166"></i><i style="--i:4;--c:34,197,94"></i><i style="--i:5;--c:132,204,22"></i><i style="--i:6;--c:234,179,8"></i><i style="--i:7;--c:249,115,22"></i><i style="--i:8;--c:239,68,68"></i><i style="--i:9;--c:236,72,153"></i><i style="--i:10;--c:192,38,211"></i><i style="--i:11;--c:168,85,247"></i><i style="--i:12;--c:124,92,255"></i><i style="--i:13;--c:79,107,255"></i><i style="--i:14;--c:34,166,232"></i><i style="--i:15;--c:20,184,166"></i><i style="--i:16;--c:34,197,94"></i><i style="--i:17;--c:132,204,22"></i><i style="--i:18;--c:234,179,8"></i><i style="--i:19;--c:249,115,22"></i><i style="--i:20;--c:239,68,68"></i><i style="--i:21;--c:236,72,153"></i><i style="--i:22;--c:192,38,211"></i><i style="--i:23;--c:168,85,247"></i></div>
+  <div class="ft-name rv">ABHISHEK VARMA</div>
   <div class="ft-sub rv">VLSI · Verification · ASIC · ML Acceleration · FPGA · Cell Characterization</div>
   <a class="ft-sa" href="https://www.siliconages.com/" target="_blank" rel="noopener">Also by me: <b>Silicon Ages</b> &#8599;</a>
   <div class="ft-socials">
@@ -4264,6 +4322,12 @@ function animate(){
     p.m.position.set(Math.cos(a)*r, 0.2, Math.sin(a)*r); p.mat.opacity = fifoOn;
   });
 
+  if(window.__ambDirty){
+    window.__ambDirty = false; window.__scrollDirty = true;
+    const a = window.__amb;
+    if(a){ blueL.color.setRGB(a[0]/255, a[1]/255, a[2]/255); rimL.color.copy(blueL.color); netL.color.copy(blueL.color); netL.intensity = 1.6; }
+    else { blueL.color.setHex(0x7c5cff); rimL.color.setHex(0x4b32c3); netL.color.setHex(0x06b6d4); netL.intensity = 0.3; }
+  }
   // Lid: hops and makes a quarter turn each time the flow moves to a new stage
   const lidL = layers3d[4];
   const stg = Math.floor(clamp(assEase, 0, 0.999) * 8);
@@ -4860,6 +4924,27 @@ window.addEventListener('load', () => {
       }, {passive:true});
       if(tilt) c.addEventListener('pointerleave', () => { c.style.transform = ''; });
     });
+  }
+
+  /* hover colour: the box under the pointer sets the colour for the whole page (blob, wash, cursor, progress bar, chip light) */
+  if(matchMedia('(hover:hover)').matches){
+    const SEL = '.pc,.ti-card,.sk,.cc,.glance,.exp-timeline,.etl-node,.sa-panel,.sa-mini,.now-item,.sa-stat,.sa-chip,.sa-blk,.pn-tab,.n-sa-btn,.n-ic,.ft-socials a';
+    const root = document.documentElement, blob = document.getElementById('ambBlob');
+    let cur = null, bx = innerWidth/2, by = innerHeight/2, tx = bx, ty = by, raf = 0;
+    function move(){ bx += (tx - bx)*.14; by += (ty - by)*.14; blob.style.transform = 'translate3d(' + bx.toFixed(1) + 'px,' + by.toFixed(1) + 'px,0)';
+      raf = (Math.abs(tx - bx) + Math.abs(ty - by) > .5) ? requestAnimationFrame(move) : 0; }
+    document.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; if(!raf && cur) raf = requestAnimationFrame(move); }, {passive:true});
+    document.addEventListener('pointerover', e => {
+      const el = e.target.closest ? e.target.closest(SEL) : null;
+      if(el === cur) return; cur = el;
+      if(!el){ root.classList.remove('amb-on'); window.__amb = null; window.__ambDirty = true; return; }
+      const ac = getComputedStyle(el).getPropertyValue('--ac').trim();
+      if(!ac){ root.classList.remove('amb-on'); return; }
+      root.style.setProperty('--amb', ac); root.classList.add('amb-on');
+      window.__amb = ac.split(',').map(Number); window.__ambDirty = true;
+      if(!raf) raf = requestAnimationFrame(move);
+    }, {passive:true});
+    document.addEventListener('pointerleave', () => { cur = null; root.classList.remove('amb-on'); window.__amb = null; window.__ambDirty = true; });
   }
 })();
 </script>
