@@ -1356,7 +1356,7 @@ nav{justify-content:flex-start;gap:1.2rem}
 #experience .exp-scroll .ti-card .ti-role{font-size:1.02rem!important}
 #experience .exp-scroll .ti-card .ti-ul li{font-size:.84rem;line-height:1.5;margin-bottom:.5rem;padding-left:1.05rem}
 #experience .etl-fill{width:92%!important}
-#experience{padding-top:3.8rem;padding-bottom:4rem}
+#experience{padding-top:3.8rem;padding-bottom:4.6rem}
 #experience .sec-tag{display:none!important}
 #experience .etl-co{display:none}
 #experience .exp-timeline{padding:1.1rem 1.4rem 1rem;margin-bottom:1rem}
@@ -1365,6 +1365,8 @@ nav{justify-content:flex-start;gap:1.2rem}
 @media(max-width:1300px){#experience .exp-scroll .tl{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){#experience .exp-scroll .tl{grid-template-columns:1fr}}
 
+#siliconages .sa-panel{padding:clamp(1.2rem,2.2vw,2rem) clamp(1.4rem,3vw,2.8rem)}
+.sa-p{margin-bottom:1rem}.sa-stats{margin-bottom:1.1rem}.sa-feats{margin-bottom:1.2rem}
 /* ═════════ NAV v3 + LOADER v3 ═════════ */
 .n-loc{display:inline-flex;align-items:center;gap:.35rem;font:600 .82rem var(--fbod);color:var(--tx-d);margin-right:.3rem;white-space:nowrap}
 .n-loc svg{width:14px;height:14px;fill:var(--pink)}
@@ -1391,6 +1393,26 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
 .ldx-flow span.act{color:var(--gd);background:none;box-shadow:none;transform:none}
 .ldx-flow span::before{content:'';display:block;width:2px;height:6px;margin:0 auto .25rem;background:currentColor;border-radius:2px}
 .ldx-chip{margin-bottom:.4rem}
+
+/* ═════════ SKILLS + CERTIFICATIONS in one section ═════════ */
+#skills{padding-top:3.6rem;padding-bottom:4.6rem}
+#skills .sec-tag{display:none!important}
+#skills .sec-hd{margin-bottom:1.1rem!important}
+#skills .sec-title{font-size:clamp(1.7rem,2.8vw,2.3rem)}
+#skills .sg{gap:.7rem}
+#skills .sk{padding:.75rem .85rem .8rem}
+#skills .sk-tags{gap:.24rem}
+.sc-sub{font:800 1.15rem var(--fdis);letter-spacing:-.02em;margin:1.2rem 0 .7rem;display:flex;align-items:center;gap:.6rem}
+.sc-sub::before{content:'';width:11px;height:11px;border-radius:4px;background:var(--grad2)}
+.sc-sub::after{content:'';flex:1;height:1.5px;background:var(--line)}
+#skills .cert-col .cg{grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}
+#skills .cert-col .cc{min-height:0;text-align:left;justify-content:center;padding:.8rem 1rem .8rem 3.5rem;border-top-width:1.5px;border-left:4px solid transparent}
+#skills .cert-col .cc::before{top:50%;left:.8rem;transform:translateY(-50%);width:30px;height:30px;font-size:.9rem}
+#skills .cert-col .cc-name{font-size:.92rem;margin-bottom:.2rem}
+#skills .cert-col .cc-org{font-size:.78rem}
+#skills .cert-col .cc-dt{font-size:.7rem;margin-top:.15rem}
+@media(max-width:1100px){#skills .cert-col .cg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){#skills .cert-col .cg{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="loading">
@@ -1498,16 +1520,13 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#certs">Certifications</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#skills">Skills &amp; Certifications</a></li>
   </ul>
   <div class="n-right">
     <span class="n-loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Francisco, CA</span>
     <a class="n-ic" href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg></a>
     <a class="n-ic" href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
     <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" class="btn-s n-cta">Resume</a>
-    <a href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D" class="btn-p n-cta">Get in touch</a>
     <a href="#siliconages" class="n-sa-btn">Silicon Ages</a>
   </div>
 </nav>
@@ -1525,14 +1544,6 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
       <div class="about-lead" id="about">
         <p class="h-lead">I verify and build chips end to end: UVM environments that reach <strong>99.8% functional coverage</strong>, and an <strong>RTL-to-GDS tapeout</strong> of 25,030 cells on SkyWater 130nm.</p>
         <p>M.A.Sc in VLSI &amp; Microelectronics from Illinois Tech (GPA 3.60/4.0), with 3+ years across AMBA protocol verification, RTL design, physical design and FPGA acceleration.</p>
-      </div>
-      <div class="h-cta">
-        <a class="btn-p" href="#projects">See 18 projects</a>
-        <a class="btn-s" href="#experience">Experience</a>
-      </div>
-      <div class="h-worked">
-        <span class="hw-l">Worked at</span>
-        <span>Twinwing Labs</span><span>Community Dreams Foundation</span><span>Illinois Tech VLSI/SoC Lab</span><span>Aceic Design Technologies</span>
       </div>
     </div>
     <!-- RIGHT rail: ASIC flow + metrics + focus + stack (middle column left clear for the 3D chip) -->
@@ -1654,8 +1665,8 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
           <div class="ti-top"><h3 class="ti-role">Hardware Design &amp; Verification Engineer</h3><span class="ti-date">Jun 2026 – Present</span></div>
           <p class="ti-co">Twinwing Labs Inc · San Francisco, CA <a href="https://abhishekvarma827.github.io/HFT_FPGA_DEMO/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-weight:700;text-decoration:none;margin-left:.3rem;">Live Demo ↗</a></p>
           <ul class="ti-ul">
-            <li>Build a low-latency FPGA tick-to-trade pipeline in SystemVerilog for the AMD Kria KR260: 10G Ethernet, MoldUDP64 feed handling, ITCH parsing, a 196,608-order hardware book, strategies, pre-trade risk and OUCH orders over hardware TCP, at 294.4 ns median wire to wire and 75 ns from ITCH byte to decision</li>
-            <li>Own the three-clock-domain design (156.25 / 200 / 100 MHz) with asynchronous packet FIFOs, close timing at 200 MHz on the K26 with 0 failing endpoints, and verify against real NASDAQ data in cycle-accurate simulation with cocotb and QuestaSim</li>
+            <li>Build a low-latency FPGA tick-to-trade pipeline in SystemVerilog on the AMD Kria KR260, from 10G Ethernet and ITCH parsing to OUCH orders over hardware TCP: 294.4 ns median wire to wire</li>
+            <li>Own the three-clock-domain design, close timing at 200 MHz with 0 failing endpoints, and verify against real NASDAQ data with cocotb and QuestaSim</li>
           </ul>
         </div>
       </div>
@@ -2018,8 +2029,8 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
 <section class="sec" id="skills">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">05 &middot; Toolbox</div>
-      <h2 class="sec-title">Technical <span class="hl">Skills</span></h2>
+      <div class="sec-tag">05 &middot; Toolbox and credentials</div>
+      <h2 class="sec-title">Skills &amp; <span class="hl">Certifications</span></h2>
     </div>
     <div class="sg">
       <div class="sk"><div class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 4v3M14 4v3M10 17v3M14 17v3M4 10h3M4 14h3M17 10h3M17 14h3"/><rect x="10.5" y="10.5" width="3" height="3" fill="currentColor" stroke="none"/></svg></div><div class="sk-name">Hardware Description</div><div class="sk-tags"><span class="sk-tag">SystemVerilog</span><span class="sk-tag">Verilog</span><span class="sk-tag">VHDL</span><span class="sk-tag">RISC-V ASM</span><span class="sk-tag">SVA</span></div></div>
@@ -2033,98 +2044,13 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
       <div class="sk"><div class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="1.6"/><circle cx="5" cy="12" r="1.6"/><circle cx="5" cy="18" r="1.6"/><circle cx="12" cy="9" r="1.6"/><circle cx="12" cy="15" r="1.6"/><circle cx="19" cy="12" r="1.6"/><path d="M6.6 6.6l4 2M6.5 11.4l4-1.5M6.5 12.6l4 2M6.6 17.4l4-1.5M13.4 9.4l4.2 2M13.4 14.6l4.2-2"/></svg></div><div class="sk-name">RTL &amp; ML Acceleration</div><div class="sk-tags"><span class="sk-tag">Systolic Arrays</span><span class="sk-tag">CNN Accelerators</span><span class="sk-tag">PYNQ Overlay</span><span class="sk-tag">Clock Gating</span><span class="sk-tag">CDC-aware RTL</span><span class="sk-tag">FSM</span><span class="sk-tag">DMA</span></div></div>
       <div class="sk"><div class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg></div><div class="sk-name">Programming &amp; Scripting</div><div class="sk-tags"><span class="sk-tag">Python</span><span class="sk-tag">C / C++</span><span class="sk-tag">Tcl</span><span class="sk-tag">Embedded C</span><span class="sk-tag">Makefile</span><span class="sk-tag">MATLAB</span><span class="sk-tag">Git</span><span class="sk-tag">Linux</span></div></div>
     </div>
-  </div>
-</section>
-
-<!-- EDUCATION + CERTIFICATIONS (side by side) -->
-<section class="sec" id="certs">
-  <div class="sec-inner" style="margin:0 auto">
-    <div class="cert-col">
-      <div class="sec-hd">
-        <div class="sec-tag">06 &middot; Credentials</div>
-        <h2 class="sec-title"><span class="hl">Certifications</span></h2>
-      </div>
-      <div class="cg">
-        <div class="cc rv"><h3 class="cc-name">Advanced VLSI Design &amp; Verification</h3><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
-        <div class="cc rv"><h3 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h3><p class="cc-org">Cadence Design Systems</p></div>
-        <div class="cc rv"><h3 class="cc-name">SystemVerilog Assertions</h3><p class="cc-org">Cadence Design Systems</p></div>
-        <div class="cc rv"><h3 class="cc-name">SystemVerilog Accelerated Verification with UVM</h3><p class="cc-org">Cadence Design Systems</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ROADMAP -->
-<section class="sec" id="roadmap">
-  <div class="sec-inner" style="margin:0 auto">
-    <div class="sec-hd">
-      <div class="sec-tag">07 &middot; Trajectory</div>
-      <h2 class="sec-title">Career <span class="hl">Roadmap</span></h2>
-    </div>
-    <div class="rm-legend">
-      <span><span class="rm-dot-sm act"></span>Completed / Active</span>
-      <span><span class="rm-dot-sm fut"></span>In Progress</span>
-    </div>
-    <div class="rm-rail rv">
-      <div class="rm-rail-line"><div class="rm-rail-fill"></div></div>
-      <div class="rm-rail-nodes">
-        <span class="rm-rail-node active" style="--d:0"><i class="rm-rail-dot"></i><b>2015</b></span>
-        <span class="rm-rail-node active" style="--d:1"><i class="rm-rail-dot"></i><b>2018</b></span>
-        <span class="rm-rail-node active" style="--d:2"><i class="rm-rail-dot"></i><b>2021</b></span>
-        <span class="rm-rail-node active" style="--d:3"><i class="rm-rail-dot"></i><b>2023</b></span>
-        <span class="rm-rail-node active" style="--d:4"><i class="rm-rail-dot"></i><b>2025</b></span>
-        <span class="rm-rail-node active current" style="--d:5"><i class="rm-rail-dot"></i><b>2026</b></span>
-        <span class="rm-rail-node future" style="--d:6"><i class="rm-rail-dot"></i><b>Next</b></span>
-      </div>
-    </div>
-    <div class="rm-grid">
-      <div class="rm-card active rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">2015 – 2018</div>
-        <div class="rm-label">Diploma · Electrical Engineering</div>
-        <div class="rm-summary">Shri Vaishnav Polytechnic College — electrical circuits, power electronics, electrical machines, and power-system operation &amp; protection.</div>
-      </div>
-      <div class="rm-card active rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">2018 – 2021</div>
-        <div class="rm-label">B.Tech · Electrical Engineering</div>
-        <div class="rm-summary">Shri Vaishnav Institute of Technology &amp; Science — foundation in circuits, digital logic, and embedded systems.</div>
-      </div>
-      <div class="rm-card active rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">2021 – 2023</div>
-        <div class="rm-label">Verification Engineer</div>
-        <div class="rm-summary">Aceic Design Technologies — UVM environments for AMBA AHB/APB/AXI4, SPI, and UART.</div>
-        <div class="rm-cnt">99.8% Coverage</div>
-      </div>
-      <div class="rm-card active rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">2023 – 2025</div>
-        <div class="rm-label">M.A.Sc · VLSI &amp; Microelectronics</div>
-        <div class="rm-summary">Illinois Institute of Technology — graduate specialization plus FPGA/ML research on ultrasonic NDE.</div>
-        <div class="rm-cnt">GPA 3.60/4.0</div>
-      </div>
-      <div class="rm-card active rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">2025 – 2026</div>
-        <div class="rm-label">RTL Leadership &amp; Tapeout</div>
-        <div class="rm-summary">VLSIVault — CPU microarchitecture across 6 concurrent RTL projects; RTL-to-GDS tapeout on SkyWater 130nm.</div>
-        <div class="rm-cnt">25,030 Std Cells</div>
-      </div>
-      <div class="rm-card active rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">2026 – Present</div>
-        <div class="rm-label">HW Design &amp; Verification Engineer</div>
-        <div class="rm-summary">Twinwing Labs — UVM testbenches for low-latency HFT ASIC datapaths, custom Vivado IP, and cross-clock-domain STA closure.</div>
-        <div class="rm-cnt">Current Role</div>
-      </div>
-      <div class="rm-card future rv">
-        <span class="rm-ind"></span>
-        <div class="rm-phase">Jun 2026 →</div>
-        <div class="rm-label">STEM OPT Extension</div>
-        <div class="rm-summary">Extending U.S. work authorization beyond the initial OPT period under STEM OPT eligibility.</div>
-      </div>
-    </div>
+    <h3 class="sc-sub" id="certs">Certifications</h3>
+    <div class="cert-col"><div class="cg">
+      <div class="cc rv"><h3 class="cc-name">Advanced VLSI Design &amp; Verification</h3><p class="cc-org">Maven Silicon VLSI Design</p><p class="cc-dt">Jul 2021 – Dec 2021 · Bangalore, India</p></div>
+      <div class="cc rv"><h3 class="cc-name">RTL-to-GDSII Flow <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368446792616660996/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-size:.6rem;text-decoration:none;margin-left:.3rem;">View →</a></h3><p class="cc-org">Cadence Design Systems</p></div>
+      <div class="cc rv"><h3 class="cc-name">SystemVerilog Assertions</h3><p class="cc-org">Cadence Design Systems</p></div>
+      <div class="cc rv"><h3 class="cc-name">SystemVerilog Accelerated Verification with UVM</h3><p class="cc-org">Cadence Design Systems</p></div>
+    </div></div>
   </div>
 </section>
 
@@ -4723,6 +4649,18 @@ function setupProjScroll(){
     tl.to(pg, {x: () => -getDist(), ease:'none', duration: 1 - 2*DWELL}); // glide the cards
     tl.to({}, {duration: DWELL});                                        // hold at the end
   });
+  // Silicon Ages: short hold so the section stays in view for a little extra scrolling
+  const saSec = document.getElementById('siliconages'), saPanel = saSec && saSec.querySelector('.sa-panel');
+  if(saSec && saPanel){
+    const saFits = saSec.offsetHeight <= window.innerHeight - 10;
+    ScrollTrigger.create({id:'hold', trigger: saFits ? saSec : saPanel, start: saFits ? 'top top' : 'top 62px', end:'+=480', pin:saSec, invalidateOnRefresh:true});
+  }
+  // Skills & Certifications: short hold
+  const skSec = document.getElementById('skills');
+  if(skSec){
+    const skFits = skSec.offsetHeight <= window.innerHeight - 10;
+    ScrollTrigger.create({id:'hold', trigger: skFits ? skSec : skSec.querySelector('.sec-title'), start: skFits ? 'top top' : 'top 66px', end:'+=420', pin:skSec, invalidateOnRefresh:true});
+  }
   setActive('hft');
   ScrollTrigger.refresh();
 }
@@ -4754,7 +4692,8 @@ function setupExpScroll(){
   if(window.innerWidth >= 900 && !matchMedia('(prefers-reduced-motion: reduce)').matches && window.gsap && window.ScrollTrigger){
     gsap.registerPlugin(ScrollTrigger);
     const expSec = document.getElementById('experience');
-    const fits = expSec.offsetHeight <= window.innerHeight + 60;
+    // pause when the bottom of the cards has come into view above the flow bar (never with them cut off)
+    const fits = expSec.offsetHeight <= window.innerHeight - 10;
     ScrollTrigger.create({id:'hold', trigger:expSec, start: fits ? 'top top' : 'bottom bottom', end:'+=420', pin:true, invalidateOnRefresh:true});
     ScrollTrigger.refresh();
   }
