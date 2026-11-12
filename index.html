@@ -1413,6 +1413,25 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
 #skills .cert-col .cc-dt{font-size:.7rem;margin-top:.15rem}
 @media(max-width:1100px){#skills .cert-col .cg{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){#skills .cert-col .cg{grid-template-columns:1fr}}
+
+/* ═════════ Silicon Ages: whole section (label, title, panel) fits one screen while held ═════════ */
+#siliconages{padding-top:3rem}
+#siliconages .sec-hd{margin-bottom:.9rem!important}
+#siliconages .sec-tag{margin-bottom:.55rem}
+#siliconages .sec-title{font-size:clamp(1.7rem,2.8vw,2.3rem);padding-bottom:.55rem}
+#siliconages .sa-panel{padding:1.3rem clamp(1.4rem,3vw,2.6rem);border-radius:24px}
+.sa-h{font-size:clamp(1.7rem,2.9vw,2.4rem);margin-bottom:.7rem}
+.sa-p{font-size:1rem;line-height:1.55;margin-bottom:.8rem}
+.sa-stats{gap:.45rem;margin-bottom:.9rem}
+.sa-stat{padding:.28rem .8rem;font-size:.85rem}
+.sa-stat b{font-size:1.1rem}
+.sa-feats{gap:.45rem 1.2rem;margin-bottom:1rem}
+.sa-feats li{font-size:.92rem}
+.sa-art .sa-die{width:min(100%,350px)}
+.sa-cap{margin-top:.6rem}
+.sa-ticker{margin-top:1.1rem}
+.n-loc{margin:0 0 0 .5rem}
+.n-sa-btn{margin:0 .2rem 0 0}
 </style>
 </head>
 <body class="loading">
@@ -1523,11 +1542,10 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
     <li><a href="#skills">Skills &amp; Certifications</a></li>
   </ul>
   <div class="n-right">
-    <span class="n-loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Francisco, CA</span>
+    <a href="#siliconages" class="n-sa-btn">Silicon Ages</a>
     <a class="n-ic" href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg></a>
     <a class="n-ic" href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
-    <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" class="btn-s n-cta">Resume</a>
-    <a href="#siliconages" class="n-sa-btn">Silicon Ages</a>
+    <span class="n-loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Francisco, CA</span>
   </div>
 </nav>
 
@@ -1990,7 +2008,6 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
     </div>
     <div class="sa-panel rv">
       <div class="sa-copy">
-        <span class="sa-eyebrow">Founder and builder &middot; live now</span>
         <h3 class="sa-h">Learn to build chips by watching your own code run.</h3>
         <p class="sa-p">Silicon Ages is a free learning site I designed, wrote and built for chip design. You write Verilog and the circuit animates. You change a value and the waveform responds. It needs no account.</p>
         <div class="sa-stats">
@@ -2007,8 +2024,6 @@ nav .btn-p.n-cta:hover{background:var(--vio)}
           <li><b>Bug Hunt.</b> 42 broken designs: read the failure, find the line.</li>
           <li><b>Protocol explorer.</b> AXI, AHB, APB, PCIe, CXL, DDR, SPI, I2C and UART, clock by clock.</li>
           <li><b>Study plans by role.</b> Nine roles, paced to your interview date.</li>
-          <li><b>16 study tracks.</b> 788 lectures, 28 major projects and 15 industry projects.</li>
-          <li><b>Built end to end by me.</b> Curriculum, animations and the site.</li>
         </ul>
         <div class="sa-btns">
           <a class="btn-p" href="https://www.siliconages.com/" target="_blank" rel="noopener">Visit siliconages.com &#8599;</a>
@@ -4652,14 +4667,18 @@ function setupProjScroll(){
   // Silicon Ages: short hold so the section stays in view for a little extra scrolling
   const saSec = document.getElementById('siliconages'), saPanel = saSec && saSec.querySelector('.sa-panel');
   if(saSec && saPanel){
-    const saFits = saSec.offsetHeight <= window.innerHeight - 10;
-    ScrollTrigger.create({id:'hold', trigger: saFits ? saSec : saPanel, start: saFits ? 'top top' : 'top 62px', end:'+=480', pin:saSec, invalidateOnRefresh:true});
+    ScrollTrigger.create({id:'hold', trigger: saSec.querySelector('.sec-hd'), start:'top 68px', end:'+=480', pin:saSec, invalidateOnRefresh:true});
   }
   // Skills & Certifications: short hold
   const skSec = document.getElementById('skills');
   if(skSec){
-    const skFits = skSec.offsetHeight <= window.innerHeight - 10;
-    ScrollTrigger.create({id:'hold', trigger: skFits ? skSec : skSec.querySelector('.sec-title'), start: skFits ? 'top top' : 'top 66px', end:'+=420', pin:skSec, invalidateOnRefresh:true});
+    const skHd = skSec.querySelector('.sec-hd');
+    const skStart = () => {
+      const cs = getComputedStyle(skSec), contentH = skSec.offsetHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const top = 57, avail = window.innerHeight - 58 - top;
+      return 'top ' + Math.round(top + Math.max(8, (avail - contentH) / 2)) + 'px';
+    };
+    ScrollTrigger.create({id:'hold', trigger: skHd, start: skStart, end:'+=420', pin:skSec, invalidateOnRefresh:true});
   }
   setActive('hft');
   ScrollTrigger.refresh();
