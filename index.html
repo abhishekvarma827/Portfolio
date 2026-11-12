@@ -1331,6 +1331,66 @@ nav{justify-content:flex-start;gap:1.2rem}
 .h-eyebrow i{background:var(--vio);animation:none}
 @media(max-width:1100px){.n-right .n-cta{display:none}}
 @media(max-width:768px){.n-right .n-ic{display:none}.n-sa-btn{font-size:.78rem;padding:.34rem .7rem}.n-right{display:flex!important}}
+
+/* ═════════ HERO: "Now building" replaces the stat tiles ═════════ */
+.now{border-radius:var(--r);border:1.5px solid var(--line);background:rgba(255,255,255,.96);box-shadow:var(--sh);padding:1rem 1.1rem .9rem}
+.now-h{display:flex;align-items:center;gap:.5rem;font:800 1.05rem var(--fdis);letter-spacing:-.02em;margin-bottom:.6rem}
+.now-h i{width:9px;height:9px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.18);animation:ftPulse 1.8s ease-in-out infinite}
+.now-item{--n:124,92,255;display:grid;grid-template-columns:5.6rem 1fr auto;align-items:center;gap:.85rem;padding:.7rem .75rem;border-radius:14px;text-decoration:none;color:var(--tx);
+  background:rgba(var(--n),.07);border:1px solid rgba(var(--n),.28);transition:transform .3s cubic-bezier(.16,1,.3,1),background .25s,box-shadow .3s}
+.now-item+.now-item{margin-top:.55rem}
+.now-item:hover{transform:translateX(4px);background:rgba(var(--n),.14);box-shadow:0 12px 24px -16px rgba(var(--n),.9)}
+.now-n{font:800 1.5rem/1 var(--fdis);letter-spacing:-.04em;color:rgb(var(--n));filter:brightness(.85)}
+.now-n small{font-size:.5em;letter-spacing:0;margin-left:.15em;font-weight:700}
+.now-t{font-size:.84rem;line-height:1.4;color:var(--tx-f)}
+.now-t b{display:block;font:700 .98rem var(--fdis);letter-spacing:-.01em;color:var(--tx);margin-bottom:.1rem}
+.now-go{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgb(var(--n));color:#fff;font-weight:800;font-size:.9rem}
+
+/* ═════════ EXPERIENCE: everything visible together (no sideways scroll, no pinning) ═════════ */
+#experience .exp-summary{display:none}
+#experience .exp-wrap{display:block}
+#experience .exp-scroll{overflow:visible;padding:0}
+#experience .exp-scroll .tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;transform:none!important;will-change:auto}
+#experience .exp-scroll .ti{flex:none;min-width:0}
+#experience .exp-scroll .ti-card{padding:1.3rem 1.2rem 1.2rem}
+#experience .exp-scroll .ti-card .ti-role{font-size:1.02rem!important}
+#experience .exp-scroll .ti-card .ti-ul li{font-size:.84rem;line-height:1.5;margin-bottom:.5rem;padding-left:1.05rem}
+#experience .etl-fill{width:92%!important}
+#experience{padding-top:3.8rem;padding-bottom:4rem}
+#experience .sec-tag{display:none!important}
+#experience .etl-co{display:none}
+#experience .exp-timeline{padding:1.1rem 1.4rem 1rem;margin-bottom:1rem}
+#experience .etl-node{padding-top:2rem}
+#experience .sec-title{font-size:clamp(1.7rem,2.8vw,2.3rem)}
+@media(max-width:1300px){#experience .exp-scroll .tl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#experience .exp-scroll .tl{grid-template-columns:1fr}}
+
+/* ═════════ NAV v3 + LOADER v3 ═════════ */
+.n-loc{display:inline-flex;align-items:center;gap:.35rem;font:600 .82rem var(--fbod);color:var(--tx-d);margin-right:.3rem;white-space:nowrap}
+.n-loc svg{width:14px;height:14px;fill:var(--pink)}
+.n-sa-btn{background:var(--grad);background-size:160% 100%;border:none;color:#fff;padding:.5rem 1.1rem;box-shadow:0 8px 20px -10px rgba(249,115,22,.75);transition:background-position .5s,transform .25s,box-shadow .25s}
+.n-sa-btn:hover{background-position:100% 0}
+nav .btn-p.n-cta{background:var(--cu);box-shadow:none}
+nav .btn-p.n-cta:hover{background:var(--vio)}
+@media(max-width:1300px){.n-loc{display:none}}
+.sa-track{animation-play-state:paused}
+.sa-ticker.run .sa-track{animation-play-state:running}
+.sa-ticker.run:hover .sa-track{animation-play-state:paused}
+/* mid-width screens: links shrink instead of pushing Silicon Ages off the edge; stronger wash once the layout is one column */
+.n-links{flex-shrink:1;min-width:0}
+@media(max-width:1200px){.n-links{gap:1rem;overflow-x:auto;scrollbar-width:none}.n-links::-webkit-scrollbar{display:none}.n-links a{white-space:nowrap}#veil{background:rgba(245,244,253,.86)}}
+/* loader: number, one status line, one bar with the eight stages marked under it */
+.ldx-log{display:none}
+.ldx-stage{gap:.7rem}
+.ldx-status{order:4;font:600 .9rem var(--fbod);letter-spacing:0;text-transform:none;color:var(--tx-d);margin-top:.5rem}
+.ldx-bar{order:5;height:10px;border-radius:10px;background:rgba(124,92,255,.14)}
+.ldx-bar i{border-radius:10px;box-shadow:none}
+.ldx-flow{order:6;display:grid;grid-template-columns:repeat(8,1fr);width:100%;gap:0;margin-top:-.15rem}
+.ldx-flow span,#loader.done .ldx-flow span{background:none;border:none;box-shadow:none;transform:none;padding:0;border-radius:0;font:700 .68rem var(--fmon);letter-spacing:.04em;color:rgba(86,91,120,.55);transition:color .25s}
+.ldx-flow span.done,#loader.done .ldx-flow span{color:var(--cu);background:none}
+.ldx-flow span.act{color:var(--gd);background:none;box-shadow:none;transform:none}
+.ldx-flow span::before{content:'';display:block;width:2px;height:6px;margin:0 auto .25rem;background:currentColor;border-radius:2px}
+.ldx-chip{margin-bottom:.4rem}
 </style>
 </head>
 <body class="loading">
@@ -1378,17 +1438,17 @@ nav{justify-content:flex-start;gap:1.2rem}
     die.insertBefore(r, die.firstChild === null ? null : die.querySelector('.ldx-scan'));
   });
   const STEPS = [
-    {p:6,  s:'&#9656; Loading PDK',          l:'load pdk ........ skywater 130nm'},
-    {p:20, s:'&#9656; Elaborating RTL',      l:'elaborate rtl ... 25,030 cells'},
-    {p:34, s:'&#9656; Running UVM regression', l:'regress ......... 2,000+ tests pass'},
-    {p:48, s:'&#9656; Synthesising logic',   l:'synth ........... tech map + scan'},
-    {p:62, s:'&#9656; Place and route',      l:'route metal ..... m1-m5 + vias'},
-    {p:76, s:'&#9656; Clock tree synthesis', l:'cts ............. skew balanced'},
-    {p:90, s:'&#9656; Timing sign-off',      l:'sta ............. wns +0.14 ns'},
+    {p:6,  s:'Loading PDK',          l:'load pdk ........ skywater 130nm'},
+    {p:20,  s:'Elaborating RTL',      l:'elaborate rtl ... 25,030 cells'},
+    {p:34,  s:'Running UVM regression', l:'regress ......... 2,000+ tests pass'},
+    {p:48,  s:'Synthesising logic',   l:'synth ........... tech map + scan'},
+    {p:62,  s:'Place and route',      l:'route metal ..... m1-m5 + vias'},
+    {p:76,  s:'Clock tree synthesis', l:'cts ............. skew balanced'},
+    {p:90,  s:'Timing sign-off',      l:'sta ............. wns +0.14 ns'},
     {p:100,s:'&#10003; Chip online',         l:'signoff ......... drc/lvs clean'}
   ];
   let si = 0, lit = 0, stage = -1;
-  const t0 = performance.now(), DUR = RM ? 1 : 3000;
+  const t0 = performance.now(), DUR = RM ? 1 : 2100;
   function addLog(txt, ok){
     const d = document.createElement('div'); d.innerHTML = '<span class="' + (ok ? 'ok' : '') + '">' + (ok ? '&#10003;' : '&rsaquo;') + '</span> ' + txt;
     logEl.appendChild(d); while(logEl.children.length > 3) logEl.removeChild(logEl.firstChild);
@@ -1443,6 +1503,7 @@ nav{justify-content:flex-start;gap:1.2rem}
     <li><a href="#roadmap">Roadmap</a></li>
   </ul>
   <div class="n-right">
+    <span class="n-loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Francisco, CA</span>
     <a class="n-ic" href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg></a>
     <a class="n-ic" href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
     <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" class="btn-s n-cta">Resume</a>
@@ -1459,7 +1520,6 @@ nav{justify-content:flex-start;gap:1.2rem}
   <div class="hero-inner">
     <!-- LEFT: identity + contact + CTA -->
     <div class="hero-left">
-      <span class="h-eyebrow"><i></i>San Francisco, CA</span>
       <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
       <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
       <div class="about-lead" id="about">
@@ -1467,8 +1527,8 @@ nav{justify-content:flex-start;gap:1.2rem}
         <p>M.A.Sc in VLSI &amp; Microelectronics from Illinois Tech (GPA 3.60/4.0), with 3+ years across AMBA protocol verification, RTL design, physical design and FPGA acceleration.</p>
       </div>
       <div class="h-cta">
-        <a class="btn-p" href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D">Get in touch</a>
-        <a class="btn-s" href="#projects">See 18 projects</a>
+        <a class="btn-p" href="#projects">See 18 projects</a>
+        <a class="btn-s" href="#experience">Experience</a>
       </div>
       <div class="h-worked">
         <span class="hw-l">Worked at</span>
@@ -1505,17 +1565,23 @@ nav{justify-content:flex-start;gap:1.2rem}
         </div>
         <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
       </div>
-      <div class="h-stats">
-        <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Years experience</span></div>
-        <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Functional coverage</span></div>
-        <div><span class="hs-n" data-t="25030" data-s="">0</span><span class="hs-l">Std cells taped out</span></div>
-        <div><span class="hs-n" data-t="100" data-s="+">0</span><span class="hs-l">RTL bugs found</span></div>
+      <div class="now">
+        <div class="now-h"><i></i>Now building</div>
+        <a class="now-item" href="https://abhishekvarma827.github.io/HFT_FPGA_DEMO/" target="_blank" rel="noopener noreferrer">
+          <span class="now-n">294.4<small>ns</small></span>
+          <span class="now-t"><b>FPGA tick-to-trade system</b>NASDAQ ITCH in, OUCH orders out. Wire to wire, at Twinwing Labs.</span>
+          <span class="now-go" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="now-item" style="--n:236,72,153" href="https://abhishekvarma827.github.io/fpga-L3-orderbook/" target="_blank" rel="noopener noreferrer">
+          <span class="now-n">250<small>MHz</small></span>
+          <span class="now-t"><b>Level-3 order book on Kria KR260</b>4,084,599 real NASDAQ messages replayed on the board, 0 mismatches.</span>
+          <span class="now-go" aria-hidden="true">&#8599;</span>
+        </a>
       </div>
       <div class="glance">
         <div class="gl-h">At a glance</div>
         <dl>
-          <div><dt>Now</dt><dd>Hardware Design &amp; Verification Engineer at <b>Twinwing Labs</b>, San Francisco</dd></div>
-          <div><dt>Focus</dt><dd>UVM and SVA verification, RTL-to-GDS, low-latency FPGA</dd></div>
+          <div><dt>Role</dt><dd>Hardware Design &amp; Verification Engineer at <b>Twinwing Labs</b>, San Francisco</dd></div>
           <div><dt>Degree</dt><dd>M.A.Sc in VLSI &amp; Microelectronics, Illinois Tech</dd></div>
           <div><dt>Status</dt><dd>F-1 OPT, STEM extension eligible</dd></div>
         </dl>
@@ -2547,7 +2613,7 @@ const canvas = document.getElementById('threeCanvas');
    that a weak mobile GPU shouldn't be asked to carry. */
 const reduceMotion3D = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 const lowPower = reduceMotion3D || innerWidth < 820 || !!(navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
-const maxPR = lowPower ? 1 : 1.35;
+const maxPR = lowPower ? 1 : 1.25;
 // Zeroes out only the handful of animations in this scene that run continuously off the wall
 // clock regardless of scroll activity (camera idle jitter, satellite orbit, scan-box sweep,
 // the "keep glowing after you stop scrolling" pulse). Everything else here is already driven
@@ -2560,7 +2626,7 @@ const motionK = reduceMotion3D ? 0 : 1;
    on its own rather than throwing and leaving a dead gap in the hero. ── */
 let renderer = null;
 try {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, alpha: true, powerPreference: 'high-performance' });
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
 } catch (e) {
   console.warn('3D chip scene disabled — WebGL unavailable:', e);
 }
@@ -4429,9 +4495,9 @@ function revealSite(){
     try{ runTypewriter(); }catch(e){}
   }, 600);
 }
-window.addEventListener('load', () => setTimeout(revealSite, 3500));
+window.addEventListener('load', () => setTimeout(revealSite, 2500));
 /* Hard fallback — never leave the loader stuck if Three.js / GSAP is slow or blocked */
-setTimeout(revealSite, 6300);
+setTimeout(revealSite, 5200);
 
 /* Cursor */
 const cDot=document.getElementById('cDot'), cRing=document.getElementById('cRing');
@@ -4682,6 +4748,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       lighting the bottom timeline with the loader's multicolored bar as it advances ── */
 window.addEventListener('load', () => { setTimeout(setupExpScroll, 300); });
 function setupExpScroll(){
+  // Experience no longer pins or scrolls sideways: all four roles sit in one row under the timeline
+  document.querySelectorAll('.etl-node').forEach(n => n.classList.add('lit'));
+  // short hold: the section stays in place for a little extra scrolling, then the page moves on
+  if(window.innerWidth >= 900 && !matchMedia('(prefers-reduced-motion: reduce)').matches && window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    const expSec = document.getElementById('experience');
+    const fits = expSec.offsetHeight <= window.innerHeight + 60;
+    ScrollTrigger.create({id:'hold', trigger:expSec, start: fits ? 'top top' : 'bottom bottom', end:'+=420', pin:true, invalidateOnRefresh:true});
+    ScrollTrigger.refresh();
+  }
+  return;
   if(window.innerWidth < 900) return;                                   // desktop only
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if(!(window.gsap && window.ScrollTrigger)) return;
@@ -4795,6 +4872,8 @@ window.addEventListener('load', () => {
       tick.appendChild(tr);
     });
   }
+
+  if(tick && 'IntersectionObserver' in window){ new IntersectionObserver(es => tick.classList.toggle('run', es[0].isIntersecting)).observe(tick); }
 
   /* section titles: a little waveform draws in beside each one, then a dot rides it */
   const NS = 'http://www.w3.org/2000/svg';
