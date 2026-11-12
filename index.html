@@ -45,6 +45,7 @@
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <style>
 :root{
   --bg:#f5f4fd;--bg1:#eceafa;--bg2:#dddcf1;
@@ -1185,6 +1186,109 @@ body.loading #bgCanvas{z-index:99990}
 @keyframes ldPower{0%{transform:scale(1)}45%{transform:scale(1.09)}100%{transform:scale(1)}}
 @media(max-width:560px){.ldx-corner{display:none}}
 @media(prefers-reduced-motion:reduce){.ldx-tilt{animation:none;transform:rotateX(22deg) rotateY(-14deg)}.ldx-orbit,.ldx-halo,.ldx-scan,.ldx-shadow,.ldx-bar i{animation:none}#loader{transition-duration:.01ms}}
+
+/* ═════════ INTERIOR v2 + PERFORMANCE ═════════ */
+html{scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+/* blur over a live WebGL canvas was the biggest paint cost: cards are now solid enough not to need it */
+.pc,.ti-card,.sk,.ec,.cc,.about-panel,.exp-panel,.h-focus,.h-stats>div,.rm-card,.about-text,.exp-summary,.pn-tab,.hero-edu,.h-info a,.h-info span,.ft-socials a,#toTop,#siliconages .sa-panel,.ldx-log{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.pc,.ti-card,.sk,.ec,.cc,.rm-card,.exp-summary,.pn-tab{background:rgba(255,255,255,.95)}
+#projects .sec-hd{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.proj-panel .pg,.exp-scroll .tl{will-change:transform}
+.pc,.ti-card,.sk,.cc,.rm-card{transition:box-shadow .3s,border-color .3s,transform .35s cubic-bezier(.16,1,.3,1),opacity .6s}
+.sa-mini{animation:none;background:linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)) padding-box,var(--grad) border-box}
+.sa-mini:hover{animation:angSpin 3s linear infinite;background:linear-gradient(#fff,#fff) padding-box,conic-gradient(from var(--ang),#7C5CFF,#EC4899,#F97316,#06B6D4,#7C5CFF) border-box}
+#cDot,#cRing{left:0;top:0;will-change:transform}
+
+/* section eyebrow pill */
+.sec-tag{display:inline-flex!important;align-items:center;gap:.5rem;font:700 .8rem var(--fbod);letter-spacing:.2px;text-transform:none;color:var(--cu);background:rgba(124,92,255,.1);border:1px solid rgba(124,92,255,.38);border-radius:999px;padding:.3rem .85rem;margin-bottom:.85rem}
+.sec-tag::after{display:none}
+.sec-tag::before{content:'';width:8px;height:8px;border-radius:3px;background:var(--grad2)}
+
+#projects .sec-tag{display:none!important}   /* the projects header is sticky: keep it compact */
+.pn-title{margin-top:.5rem}
+/* ── project cards: colour-coded by category, numbered, stat tiles, pill link ── */
+.proj-panel{--pc:124,92,255}
+.proj-panel[data-cat="hft"]{--pc:236,72,153}.proj-panel[data-cat="fpga"]{--pc:249,115,22}.proj-panel[data-cat="pd"]{--pc:6,182,212}.proj-panel[data-cat="tcad"]{--pc:34,197,94}
+.proj-panel .pg{counter-reset:pcn}
+.proj-panel .pc{counter-increment:pcn;padding:1.35rem 1.3rem 1.2rem;border-top:5px solid rgb(var(--pc));flex-basis:clamp(320px,26vw,380px)}
+.proj-panel .pc::after{content:counter(pcn,decimal-leading-zero);position:absolute;top:.55rem;right:1rem;font:800 2.6rem/1 var(--fdis);letter-spacing:-.04em;color:rgba(var(--pc),.16);pointer-events:none}
+.proj-panel .pc:hover{border-top-color:transparent}
+.pp-title::before{background:rgb(var(--pc))}
+.proj-panel .pc-badge{background:rgba(var(--pc),.12);border-color:rgba(var(--pc),.42);color:var(--tx);max-width:calc(100% - 3.4rem)}
+.proj-panel .pc.feat .pc-badge{background:rgb(var(--pc));border-color:transparent;color:#fff}
+.proj-panel .pc-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;padding:0;background:none}
+.proj-panel .pc-metric{display:flex;flex-direction:column;gap:.1rem;padding:.45rem .6rem;border-radius:11px;background:rgba(var(--pc),.08);border:1px solid rgba(var(--pc),.22);font-size:.68rem;color:var(--tx-f);min-width:0}
+.proj-panel .pc-metric span{font:800 .92rem var(--fdis);letter-spacing:-.02em;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.proj-panel .pc-link{margin-top:auto;display:flex;align-items:center;justify-content:center;padding:.55rem .9rem;border-radius:999px;background:rgba(var(--pc),.1);border:1px solid rgba(var(--pc),.4);color:var(--tx);transition:background .25s,color .25s,transform .25s}
+.proj-panel .pc-link:hover{background:rgb(var(--pc));color:#fff;transform:translateY(-2px)}
+.pn-tab{--pc:124,92,255}.pn-tab[data-cat="hft"]{--pc:236,72,153}.pn-tab[data-cat="fpga"]{--pc:249,115,22}.pn-tab[data-cat="pd"]{--pc:6,182,212}.pn-tab[data-cat="tcad"]{--pc:34,197,94}
+.pn-tab .pn-label::before{content:'';display:inline-block;width:9px;height:9px;border-radius:3px;background:rgb(var(--pc));margin-right:.55rem}
+
+/* ── experience cards: numbered, accent per role ── */
+.exp-scroll .tl{counter-reset:tin}
+.exp-scroll .ti{counter-increment:tin;--tc:124,92,255}
+.exp-scroll .ti:nth-child(2){--tc:6,182,212}.exp-scroll .ti:nth-child(3){--tc:249,115,22}.exp-scroll .ti:nth-child(4){--tc:236,72,153}
+.exp-scroll .ti-card{border-top:5px solid rgb(var(--tc));background:rgba(255,255,255,.95);padding-top:1.5rem}
+.exp-scroll .ti-card::after{content:counter(tin,decimal-leading-zero);position:absolute;top:.5rem;right:1rem;font:800 3rem/1 var(--fdis);letter-spacing:-.04em;color:rgba(var(--tc),.15);pointer-events:none}
+.exp-scroll .ti-top{flex-direction:column;align-items:flex-start;gap:.5rem;padding-right:3.4rem}
+.exp-scroll .ti-card .ti-co{color:rgb(var(--tc));filter:brightness(.8)}
+.exp-scroll .ti-date{background:rgba(var(--tc),.1)!important;border-color:rgba(var(--tc),.4)!important;color:var(--tx)!important}
+.ti-ul li::before{background:rgb(var(--tc,124,92,255))}
+.exp-summary{border-top:5px solid transparent;background:linear-gradient(rgba(255,255,255,.96),rgba(255,255,255,.96)) padding-box,var(--grad) border-box}
+
+/* ── skills: icon and name on one row, accent rail ── */
+.sk{padding:1rem 1rem 1.05rem;border-left:4px solid rgb(var(--k,124,92,255))}
+.sk-ico{float:left;margin:0 .6rem .3rem 0}
+.sk-name{min-height:34px;display:flex;align-items:center;font-size:.98rem}
+.sk-tags{clear:both}
+
+/* ── certifications: seal mark ── */
+.cert-col .cc{padding-top:3.4rem}
+.cert-col .cc::before{content:'\2713';position:absolute;top:1rem;left:50%;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 1rem var(--fbod);color:#fff;background:var(--grad2);box-shadow:0 8px 16px -8px rgba(236,72,153,.7)}
+
+/* ── roadmap cards: accent per phase ── */
+.rm-card{--rc:124,92,255;border-top:4px solid rgb(var(--rc));padding-top:1.1rem}
+.rm-grid .rm-card:nth-child(4n+2){--rc:6,182,212}.rm-grid .rm-card:nth-child(4n+3){--rc:236,72,153}.rm-grid .rm-card:nth-child(4n+4){--rc:249,115,22}
+.rm-phase{display:inline-block;background:rgba(var(--rc),.1);border:1px solid rgba(var(--rc),.4);border-radius:999px;padding:.16rem .62rem;color:var(--tx);margin-bottom:.55rem}
+.rm-card.future{border-top-style:dashed}
+
+/* ═════════ CLEAN-UP PASS ═════════ */
+.hero-rail .h-stats{grid-template-columns:1fr 1fr;gap:.7rem}
+.hero-rail .h-stats>div{padding:1rem 1.1rem!important}
+.hero-rail .hs-n{font-size:1.9rem}
+.hero-rail .hs-l{font-size:.82rem!important}
+.glance{border-radius:var(--r);border:1.5px solid var(--line);background:rgba(255,255,255,.96);box-shadow:var(--sh);padding:1.3rem 1.4rem}
+.gl-h{font:800 1.15rem var(--fdis);letter-spacing:-.02em;margin-bottom:.8rem}
+.glance dl>div{display:grid;grid-template-columns:4.6rem 1fr;gap:.8rem;padding:.62rem 0;border-top:1px solid var(--line)}
+.glance dt{font:700 .78rem var(--fbod);color:var(--cu);padding-top:.12rem}
+.glance dd{font-size:.95rem;line-height:1.45;color:var(--tx-d)}
+.glance dd b{color:var(--tx)}
+.gl-ok{display:inline-block;font:700 .74rem var(--fbod);color:#15803D;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.45);border-radius:999px;padding:.08rem .55rem;margin-right:.35rem}
+.gl-btns{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+/* career timeline: its own card, wider spacing, smaller years so nothing collides */
+.exp-timeline{margin-top:3rem;padding:1.8rem 1.4rem 1.6rem;border-radius:var(--r);border:1.5px solid var(--line);background:rgba(255,255,255,.96);box-shadow:var(--sh)}
+.etl{gap:1.6rem}
+.etl::before,.etl-fill{left:4%}.etl::before{right:4%}
+.etl-node{padding-top:2.3rem}
+.etl-kind{font-size:.7rem;margin-bottom:.35rem}
+.etl-date{font-size:1.12rem;letter-spacing:-.01em;white-space:nowrap}
+.etl-role{font-size:.9rem;margin-top:.45rem}
+.etl-co{font-size:.78rem;margin-top:.3rem}
+/* timeline moves above the role cards so it is never cut off at the bottom of the pinned view */
+#experience{padding-top:4.6rem;padding-bottom:5.5rem}
+#experience .sec-inner{display:flex;flex-direction:column}
+#experience .sec-hd{order:0;margin-bottom:1.1rem!important}
+#experience .exp-timeline{order:1;margin:0 0 1.3rem;padding:1.3rem 1.4rem 1.2rem}
+#experience .exp-wrap{order:2}
+@media(min-width:901px){.exp-scroll .ti-card .ti-ul li{font-size:.86rem;line-height:1.55;margin-bottom:.5rem}}
+/* text sits on a calmer page: stronger wash at the sides */
+#veil{background:
+  radial-gradient(52% 46% at 0% 4%,rgba(124,92,255,.12),transparent 62%),
+  radial-gradient(44% 40% at 100% 22%,rgba(236,72,153,.08),transparent 62%),
+  linear-gradient(to right,rgba(245,244,253,.96) 0%,rgba(245,244,253,.86) 22%,rgba(245,244,253,.45) 34%,rgba(245,244,253,.1) 44%,rgba(245,244,253,0) 52%,rgba(245,244,253,.1) 60%,rgba(245,244,253,.5) 72%,rgba(245,244,253,.86) 86%,rgba(245,244,253,.94) 100%)}
+@media(max-width:768px){#veil{background:rgba(245,244,253,.84)}}
 </style>
 </head>
 <body class="loading">
@@ -1364,47 +1468,22 @@ body.loading #bgCanvas{z-index:99990}
         <div class="hud-bar"><div class="hud-fill" id="hudFill"></div></div>
       </div>
       <div class="h-stats">
-        <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Years Experience</span></div>
-        <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Functional Coverage</span></div>
-        <div><span class="hs-n" data-t="2000" data-s="+">0</span><span class="hs-l">Test Cases</span></div>
-        <div><span class="hs-n" data-t="500" data-s="+">0</span><span class="hs-l">Test Scenarios</span></div>
-        <div><span class="hs-n" data-t="100" data-s="+">0</span><span class="hs-l">RTL Bugs Found</span></div>
-        <div><span class="hs-n" data-t="100" data-s="+">0</span><span class="hs-l">VIP Components</span></div>
-        <div><span class="hs-n" data-t="25030" data-s="">0</span><span class="hs-l">GDS Std Cells</span></div>
-        <div><span class="hs-n" data-t="40" data-s="%">0</span><span class="hs-l">Cycle-Time Cut</span></div>
+        <div><span class="hs-n" data-t="3" data-s="+">0</span><span class="hs-l">Years experience</span></div>
+        <div><span class="hs-n" data-t="99.8" data-s="%">0</span><span class="hs-l">Functional coverage</span></div>
+        <div><span class="hs-n" data-t="25030" data-s="">0</span><span class="hs-l">Std cells taped out</span></div>
+        <div><span class="hs-n" data-t="100" data-s="+">0</span><span class="hs-l">RTL bugs found</span></div>
       </div>
-      <div class="h-focus">
-        <div class="hf-hdr">Current Focus Areas</div>
-        <div class="hf-tags">
-          <span class="hf-tag">SystemVerilog</span>
-          <span class="hf-tag">UVM</span>
-          <span class="hf-tag">SVA</span>
-          <span class="hf-tag">cocotb</span>
-          <span class="hf-tag">Low-Latency HFT</span>
-          <span class="hf-tag">RISC-V RV32I</span>
-          <span class="hf-tag">AXI4</span>
-          <span class="hf-tag">STA / Timing Closure</span>
-          <span class="hf-tag">RTL-to-GDS</span>
-          <span class="hf-tag">AI-Assisted EDA</span>
-        </div>
-      </div>
-      <div class="exp-panel">
-        <div class="ep-hdr">Core Tech Stack</div>
-        <div class="ep-tags">
-          <span class="ep-tag hot">SystemVerilog</span>
-          <span class="ep-tag hot">UVM 1.2</span>
-          <span class="ep-tag hot">QuestaSim</span>
-          <span class="ep-tag hot">SVA</span>
-          <span class="ep-tag hot">Python</span>
-          <span class="ep-tag">Verilator</span>
-          <span class="ep-tag">GTKWave</span>
-          <span class="ep-tag">GNU Make</span>
-          <span class="ep-tag hot">AXI4</span>
-          <span class="ep-tag hot">AHB / APB</span>
-          <span class="ep-tag hot">SPI · UART · I²C</span>
-          <span class="ep-tag">Vivado</span>
-          <span class="ep-tag">VCS</span>
-          <span class="ep-tag">OpenROAD</span>
+      <div class="glance">
+        <div class="gl-h">At a glance</div>
+        <dl>
+          <div><dt>Now</dt><dd>Hardware Design &amp; Verification Engineer at <b>Twinwing Labs</b>, San Francisco</dd></div>
+          <div><dt>Focus</dt><dd>UVM and SVA verification, RTL-to-GDS, low-latency FPGA</dd></div>
+          <div><dt>Degree</dt><dd>M.A.Sc in VLSI &amp; Microelectronics, Illinois Tech</dd></div>
+          <div><dt>Status</dt><dd><span class="gl-ok">Open to work</span> F-1 OPT, STEM extension eligible</dd></div>
+        </dl>
+        <div class="gl-btns">
+          <a class="btn-p" href="#projects">See projects</a>
+          <a class="btn-s" href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf">Resume</a>
         </div>
       </div>
     </div>
@@ -1415,7 +1494,7 @@ body.loading #bgCanvas{z-index:99990}
 <section class="sec" id="experience">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">02 // Work History</div>
+      <div class="sec-tag">02 &middot; Career</div>
       <h2 class="sec-title">Experience &amp; <span class="hl">Education</span></h2>
     </div>
     <div class="exp-wrap">
@@ -1499,7 +1578,7 @@ body.loading #bgCanvas{z-index:99990}
 <section class="sec" id="projects">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">03 // Portfolio</div>
+      <div class="sec-tag">03 &middot; 17 projects</div>
       <h2 class="sec-title">Featured <span class="hl">Projects</span></h2>
     </div>
     <div class="proj-layout">
@@ -1776,6 +1855,7 @@ body.loading #bgCanvas{z-index:99990}
 <section class="sec" id="siliconages">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
+      <div class="sec-tag">04 &middot; My own platform</div>
       <h2 class="sec-title">Also building <span class="hl">Silicon Ages</span></h2>
     </div>
     <div class="sa-panel rv">
@@ -1784,17 +1864,20 @@ body.loading #bgCanvas{z-index:99990}
         <h3 class="sa-h">Learn to build chips by watching your own code run.</h3>
         <p class="sa-p">Silicon Ages is a free learning site I designed, wrote and built for chip design. You write Verilog and the circuit animates. You change a value and the waveform responds. It needs no account.</p>
         <div class="sa-stats">
-          <span class="sa-stat"><b data-sa-n="68">0</b> lessons</span>
-          <span class="sa-stat" style="--c:6,182,212"><b data-sa-n="53">0</b> animations</span>
-          <span class="sa-stat" style="--c:236,72,153"><b data-sa-n="42">0</b> bugs to find</span>
-          <span class="sa-stat" style="--c:249,115,22"><b data-sa-n="37">0</b> quiz questions</span>
+          <span class="sa-stat"><b data-sa-n="16">0</b> study tracks</span>
+          <span class="sa-stat" style="--c:6,182,212"><b data-sa-n="788">0</b> lectures</span>
+          <span class="sa-stat" style="--c:236,72,153"><b data-sa-n="28">0</b> major projects</span>
+          <span class="sa-stat" style="--c:249,115,22"><b data-sa-n="15">0</b> industry projects</span>
+          <span class="sa-stat" style="--c:34,197,94"><b data-sa-n="53">0</b> animations</span>
+          <span class="sa-stat" style="--c:79,107,255"><b data-sa-n="42">0</b> bugs to find</span>
+          <span class="sa-stat" style="--c:202,138,4"><b data-sa-n="37">0</b> quiz questions</span>
         </div>
         <ul class="sa-feats">
           <li><b>Live circuit animations.</b> Each lesson runs your code as a moving diagram.</li>
           <li><b>Bug Hunt.</b> 42 broken designs: read the failure, find the line.</li>
           <li><b>Protocol explorer.</b> AXI, AHB, APB, PCIe, CXL, DDR, SPI, I2C and UART, clock by clock.</li>
           <li><b>Study plans by role.</b> Nine roles, paced to your interview date.</li>
-          <li><b>16 courses planned.</b> Digital Design is live with 68 lectures.</li>
+          <li><b>16 study tracks.</b> 788 lectures, 28 major projects and 15 industry projects.</li>
           <li><b>Built end to end by me.</b> Curriculum, animations and the site.</li>
         </ul>
         <div class="sa-btns">
@@ -1805,7 +1888,7 @@ body.loading #bgCanvas{z-index:99990}
       </div>
       <div class="sa-art">
         <div class="sa-die" data-sa-die="big" aria-hidden="true"></div>
-        <p class="sa-cap">Each cell is a lesson. <b id="saLit">0 of 68</b> lit.</p>
+        <p class="sa-cap">Finish a lesson and a cell lights up on your chip.</p>
       </div>
     </div>
     <div class="sa-ticker rv" id="saTicker" aria-label="Silicon Ages lessons"></div>
@@ -1816,7 +1899,7 @@ body.loading #bgCanvas{z-index:99990}
 <section class="sec" id="skills">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">05 // Capabilities</div>
+      <div class="sec-tag">05 &middot; Toolbox</div>
       <h2 class="sec-title">Technical <span class="hl">Skills</span></h2>
     </div>
     <div class="sg">
@@ -1839,7 +1922,7 @@ body.loading #bgCanvas{z-index:99990}
   <div class="sec-inner" style="margin:0 auto">
     <div class="cert-col">
       <div class="sec-hd">
-        <div class="sec-tag">06 // Credentials</div>
+        <div class="sec-tag">06 &middot; Credentials</div>
         <h2 class="sec-title"><span class="hl">Certifications</span></h2>
       </div>
       <div class="cg">
@@ -1856,7 +1939,7 @@ body.loading #bgCanvas{z-index:99990}
 <section class="sec" id="roadmap">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">07 // Trajectory</div>
+      <div class="sec-tag">07 &middot; Trajectory</div>
       <h2 class="sec-title">Career <span class="hl">Roadmap</span></h2>
     </div>
     <div class="rm-legend">
@@ -2361,6 +2444,8 @@ function renderNodes(now, dt){
 }
 
 function frame(now){
+  // once the loader is gone this canvas is completely covered by the 3D canvas, so stop the loop
+  if(!document.body.classList.contains('loading') && document.getElementById('threeCanvas').style.display !== 'none'){ C.style.display = 'none'; return; }
   if(document.hidden){ requestAnimationFrame(frame); return; }   // skip work while backgrounded
   const dt = Math.min((now - lastTime) / 1000, 0.05);
   lastTime = now;
@@ -2409,7 +2494,7 @@ const canvas = document.getElementById('threeCanvas');
    that a weak mobile GPU shouldn't be asked to carry. */
 const reduceMotion3D = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 const lowPower = reduceMotion3D || innerWidth < 820 || !!(navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
-const maxPR = lowPower ? 1 : 1.75;
+const maxPR = lowPower ? 1 : 1.35;
 // Zeroes out only the handful of animations in this scene that run continuously off the wall
 // clock regardless of scroll activity (camera idle jitter, satellite orbit, scan-box sweep,
 // the "keep glowing after you stop scrolling" pulse). Everything else here is already driven
@@ -2434,7 +2519,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, maxPR));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
-renderer.shadowMap.enabled = !lowPower;
+renderer.shadowMap.enabled = false;   // shadow pass removed: large cost, barely visible on the light theme
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
@@ -2617,6 +2702,18 @@ function drawRouting(ctx, sz){
 }
 
 function drawDieLayer(ctx, sz){
+  // clean package substrate: pale base, fine grid, ball grid outside the chip, gold seat for the chip
+  ctx.fillStyle='#f3f0fd';ctx.fillRect(0,0,sz,sz);
+  ctx.strokeStyle='rgba(124,92,255,.10)';ctx.lineWidth=1;
+  for(let i=32;i<sz;i+=32){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();}
+  const c=sz/2,h=sz*0.5/4.2*2.0;   // chip footprint (2.0 wide on a 4.2 substrate)
+  for(let x=44;x<sz-30;x+=30)for(let y=44;y<sz-30;y+=30){ if(Math.abs(x-c)<h+70&&Math.abs(y-c)<h+70)continue; ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle='rgba(233,180,76,.55)';ctx.fill(); }
+  ctx.strokeStyle='#e9b44c';ctx.lineWidth=5;ctx.strokeRect(c-h-8,c-h-8,h*2+16,h*2+16);
+  ctx.strokeStyle='rgba(124,92,255,.35)';ctx.lineWidth=3;ctx.setLineDash([14,10]);ctx.strokeRect(c-h-60,c-h-60,h*2+120,h*2+120);ctx.setLineDash([]);
+  ctx.strokeStyle='rgba(124,92,255,.5)';ctx.lineWidth=8;ctx.strokeRect(6,6,sz-12,sz-12);
+  return;
+}
+function drawDieLayerOld(ctx, sz){
   ctx.fillStyle='#fce4f0';ctx.fillRect(0,0,sz,sz);
   ctx.strokeStyle='#f6c6de';ctx.lineWidth=0.6;
   for(let i=48;i<sz;i+=48){
@@ -3129,6 +3226,7 @@ const ring3 = makeRing(3.6, 0.007, new THREE.Euler(Math.PI/3, Math.PI/6, 0), 0xf
 const sonarRings = [];
 let sonarTimer = 2.0;
 function spawnSonar(){
+  return; // removed
   const geo = new THREE.RingGeometry(0.6, 0.64, 80);
   const mat = new THREE.MeshBasicMaterial({color:0xec4899,side:THREE.DoubleSide,transparent:true,opacity:0.55,depthWrite:false});
   const m = new THREE.Mesh(geo, mat);
@@ -3175,6 +3273,7 @@ for(let i = 0; i < MAX_COMETS; i++){
 }
 let cometTimer = 4.0;
 function spawnComet(){
+  return; // removed
   const slot = comets.find(c => !c.active);
   if(!slot) return;
   const ex=23, ey=15, ez=23;
@@ -3341,7 +3440,7 @@ let fifoW = 3, fifoR = 0;
 
 /* ── TIMING-DIAGRAM RINGS — clock, data and valid waveforms wrapped around the chip and
    scrolling past, the way a waveform viewer scrolls. ── */
-const WAVE_PTS = lowPower ? 360 : 720;
+const WAVE_PTS = lowPower ? 240 : 420;
 function makeWave(y, col, kind, cycles, seed){
   const pos = new Float32Array((WAVE_PTS+1)*3);
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -3571,6 +3670,16 @@ const scanBar = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.03, 0.07), new THREE
 const scanCurtain = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 0.9), new THREE.MeshBasicMaterial({color:0x7c5cff, transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false}));
 scene.add(scanBar, scanCurtain);
 
+/* ── CLEAN-UP — older scene pieces switched off so the stack reads as board → package → chip ── */
+[layers3d[1], layers3d[3]].forEach(L => { L.mesh.visible = false; L.edges.visible = false; });
+layerConnectors.forEach(C => C.pillars.forEach(p => { p.mesh.visible = false; }));
+[dieMesh, dieEdges, chipBlocksGroup, ring1, ring2, ring3, wafer, waferRing, waferFlat, viaGroup, scanBox, scanPlane,
+ signoffGroup, ascPoints, fifoGroup].forEach(o => { o.visible = false; });
+nodeMeshes.forEach(n => { n.mesh.visible = false; });
+sats.forEach(q => { q.mesh.visible = false; });
+[netMat, pktMat, pkt2Mat].forEach(m => { m.visible = false; });
+waves.forEach(w => { w.mat.visible = false; });
+
 /* ── LIGHTS ── */
 scene.add(new THREE.AmbientLight(0xcbc6ea, 1.25));
 const dirL = new THREE.DirectionalLight(0xefeaff, 2.1);
@@ -3663,7 +3772,7 @@ const mEl = {
   cov:document.getElementById('hudCov'),  temp:document.getElementById('hudTemp'),
   drc:document.getElementById('hudDrc'),  lvs:document.getElementById('hudLvs'),
 };
-function setV(el,txt,cls){ if(!el)return; el.textContent=txt; el.classList.remove('ok','warn'); if(cls) el.classList.add(cls); }
+function setV(el,txt,cls){ if(!el)return; const k=txt+'|'+(cls||''); if(el.__k===k)return; el.__k=k; el.textContent=txt; el.classList.remove('ok','warn'); if(cls) el.classList.add(cls); }
 function updateHudMetrics(sp){
   const L=(a,b,t)=>a+(b-a)*Math.max(0,Math.min(1,t));
   if(sp<0.25) setV(mEl.cov,'—'); else setV(mEl.cov, Math.min(99.8,L(72,99.8,(sp-0.25)/0.11)).toFixed(1)+'%', sp>0.34?'ok':'warn');
@@ -3761,7 +3870,7 @@ function updateChip(buildSp, camSp){
   dieEdges.position.y=dieMesh.position.y;
 
   // Bond wires
-  const bondsOn=assP>0.72;
+  const bondsOn=false;   // inner die and its wires removed: the lid is the chip
   bondWires.forEach(w=>{
     w.visible=bondsOn;
     if(bondsOn){
@@ -3841,18 +3950,18 @@ function heroSp(){ return Math.min(1, Math.max(0, window.scrollY / window.innerH
 /* ── ASIC flow panel (pinned in the hero rail) — progress linked to the WHOLE page
    scroll (not the fast hero-scoped build), so it keeps advancing and only reaches
    100% at the very bottom, instead of finishing early alongside the chip visual. ── */
-let flowT = 0;
+let flowT = 0, flowPct = -1, flowLast = -1;
 function tickFlow(){
   const target = window.__targetSp || 0;
   flowT += (target - flowT) * 0.3;                     // tightly follow the scroll position
   const pct = Math.round(flowT*100);
-  hudFill.style.width = pct+'%';
-  hudPctEl.textContent = pct+'%';
-  const filledSegs = Math.round(flowT*SEG_N);
-  segs.forEach((s,i)=>s.classList.toggle('on', i<filledSegs));
-  setHudStage(flowT);
-  updateHudMetrics(flowT);
-  hudEl.classList.toggle('powered', flowT > 0.75);
+  if(pct !== flowPct){
+    flowPct = pct;
+    hudFill.style.width = pct+'%';
+    hudPctEl.textContent = pct+'%';
+    hudEl.classList.toggle('powered', flowT > 0.75);
+  }
+  if(Math.abs(flowT - flowLast) > 0.0015){ flowLast = flowT; setHudStage(flowT); updateHudMetrics(flowT); }
   requestAnimationFrame(tickFlow);
 }
 requestAnimationFrame(tickFlow);
@@ -3861,6 +3970,7 @@ requestAnimationFrame(tickFlow);
 const clock = new THREE.Clock();
 /* Animation pace: slow while the reader is still (chip mostly hidden behind content),
    faster during scroll transitions when the background is visible between sections. */
+let horizTick = 0;
 let spd = 0, scrollBoost = 0, lastSY = window.scrollY, idleR = 0, camEase = 0, assEase = 0, buildEase = 0;
 const reduceMotion = reduceMotion3D; // same preference, already read once above
 window.__scrollDirty = true;
@@ -3884,7 +3994,8 @@ function animate(){
   if(document.hidden) return;                // don't render while the tab is in the background
   scrollBoost *= 0.93;
   window.__hb = (window.__hb || 0) * 0.95;   // heading-arrival burst decays after each section
-  const horizPin = window.ScrollTrigger && ScrollTrigger.getAll().some(s => s.vars.id === 'horiz' && s.isActive);
+  if(window.ScrollTrigger && (!window.__horizST || (++horizTick % 90) === 0)) window.__horizST = ScrollTrigger.getAll().filter(s => s.vars.id === 'horiz');
+  const horizPin = !!(window.__horizST && window.__horizST.some(s => s.isActive));
   const drive = Math.max(scrollBoost, window.__hb);
   // Run while transitioning; slow to a gentle crawl while scrolling horizontally (Experience / Projects); pause when settled.
   const spdTarget = horizPin
@@ -4231,8 +4342,8 @@ const cDot=document.getElementById('cDot'), cRing=document.getElementById('cRing
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 (function cl(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  cDot.style.cssText=`left:${mx}px;top:${my}px`;
-  cRing.style.cssText=`left:${rx}px;top:${ry}px`;
+  cDot.style.transform=`translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
+  cRing.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`;
   requestAnimationFrame(cl);})();
 
 /* Footer — cursor-reactive sparks; a small trail follows the pointer while it's over
@@ -4344,7 +4455,7 @@ window.addEventListener('scroll',()=>{
   nav.classList.toggle('sc',st>60);
   if(toTop) toTop.classList.toggle('show', st>700);
 },{passive:true});
-if(toTop) toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+if(toTop) toTop.addEventListener('click',()=>{ if(window.__lenis) window.__lenis.scrollTo(0,{duration:1.6}); else window.scrollTo({top:0,behavior:'smooth'}); });
 
 /* Typewriter */
 const ROLES=['VLSI Design & Verification Engineer','RTL-to-GDS Tapeout Engineer','UVM Verification Architect','FPGA & ML Accelerator Designer','Hardware & Systems Engineer'];
@@ -4378,6 +4489,7 @@ document.querySelectorAll('.sec-title,.h-name').forEach(el=>hio.observe(el));
    These spans have no CSS transition of their own, so this can't fight the IntersectionObserver reveal above. */
 window.addEventListener('load', () => { setTimeout(setupTagReveal, 200); });
 function setupTagReveal(){
+  return; // disabled: one ScrollTrigger per tag was the main cause of pin stutter
   if(!(window.gsap && window.ScrollTrigger)) return;
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -4438,7 +4550,7 @@ function setupProjScroll(){
         start: 'top 150px',
         end: () => '+=' + (getDist() + 700),
         pin: true,
-        scrub: 0.5,
+        scrub: 0.25,
         invalidateOnRefresh: true,
         onToggle: self => { if(self.isActive) setActive(cat); },
         onEnter: () => setActive(cat),
@@ -4453,9 +4565,21 @@ function setupProjScroll(){
   ScrollTrigger.refresh();
 }
 
+/* Smooth scrolling: wheel input is eased by Lenis and stepped from the GSAP ticker, so the
+   pinned sections, the 3D camera and the page all move from one clock (no fighting scrollers) */
+window.addEventListener('load', () => {
+  if(!(window.Lenis && window.gsap && window.ScrollTrigger)) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches || matchMedia('(pointer:coarse)').matches) return;
+  const lenis = new Lenis({duration:1.05, smoothWheel:true, wheelMultiplier:0.95, lerp:0.1});
+  window.__lenis = lenis;
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(t => lenis.raf(t*1000));
+  gsap.ticker.lagSmoothing(0);
+});
+
 /* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});
+  a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(!t)return;if(window.__lenis) window.__lenis.scrollTo(t,{offset:-70,duration:1.4}); else t.scrollIntoView({behavior:'smooth'});});
 });
 
 /* ── Experience: pin the section and drive the cards horizontally on vertical scroll,
@@ -4482,7 +4606,7 @@ function setupExpScroll(){
       start: 'top top',
       end: () => '+=' + (getDist() + 800),   // extra scroll budget for the two dwells
       pin: true,
-      scrub: 0.5,
+      scrub: 0.25,
       invalidateOnRefresh: true,
       onUpdate: self => {
         const p = self.progress;
@@ -4577,7 +4701,7 @@ window.addEventListener('load', () => {
 
   /* section titles: a little waveform draws in beside each one, then a dot rides it */
   const NS = 'http://www.w3.org/2000/svg';
-  document.querySelectorAll('.sec-title').forEach((h, k) => {
+  [].forEach((h, k) => {
     const W = 210, H = 26, n = 14, sw = W/n; let y = 3, d = 'M0,' + (H-3), len = 0, prev = 0;
     for(let i = 0; i < n; i++){
       const bit = i % 2 === 0 ? (Math.random() > .35 ? 1 : 0) : (Math.random() > .6 ? 1 : 0);
