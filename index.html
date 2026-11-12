@@ -1477,7 +1477,7 @@ html.amb-on nav{border-bottom-color:rgba(var(--amb),.5)}
 
 /* Silicon Ages uses the full screen while held: the panel stretches and the lesson ticker sits just above the flow bar */
 @media(min-width:981px){
-  #siliconages .sec-inner{display:flex;flex-direction:column;min-height:calc(100vh - 68px - 58px - 58px)}
+  #siliconages .sec-inner{display:flex;flex-direction:column;min-height:calc(100vh - 68px - 58px - 44px)}
   #siliconages .sa-panel{flex:1 1 auto}
   #siliconages .sa-ticker{margin-top:1rem}
   #siliconages{padding-bottom:5rem}
@@ -1499,30 +1499,126 @@ html.amb-on nav{border-bottom-color:rgba(var(--amb),.5)}
 .now-t{font-size:.86rem}.now-t b{font-size:.95rem}
 /* ticker sits just above the flow bar */
 @media(min-width:981px){#siliconages .sa-ticker{margin-top:.55rem;gap:.4rem}}
+
+/* ═════════ LOADER v4 — ring fills round the chip, the name fills with colour ═════════ */
+.ld2{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:min(90vw,520px);text-align:center}
+.ld2-ring{position:relative;width:min(58vw,230px);aspect-ratio:1;margin-bottom:1.6rem}
+.ld2-ring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ld2-ring circle{fill:none;stroke-width:5}
+.ld2-ring .t{stroke:rgba(124,92,255,.16)}
+.ld2-ring .p{stroke:url(#ld2g);stroke-linecap:round;stroke-dasharray:578;stroke-dashoffset:calc(578px - 5.78px*var(--p));transform:rotate(-90deg);transform-origin:100px 100px;transition:stroke-dashoffset .12s linear;filter:drop-shadow(0 0 6px rgba(236,72,153,.45))}
+.ld2-ring .sa-die{position:absolute;inset:17%;width:auto;box-shadow:0 22px 40px -22px rgba(27,29,60,.8),inset 0 0 0 2px #3A3E78}
+.ld2-name{position:relative;font:800 clamp(2rem,7vw,3.5rem)/1 var(--fdis);letter-spacing:-.04em;white-space:nowrap}
+.ld2-name .base{color:rgba(21,23,43,.13)}
+.ld2-name .fill{position:absolute;inset:0;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;clip-path:inset(-10% calc(100% - var(--p)*1%) -10% 0);transition:clip-path .12s linear}
+.ld2-row{display:flex;justify-content:space-between;align-items:baseline;width:100%;margin-top:1.3rem;font:600 .95rem var(--fbod);color:var(--tx-d)}
+#ldStatus{transition:opacity .22s}
+.ld2-pct{font:800 1.25rem var(--fdis);letter-spacing:-.03em;color:var(--cu);font-variant-numeric:tabular-nums}
+.ld2-steps{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;width:100%;margin-top:.6rem}
+.ld2-steps span{font:700 .64rem var(--fmon);letter-spacing:.04em;color:rgba(86,91,120,.5);padding-top:.5rem;position:relative;transition:color .25s}
+.ld2-steps span::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;border-radius:5px;background:rgba(124,92,255,.15);transition:background .25s}
+.ld2-steps span.done{color:var(--cu)}.ld2-steps span.done::before{background:var(--vio)}
+.ld2-steps span.act{color:var(--gd)}.ld2-steps span.act::before{background:var(--grad2);box-shadow:0 0 10px rgba(236,72,153,.6)}
+#loader.done .ld2-ring{animation:ldPower .55s ease-out}
+#loader.done .ld2-ring .p{filter:drop-shadow(0 0 14px rgba(236,72,153,.9))}
+@media(prefers-reduced-motion:reduce){.ld2-ring .p,.ld2-name .fill{transition:none}}
+
+/* ═════════ FLOW DOCK — floating pill instead of a full-width bar ═════════ */
+#chipHud{left:50%!important;right:auto!important;bottom:10px!important;width:auto!important;max-width:calc(100vw - 7rem);height:46px!important;transform:translateX(-50%);
+  border-radius:999px!important;border:1.5px solid var(--line)!important;padding:0 1.2rem 0 .45rem!important;gap:1rem!important;
+  background:rgba(255,255,255,.97)!important;box-shadow:0 16px 36px -16px rgba(75,50,195,.5)!important}
+#chipHud::before{display:none}
+#chipHud .hud-hdr,#chipHud .hud-grid{display:none!important}
+#chipHud .hud-row{order:1}
+#chipHud .hud-pct{background:var(--grad2);-webkit-background-clip:border-box;background-clip:border-box;color:#fff;-webkit-text-fill-color:#fff;border-radius:999px;padding:.42rem .2rem;min-width:3.5rem;font-size:.95rem;text-align:center;letter-spacing:-.02em}
+#chipHud .hud-pipe{order:2;gap:.15rem!important;align-items:center}
+#chipHud .hud-ps,#chipHud .hud-ps.done,#chipHud .hud-ps.act{background:none;border:none;box-shadow:none;padding:.2rem .5rem .2rem 1rem;font:700 .7rem var(--fmon);letter-spacing:.03em;color:rgba(86,91,120,.55);position:relative;animation:none}
+#chipHud .hud-ps::before{content:'';position:absolute;left:.25rem;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:rgba(124,92,255,.22);transition:background .3s,box-shadow .3s}
+#chipHud .hud-ps.done{color:var(--cu)}#chipHud .hud-ps.done::before{background:var(--vio)}
+#chipHud .hud-ps.act{color:var(--gd)}#chipHud .hud-ps.act::before{background:var(--pink);box-shadow:0 0 0 4px rgba(236,72,153,.2)}
+#chipHud .hud-stageline{order:3;width:12.5rem;padding-left:1rem;border-left:1.5px solid var(--line)}
+#chipHud .hud-stage{font:700 .72rem var(--fbod);letter-spacing:.04em;color:var(--tx-d)}
+#chipHud .hud-bar{height:3px;background:transparent}
+html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
+@media(max-width:1100px){#chipHud .hud-stageline{display:none}}
+@media(max-width:860px){#chipHud{padding:0 .45rem!important}}
+
+/* ═════════ FILL THE SCREEN — each held section runs down to just above the dock ═════════ */
+#toTop{bottom:12px}
+@media(min-width:901px){
+  /* Projects: cards as tall as the space under the category title allows */
+  .proj-panel .pc{height:max(400px,calc(100vh - 272px))}
+  .proj-panel .pc-desc{-webkit-line-clamp:8}
+  /* Experience: role cards stretch to the bottom */
+  #experience{padding-bottom:66px}
+  #experience .sec-inner{min-height:calc(100vh - 3.8rem - 94px)}
+  #experience .exp-wrap{flex:1 1 auto;display:flex!important}
+  #experience .exp-scroll{flex:1 1 auto;display:flex}
+  #experience .exp-scroll .tl{flex:1 1 auto}
+  /* Skills & Certifications: skill rows share the spare height */
+  #skills .sec-inner{display:flex;flex-direction:column;min-height:calc(100vh - 57px - 58px - 46px)}
+  #skills .sg{flex:1 1 auto;grid-auto-rows:1fr}
+  #skills .cert-col .cc{padding:.55rem .9rem .55rem 3.3rem}
+  #skills .cert-col .cc-name{font-size:.88rem;line-height:1.25}
+  .sc-sub{margin:.9rem 0 .55rem}
+}
+
+/* ═════════ POLISH PASS ═════════ */
+/* nav: current section */
+.n-links a.on{color:var(--cu)!important}
+.n-links a.on::after{transform:scaleX(1)}
+.n-sa-btn.on{box-shadow:0 0 0 3px rgba(249,115,22,.28),0 8px 20px -10px rgba(249,115,22,.75)}
+/* section titles: the coloured word keeps a slow moving gradient; the title rises in */
+.sec-title .hl{background-size:220% 100%;animation:gradSlide 6s ease-in-out infinite alternate}
+.sec-title{transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+/* buttons: a light sweep on hover */
+.btn-p,.btn-s,.n-sa-btn,.pc-link{position:relative;overflow:hidden}
+.btn-p::after,.btn-s::after,.n-sa-btn::after,.pc-link::after{content:'';position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);pointer-events:none;transition:none}
+.btn-p:hover::after,.btn-s:hover::after,.n-sa-btn:hover::after,.pc-link:hover::after{left:130%;transition:left .65s ease}
+/* career timeline: the line draws across, then each milestone pops in turn */
+#experience .etl-fill{width:0!important;transition:width 1.7s cubic-bezier(.4,0,.2,1) .25s}
+#experience .exp-timeline.vis .etl-fill{width:92%!important}
+#experience .etl-node{opacity:0;transform:translateY(14px) scale(.94);transition:opacity .55s ease,transform .6s cubic-bezier(.34,1.56,.64,1),background .25s,box-shadow .25s}
+#experience .exp-timeline.vis .etl-node{opacity:1;transform:none}
+#experience .etl-node:nth-child(2){transition-delay:.25s}#experience .etl-node:nth-child(3){transition-delay:.45s}#experience .etl-node:nth-child(4){transition-delay:.65s}
+#experience .etl-node:nth-child(5){transition-delay:.85s}#experience .etl-node:nth-child(6){transition-delay:1.05s}#experience .etl-node:nth-child(7){transition-delay:1.25s}#experience .etl-node:nth-child(8){transition-delay:1.45s}
+#experience .etl-node:hover{transition-delay:0s}
+/* role cards and certifications arrive one after another */
+#experience .exp-scroll .ti{transform:translateY(34px)}
+#experience .exp-scroll .ti.vis{transform:none}
+#experience .exp-scroll .ti:nth-child(2){transition-delay:.12s}#experience .exp-scroll .ti:nth-child(3){transition-delay:.24s}#experience .exp-scroll .ti:nth-child(4){transition-delay:.36s}
+/* project cards rise in when their category takes the screen; stat tiles follow */
+@keyframes pcRise{from{opacity:0;transform:translateY(46px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes tilePop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.proj-panel.in .pc{animation:pcRise .7s cubic-bezier(.16,1,.3,1) backwards}
+.proj-panel.in .pc:nth-child(2){animation-delay:.1s}.proj-panel.in .pc:nth-child(3){animation-delay:.2s}.proj-panel.in .pc:nth-child(4){animation-delay:.3s}.proj-panel.in .pc:nth-child(5){animation-delay:.4s}
+.proj-panel.in .pc-metric{animation:tilePop .5s cubic-bezier(.34,1.56,.64,1) backwards;animation-delay:.45s}
+.proj-panel.in .pc-metric:nth-child(2){animation-delay:.53s}.proj-panel.in .pc-metric:nth-child(3){animation-delay:.61s}.proj-panel.in .pc-metric:nth-child(4){animation-delay:.69s}
+.pp-title{transition:letter-spacing .5s}
+.proj-panel.in .pp-title{animation:pcRise .6s cubic-bezier(.16,1,.3,1) backwards}
+/* skill icons: a small spin on hover; number tiles in "Now building" count as a unit */
+.sk:hover .sk-ico{transform:rotate(-8deg) scale(1.12);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.now-item .now-go{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.now-item:hover .now-go{transform:translate(2px,-2px) scale(1.12)}
+/* softer, larger corner radius and a hairline highlight on every card */
+.pc,.ti-card,.sk,.cc,.glance,.now,.exp-timeline,.sa-mini{border-radius:22px}
+@media(prefers-reduced-motion:reduce){.proj-panel.in .pc,.proj-panel.in .pc-metric,.proj-panel.in .pp-title,.sec-title .hl{animation:none}#experience .etl-node{opacity:1;transform:none}#experience .etl-fill{width:92%!important}}
 </style>
 </head>
 <body class="loading">
 
 <!-- LOADER -->
-<div id="loader" role="status" aria-live="polite" aria-label="Loading portfolio">
-  <div class="ldx-corner tl">PDK<b>SKY130A</b></div>
-  <div class="ldx-corner tr">Clock<b>50 MHz</b></div>
-  <div class="ldx-corner bl">Std cells<b>25,030</b></div>
-  <div class="ldx-corner br">Coverage<b>99.8%</b></div>
-  <div class="ldx-stage">
-    <div class="ldx-chip" aria-hidden="true">
-      <div class="ldx-halo"></div>
-      <div class="ldx-orbit"><i></i></div><div class="ldx-orbit b"><i></i></div>
-      <div class="ldx-shadow"></div>
-      <div class="ldx-tilt"><div class="sa-die" id="ldDie"><span class="ldx-scan"></span></div></div>
+<div id="loader" role="status" aria-live="polite" aria-label="Loading portfolio" style="--p:0">
+  <div class="ld2">
+    <div class="ld2-ring" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><linearGradient id="ld2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C5CFF"/><stop offset=".45" stop-color="#EC4899"/><stop offset=".78" stop-color="#F97316"/><stop offset="1" stop-color="#EAB308"/></linearGradient></defs>
+        <circle class="t" cx="100" cy="100" r="92"/><circle class="p" cx="100" cy="100" r="92"/></svg>
+      <div class="sa-die" id="ldDie"><span class="ldx-scan"></span></div>
     </div>
-    <div class="ldx-pct"><span id="ldPct">0</span><small>%</small></div>
-    <div class="ldx-name">Abhishek <i>Varma</i></div>
-    <div class="ldx-sub">VLSI &middot; Verification &middot; RTL-to-GDS</div>
-    <div class="ldx-flow" id="ldFlow" aria-hidden="true"><span>SPEC</span><span>RTL</span><span>VER</span><span>SYN</span><span>P&amp;R</span><span>CTS</span><span>STA</span><span>GDS</span></div>
-    <div class="ldx-status" id="ldStatus">&#9656; Initialising flow</div>
-    <div class="ldx-log" id="ldLog" aria-hidden="true"></div>
-    <div class="ldx-bar"><i id="ldFillBar"></i></div>
+    <div class="ld2-name"><span class="base">ABHISHEK VARMA</span><span class="fill" aria-hidden="true">ABHISHEK VARMA</span></div>
+    <div class="ld2-row"><span id="ldStatus">Initialising flow</span><span class="ld2-pct"><span id="ldPct">0</span>%</span></div>
+    <div class="ld2-steps" id="ldFlow" aria-hidden="true"><span>SPEC</span><span>RTL</span><span>VER</span><span>SYN</span><span>P&amp;R</span><span>CTS</span><span>STA</span><span>GDS</span></div>
+    <div id="ldLog" hidden></div><i id="ldFillBar" hidden></i>
   </div>
 </div>
 <script>
@@ -1563,7 +1659,7 @@ html.amb-on nav{border-bottom-color:rgba(var(--amb),.5)}
   }
   function tick(now){
     const prog = Math.min((now - t0)/DUR, 1), e = prog < .5 ? 2*prog*prog : 1 - Math.pow(-2*prog + 2, 2)/2, pct = Math.floor((.55*prog + .45*e)*100);
-    pctEl.textContent = pct; barEl.style.width = pct + '%';
+    pctEl.textContent = pct; barEl.style.width = pct + '%'; document.getElementById('loader').style.setProperty('--p', pct);
     const want = Math.floor(pct/100*cells.length);
     while(lit < want){ const c = cells[lit++]; c.classList.add('on', 'pop'); setTimeout(() => c.classList.remove('pop'), 260); }
     const st = Math.min(7, Math.floor(pct/12.5)); if(st !== stage){ stage = st; flow.forEach((f, i) => { f.classList.toggle('done', i < st); f.classList.toggle('act', i === st); }); }
@@ -1637,7 +1733,7 @@ html.amb-on nav{border-bottom-color:rgba(var(--amb),.5)}
     <div class="hero-rail">
       <div id="chipHud" class="exp-panel" aria-hidden="true">
         <div class="hud-hdr">ASIC IMPLEMENTATION FLOW</div>
-        <div class="hud-stageline"><span class="hud-stage" id="hudLabel">// SPEC &amp; PLANNING</span><span class="hud-kw" id="hudKw">▸ SPEC_FREEZE</span></div>
+        <div class="hud-stageline"><span class="hud-stage" id="hudLabel">SPEC &amp; PLANNING</span><span class="hud-kw" id="hudKw">▸ SPEC_FREEZE</span></div>
         <div class="hud-row"><span class="hud-pct" id="hudPct">0%</span><div class="hud-segs" id="hudSegs"></div></div>
         <div class="hud-meta"><span id="hudStageName">STAGE 1 / 8</span> · MAC_8×8 · SKY130 · 25,030 CELLS</div>
         <div class="hud-div"></div>
@@ -2150,7 +2246,6 @@ html.amb-on nav{border-bottom-color:rgba(var(--amb),.5)}
     <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
     <a href="mailto:abhishekvarma827@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
     <a href="tel:+15513476950" aria-label="Phone" title="Call"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.4.6 3.6.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg></a>
-    <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" aria-label="Download Resume" title="Download Resume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42l2.3 2.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg></a>
   </div>
   <p class="ft-copy rv">© 2026 Abhishek Varma · Built with passion for silicon</p>
 </footer>
@@ -3916,7 +4011,7 @@ function setHudStage(sp){
   if(st !== hudStage){
     hudStage = st; hudSub = 0;
     showKw(); renderPipe();
-    setHudLabel('// ' + STAGE_FULL[st]);
+    setHudLabel(STAGE_FULL[st]);
     hudStageName.textContent = 'STAGE ' + (st+1) + ' / 8';
   }
 }
@@ -4719,7 +4814,7 @@ function setupProjScroll(){
         pin: true,
         scrub: 0.25,
         invalidateOnRefresh: true,
-        onToggle: self => { if(self.isActive) setActive(cat); },
+        onToggle: self => { if(self.isActive){ setActive(cat); panel.classList.add('in'); } },
         onEnter: () => setActive(cat),
         onEnterBack: () => setActive(cat)
       }
@@ -4924,6 +5019,19 @@ window.addEventListener('load', () => {
       }, {passive:true});
       if(tilt) c.addEventListener('pointerleave', () => { c.style.transform = ''; });
     });
+  }
+
+  /* nav: the link for the section on screen is marked */
+  if('IntersectionObserver' in window){
+    const map = {hero:'#about', experience:'#experience', projects:'#projects', skills:'#skills'};
+    const links = [...document.querySelectorAll('.n-links a')], saBtn = document.querySelector('.n-sa-btn');
+    const spy = new IntersectionObserver(es => es.forEach(x => {
+      if(!x.isIntersecting) return;
+      const id = x.target.id;
+      links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === map[id]));
+      if(saBtn) saBtn.classList.toggle('on', id === 'siliconages');
+    }), {rootMargin:'-45% 0px -50% 0px'});
+    ['hero','experience','projects','siliconages','skills'].forEach(id => { const e = document.getElementById(id); if(e) spy.observe(e); });
   }
 
   /* hover colour: the box under the pointer sets the colour for the whole page (blob, wash, cursor, progress bar, chip light) */
