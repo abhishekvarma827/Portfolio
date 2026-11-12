@@ -3,35 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abhishek Varma | VLSI Design &amp; Verification Engineer</title>
-<meta name="description" content="Abhishek Varma — VLSI Design &amp; Verification Engineer. UVM verification (AMBA AHB/APB/AXI4, SPI, UART) at 99.8% functional coverage, RTL-to-GDS tapeout on SkyWater 130nm, and ML hardware acceleration.">
+<title>Abhishek Varma | FPGA &amp; ASIC Design and Verification Engineer</title>
+<meta name="description" content="Abhishek Varma: FPGA and ASIC engineer. Low-latency FPGA tick-to-trade system at 294.4 ns wire to wire, RTL development, UVM verification, static timing analysis and RTL-to-GDS tapeout.">
 <meta name="author" content="Abhishek Varma">
-<meta name="keywords" content="VLSI, ASIC, FPGA, UVM, SystemVerilog, RTL-to-GDS, Physical Design, Verification Engineer, RISC-V, Systolic Array, SkyWater 130nm">
+<meta name="keywords" content="FPGA, ASIC, RTL design, SystemVerilog, UVM, verification, static timing analysis, CDC, high-frequency trading, Kria KR260, Vivado, RTL-to-GDS, VLSI">
 <meta name="theme-color" content="#F5F4FD">
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Abhishek Varma | VLSI Design &amp; Verification Engineer">
-<meta property="og:description" content="UVM verification at 99.8% functional coverage, RTL-to-GDS tapeout on SkyWater 130nm, and ML hardware acceleration.">
+<meta property="og:title" content="Abhishek Varma | FPGA &amp; ASIC Design and Verification Engineer">
+<meta property="og:description" content="FPGA tick-to-trade system at 294.4 ns wire to wire, RTL development, UVM verification, STA and RTL-to-GDS tapeout.">
 <meta property="og:image" content="og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Abhishek Varma — ASIC · VLSI · Verification Engineer">
+<meta property="og:image:alt" content="Abhishek Varma, FPGA and ASIC Design and Verification Engineer">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Abhishek Varma | VLSI Design &amp; Verification Engineer">
-<meta name="twitter:description" content="UVM verification at 99.8% functional coverage, RTL-to-GDS tapeout on SkyWater 130nm, and ML hardware acceleration.">
+<meta name="twitter:title" content="Abhishek Varma | FPGA &amp; ASIC Design and Verification Engineer">
+<meta name="twitter:description" content="FPGA tick-to-trade system at 294.4 ns wire to wire, RTL development, UVM verification, STA and RTL-to-GDS tapeout.">
 <meta name="twitter:image" content="og-image.png">
 <!-- Favicon — silicon die glyph -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231B1D3C'/%3E%3Crect x='9' y='9' width='14' height='14' rx='1.5' fill='none' stroke='%23E9B44C' stroke-width='2'/%3E%3Crect x='13.5' y='13.5' width='5' height='5' fill='%237C5CFF'/%3E%3Cg stroke='%23E9B44C' stroke-width='2'%3E%3Cpath d='M12 9V5M16 9V5M20 9V5M12 23v4M16 23v4M20 23v4M9 12H5M9 16H5M9 20H5M23 12h4M23 16h4M23 20h4'/%3E%3C/g%3E%3C/svg%3E">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person",
 "name":"Abhishek Varma",
-"jobTitle":"VLSI Design & Verification Engineer",
-"description":"UVM verification engineer with hands-on RTL-to-GDS tapeout experience on SkyWater 130nm, specializing in AMBA protocol verification, RTL design, and ML hardware acceleration.",
+"jobTitle":"FPGA & ASIC Design and Verification Engineer",
+"description":"FPGA and ASIC engineer with 3.5 years of experience in RTL development, UVM verification, static timing analysis and physical design, currently building a low-latency FPGA trading system.",
 "email":"mailto:abhishekvarma827@gmail.com",
 "telephone":"+1-551-347-6950",
 "address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"CA","addressCountry":"US"},
 "alumniOf":[{"@type":"CollegeOrUniversity","name":"Illinois Institute of Technology"},{"@type":"CollegeOrUniversity","name":"Shri Vaishnav Institute of Technology and Science"}],
-"knowsAbout":["VLSI","ASIC Verification","UVM","SystemVerilog","RTL-to-GDS","Physical Design","FPGA","RISC-V","SkyWater 130nm PDK"],
+"knowsAbout":["FPGA Design","RTL Design","ASIC Verification","UVM","SystemVerilog","Static Timing Analysis","Clock Domain Crossing","RTL-to-GDS","Physical Design","High-Frequency Trading Hardware"],
 "sameAs":["https://github.com/abhishekvarma827","https://www.linkedin.com/in/abhishekvarma10/","https://www.siliconages.com/"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1644,6 +1644,35 @@ html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
   .sa-mini-s{font-size:.76rem}
   .sa-mini-go{width:28px;height:28px}
 }
+
+/* small chip on the Silicon Ages card: percentage padding was resolving against the card, not the chip */
+.sa-mini .sa-die{padding:5px;gap:2px}
+.sa-mini .sa-row{gap:2px}
+.sa-mini .sa-blk{gap:1px;padding:2px}
+
+/* ═════════ LOADER v5 — more detail: tick ring, orbiting marker, live readouts, build log ═════════ */
+.ld2-ring{width:min(50vw,200px);margin-bottom:1.2rem}
+.ld2-ring .k{stroke:rgba(124,92,255,.45);stroke-width:4;stroke-dasharray:1.4 8.97;transform-origin:100px 100px;animation:rot 26s linear infinite}
+.ld2-ring .o{transform-origin:100px 100px;animation:rot 2.6s linear infinite}
+.ld2-ring .o circle{fill:#EC4899;stroke:none;filter:drop-shadow(0 0 5px rgba(236,72,153,.9))}
+.ld2-name{font-size:clamp(1.9rem,6vw,3rem)}
+.ld2-row{margin-top:1rem}
+.ld2-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%;margin-top:.9rem}
+.ld2-stats div{background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:12px;padding:.42rem .2rem .36rem}
+.ld2-stats b{display:block;font:800 .98rem var(--fdis);letter-spacing:-.02em;color:var(--cu);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ld2-stats div:nth-child(2) b{color:#0891B2}.ld2-stats div:nth-child(3) b{color:#DB2777}.ld2-stats div:nth-child(4) b{color:#C2410C}
+.ld2-stats span{font:600 .6rem var(--fmon);letter-spacing:.05em;text-transform:uppercase;color:var(--tx-f)}
+.ld2-log{width:100%;margin-top:.7rem;background:#1B1D3C;border-radius:14px;padding:.6rem .9rem;font:500 .72rem/1.75 var(--fmon);color:#C7CAE4;text-align:left;height:7.9em;overflow:hidden;box-shadow:0 18px 34px -22px rgba(27,29,60,.9)}
+.ld2-log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ld2-log span{color:#EC4899;margin-right:.35rem}
+.ld2-log .ok{color:#4FD6A8;font-weight:700}
+@media(max-height:700px){.ld2-log{display:none}}
+@media(prefers-reduced-motion:reduce){.ld2-ring .k,.ld2-ring .o{animation:none}}
+.ld2-stats b{font-size:.92rem}
+
+/* loader: the large swaying chip with halo and orbits is back */
+.ld2 .ldx-chip{width:min(54vw,236px);margin:1.4rem 0 2.6rem}
+@media(max-height:760px){.ld2 .ldx-chip{width:min(46vw,190px);margin:1rem 0 2rem}}
 </style>
 </head>
 <body class="loading">
@@ -1651,15 +1680,22 @@ html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
 <!-- LOADER -->
 <div id="loader" role="status" aria-live="polite" aria-label="Loading portfolio" style="--p:0">
   <div class="ld2">
-    <div class="ld2-ring" aria-hidden="true">
-      <svg viewBox="0 0 200 200"><defs><linearGradient id="ld2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C5CFF"/><stop offset=".45" stop-color="#EC4899"/><stop offset=".78" stop-color="#F97316"/><stop offset="1" stop-color="#EAB308"/></linearGradient></defs>
-        <circle class="t" cx="100" cy="100" r="92"/><circle class="p" cx="100" cy="100" r="92"/></svg>
-      <div class="sa-die" id="ldDie"><span class="ldx-scan"></span></div>
+    <div class="ldx-chip" aria-hidden="true">
+      <div class="ldx-halo"></div>
+      <div class="ldx-orbit"><i></i></div><div class="ldx-orbit b"><i></i></div>
+      <div class="ldx-shadow"></div>
+      <div class="ldx-tilt"><div class="sa-die" id="ldDie"><span class="ldx-scan"></span></div></div>
     </div>
     <div class="ld2-name"><span class="base">ABHISHEK VARMA</span><span class="fill" aria-hidden="true">ABHISHEK VARMA</span></div>
     <div class="ld2-row"><span id="ldStatus">Initialising flow</span><span class="ld2-pct"><span id="ldPct">0</span>%</span></div>
     <div class="ld2-steps" id="ldFlow" aria-hidden="true"><span>SPEC</span><span>RTL</span><span>VER</span><span>SYN</span><span>P&amp;R</span><span>CTS</span><span>STA</span><span>GDS</span></div>
-    <div id="ldLog" hidden></div><i id="ldFillBar" hidden></i>
+    <div class="ld2-stats" aria-hidden="true">
+      <div><b id="ldCells">0 ns</b><span>ITCH to decision</span></div>
+      <div><b id="ldCov">0</b><span>Orders in book</span></div>
+      <div><b id="ldFmax">0 MHz</b><span>Timing met</span></div>
+      <div><b id="ldWns">&ndash;</b><span>Wire to wire</span></div>
+    </div>
+    <div class="ld2-log" id="ldLog" aria-hidden="true"></div><i id="ldFillBar" hidden></i>
   </div>
 </div>
 <script>
@@ -1683,24 +1719,29 @@ html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
     die.insertBefore(r, die.firstChild === null ? null : die.querySelector('.ldx-scan'));
   });
   const STEPS = [
-    {p:6,  s:'Loading PDK',          l:'load pdk ........ skywater 130nm'},
-    {p:20,  s:'Elaborating RTL',      l:'elaborate rtl ... 25,030 cells'},
-    {p:34,  s:'Running UVM regression', l:'regress ......... 2,000+ tests pass'},
-    {p:48,  s:'Synthesising logic',   l:'synth ........... tech map + scan'},
-    {p:62,  s:'Place and route',      l:'route metal ..... m1-m5 + vias'},
-    {p:76,  s:'Clock tree synthesis', l:'cts ............. skew balanced'},
-    {p:90,  s:'Timing sign-off',      l:'sta ............. wns +0.14 ns'},
-    {p:100,s:'&#10003; Chip online',         l:'signoff ......... drc/lvs clean'}
+    {p:6,  s:'Loading design',            l:'load design ..... kria kr260 (k26)'},
+    {p:20,  s:'Elaborating RTL',          l:'elaborate rtl ... tick-to-trade pipeline'},
+    {p:34,  s:'Replaying NASDAQ data',    l:'simulate ........ real itch feed replay'},
+    {p:48,  s:'Synthesising logic',       l:'synth ........... vivado, 3 clock domains'},
+    {p:62,  s:'Place and route',          l:'route ........... 0 failing endpoints'},
+    {p:76,  s:'Clock domain crossing',    l:'cdc ............. async packet fifos'},
+    {p:90,  s:'Timing sign-off',          l:'sta ............. 200 mhz timing met'},
+    {p:100,s:'&#10003; Chip online',      l:'signoff ......... 294.4 ns wire to wire'}
   ];
   let si = 0, lit = 0, stage = -1;
-  const t0 = performance.now(), DUR = RM ? 1 : 2100;
+  const t0 = performance.now(), DUR = RM ? 1 : 2700;
   function addLog(txt, ok){
     const d = document.createElement('div'); d.innerHTML = '<span class="' + (ok ? 'ok' : '') + '">' + (ok ? '&#10003;' : '&rsaquo;') + '</span> ' + txt;
-    logEl.appendChild(d); while(logEl.children.length > 3) logEl.removeChild(logEl.firstChild);
+    logEl.appendChild(d); while(logEl.children.length > 4) logEl.removeChild(logEl.firstChild);
   }
   function tick(now){
     const prog = Math.min((now - t0)/DUR, 1), e = prog < .5 ? 2*prog*prog : 1 - Math.pow(-2*prog + 2, 2)/2, pct = Math.floor((.55*prog + .45*e)*100);
     pctEl.textContent = pct; barEl.style.width = pct + '%'; document.getElementById('loader').style.setProperty('--p', pct);
+    const cl = (v) => Math.max(0, Math.min(1, v));
+    document.getElementById('ldCells').textContent = Math.round(75*cl(pct/40)) + ' ns';
+    document.getElementById('ldCov').textContent = Math.round(196608*cl((pct - 12)/50)).toLocaleString('en-US');
+    document.getElementById('ldFmax').textContent = Math.round(200*cl((pct - 44)/36)) + ' MHz';
+    document.getElementById('ldWns').textContent = pct < 60 ? '–' : (900 - 605.6*cl((pct - 60)/32)).toFixed(1) + ' ns';
     const want = Math.floor(pct/100*cells.length);
     while(lit < want){ const c = cells[lit++]; c.classList.add('on', 'pop'); setTimeout(() => c.classList.remove('pop'), 260); }
     const st = Math.min(7, Math.floor(pct/12.5)); if(st !== stage){ stage = st; flow.forEach((f, i) => { f.classList.toggle('done', i < st); f.classList.toggle('act', i === st); }); }
@@ -1765,7 +1806,7 @@ html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
       <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
       <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
       <div class="about-lead" id="about">
-        <p class="h-lead">I have <strong>full-chip experience</strong>, with a main focus on <strong>pre-silicon</strong> work: RTL development and UVM verification, plus synthesis, static timing analysis, linting and CDC checks.</p>
+        <p class="h-lead">I have <strong>full-chip experience</strong>, with a main focus on <strong>pre-silicon and FPGA</strong> work: RTL development, UVM verification and FPGA design, plus synthesis, static timing analysis, linting and CDC checks.</p>
         <p>I have worked in <strong>verification and RTL development</strong> with industry-standard tools, and I am well versed in SystemVerilog and UVM. I have also done <strong>physical design</strong> with both commercial and open-source flows, as well as cell characterization and SPICE simulation. My recent work is <strong>FPGA development</strong>, and it is my main focus now: I am well versed in on-chip protocols and high-speed protocols, and I am currently developing a <strong>high-frequency trading platform</strong> on FPGA, where every nanosecond matters. In total I have 3.5 years of experience, plus a master's degree.</p>
         <p>I am highly motivated and hardworking, and I wanted to build something of my own. So I started <strong>Silicon Ages</strong> to give learners real value. I am publishing lectures on YouTube and on my own site, from devices all the way to tapeout. Each track has a roadmap, coursework and animations that make the ideas easy to understand.</p>
       </div>
@@ -1918,14 +1959,14 @@ html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
 <section class="sec" id="projects">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">03 &middot; 18 projects</div>
+      <div class="sec-tag">03 &middot; 17 projects</div>
       <h2 class="sec-title">Featured <span class="hl">Projects</span></h2>
     </div>
     <div class="proj-layout">
       <div class="proj-nav">
-        <div class="pn-title">18 Projects <span>· jump to</span></div>
+        <div class="pn-title">17 Projects <span>· jump to</span></div>
         <button class="pn-tab" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
-        <button class="pn-tab active" data-cat="hft"><span class="pn-label">FPGA · HFT</span><span class="pn-count">3</span></button>
+        <button class="pn-tab active" data-cat="hft"><span class="pn-label">FPGA · HFT</span><span class="pn-count">2</span></button>
         <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA Accelerators &amp; ML</span><span class="pn-count">3</span></button>
         <button class="pn-tab" data-cat="pd"><span class="pn-label">Physical Design</span><span class="pn-count">5</span></button>
         <button class="pn-tab" data-cat="tcad"><span class="pn-label">Device / TCAD</span><span class="pn-count">3</span></button>
@@ -2136,20 +2177,6 @@ html.amb-on #chipHud{border-color:rgba(var(--amb),.6)!important}
         <p class="pc-desc">A full-depth NASDAQ ITCH order book in SystemVerilog that keeps every live order of AAPL, MSFT, NVDA and TSLA in one shared store of 196,608 orders across 52 UltraRAMs, with two-choice hashing and per-stock bid and ask price ladders. It meets timing at 250 MHz on the Zynq UltraScale+ K26 and replayed a full real trading day on the KR260 board: all 4,084,599 results matched a Python reference exactly. Verified with cocotb, QuestaSim and XSim.</p>
         <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">Kria KR260</span><span class="pc-tag">UltraRAM</span><span class="pc-tag">NASDAQ ITCH</span><span class="pc-tag">cocotb</span></div>
         <a href="https://abhishekvarma827.github.io/fpga-L3-orderbook/" target="_blank" rel="noopener noreferrer" class="pc-link">Open project report &#8599;</a>
-      </div>
-
-      <div class="pc">
-        <div class="pc-badge">FPGA · HFT</div>
-        <h3 class="pc-title">FPGA Tick-to-Trade Engine — Nanosecond-Latency HFT Pipeline on Xilinx UltraScale+</h3>
-        <div class="pc-metrics">
-          <span class="pc-metric">Latency: <span>205 ns</span></span>
-          <span class="pc-metric">Clock: <span>200 MHz</span></span>
-          <span class="pc-metric">cocotb: <span>81 / 81 PASS</span></span>
-          <span class="pc-metric">Resources: <span>~7K LUTs</span></span>
-        </div>
-        <p class="pc-desc">Architected and verified a fully-pipelined FPGA tick-to-trade engine in SystemVerilog — NASDAQ ITCH parser, 256-order limit order book, depth-weighted imbalance strategy, and pre-trade risk checks — achieving 205 ns deterministic tick-to-trade latency (41 cycles @ 200 MHz, zero jitter), ~5× faster than an optimized C baseline. Drove the design through full Vivado synthesis and place-and-route on a Xilinx UltraScale+ FPGA (timing-closed at 200 MHz, ~7K LUTs, 200 MB/s line-rate ITCH ingest), eliminating ~1 ms CPU tail-latency spikes; validated with 81/81 cocotb tests against a bit-accurate Python golden model.</p>
-        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">cocotb</span><span class="pc-tag">UltraScale+</span><span class="pc-tag">NASDAQ ITCH</span></div>
-        <a href="https://drive.google.com/file/d/16Ycg-DdufeWsuxfrMezxs1uKUhQjNGSz/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="pc-link">View Project →</a>
       </div>
 
           </div>
@@ -4636,9 +4663,9 @@ function revealSite(){
     try{ runTypewriter(); }catch(e){}
   }, 600);
 }
-window.addEventListener('load', () => setTimeout(revealSite, 2500));
+window.addEventListener('load', () => setTimeout(revealSite, 3100));
 /* Hard fallback — never leave the loader stuck if Three.js / GSAP is slow or blocked */
-setTimeout(revealSite, 5200);
+setTimeout(revealSite, 5800);
 
 /* Cursor */
 const cDot=document.getElementById('cDot'), cRing=document.getElementById('cRing');
