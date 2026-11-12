@@ -29,7 +29,7 @@
 "description":"UVM verification engineer with hands-on RTL-to-GDS tapeout experience on SkyWater 130nm, specializing in AMBA protocol verification, RTL design, and ML hardware acceleration.",
 "email":"mailto:abhishekvarma827@gmail.com",
 "telephone":"+1-551-347-6950",
-"address":{"@type":"PostalAddress","addressLocality":"San Jose","addressRegion":"CA","addressCountry":"US"},
+"address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"CA","addressCountry":"US"},
 "alumniOf":[{"@type":"CollegeOrUniversity","name":"Illinois Institute of Technology"},{"@type":"CollegeOrUniversity","name":"Shri Vaishnav Institute of Technology and Science"}],
 "knowsAbout":["VLSI","ASIC Verification","UVM","SystemVerilog","RTL-to-GDS","Physical Design","FPGA","RISC-V","SkyWater 130nm PDK"],
 "sameAs":["https://github.com/abhishekvarma827","https://www.linkedin.com/in/abhishekvarma10/","https://www.siliconages.com/"]}
@@ -1289,6 +1289,48 @@ html.lenis,html.lenis body{height:auto}
   radial-gradient(44% 40% at 100% 22%,rgba(236,72,153,.08),transparent 62%),
   linear-gradient(to right,rgba(245,244,253,.96) 0%,rgba(245,244,253,.86) 22%,rgba(245,244,253,.45) 34%,rgba(245,244,253,.1) 44%,rgba(245,244,253,0) 52%,rgba(245,244,253,.1) 60%,rgba(245,244,253,.5) 72%,rgba(245,244,253,.86) 86%,rgba(245,244,253,.94) 100%)}
 @media(max-width:768px){#veil{background:rgba(245,244,253,.84)}}
+
+/* ═════════ HERO v3 ═════════ */
+.h-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font:700 .82rem var(--fbod);color:#15803D;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.45);border-radius:999px;padding:.34rem .9rem;margin-bottom:1.1rem}
+.h-eyebrow i{width:8px;height:8px;border-radius:50%;background:#22C55E;animation:ftPulse 1.8s ease-in-out infinite}
+.h-name{margin-bottom:.9rem}
+.h-role{margin-bottom:1.3rem}
+.about-lead{margin:0 0 1.5rem;max-width:34rem}
+.about-lead .h-lead{font:600 1.22rem/1.42 var(--fdis);letter-spacing:-.015em;color:var(--tx);margin-bottom:.9rem}
+.about-lead .h-lead strong{background:var(--grad2);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.about-lead p{font-size:1.02rem;line-height:1.65}
+.h-cta{display:flex;flex-wrap:wrap;gap:.65rem;margin-bottom:1.3rem}
+.h-worked{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem .5rem;max-width:34rem}
+.h-worked span{font:600 .8rem var(--fbod);color:var(--tx-d);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:.26rem .75rem}
+.h-worked .hw-l{background:none;border:none;padding:0 .3rem 0 0;color:var(--tx-f);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;flex-basis:100%}
+.hero-rail .sa-mini{margin-top:0}
+.sa-mini .sa-die{width:74px;flex:0 0 74px}
+.hero-inner{align-items:center}
+#hero{align-items:center;padding-top:6.2rem;padding-bottom:4.6rem}
+.h-name{font-size:clamp(2.8rem,5.4vw,4.9rem)}
+.hero-rail{gap:.7rem}
+.hero-rail .h-stats>div{padding:.75rem 1rem!important}
+.hero-rail .hs-n{font-size:1.7rem}
+.glance{padding:1.05rem 1.3rem}
+.glance dl>div{padding:.5rem 0}
+.gl-h{margin-bottom:.55rem}
+@media(max-width:1200px){.about-lead,.h-worked{max-width:none}}
+
+/* ═════════ NAV v2 ═════════ */
+nav{justify-content:flex-start;gap:1.2rem}
+.n-links{margin-right:auto}
+.n-right{display:flex;align-items:center;gap:.55rem;flex-shrink:0}
+.n-ic{width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);color:var(--cu);transition:all .25s}
+.n-ic svg{width:17px;height:17px;fill:currentColor}
+.n-ic:hover{background:var(--cu);border-color:var(--cu);color:#fff;transform:translateY(-2px)}
+.n-sa-btn{font:800 .9rem var(--fdis);letter-spacing:-.01em;text-decoration:none;padding:.44rem 1rem;border-radius:999px;border:1.5px solid transparent;margin-left:.3rem;
+  background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;transition:transform .25s,box-shadow .25s}
+.n-sa-btn{color:var(--cu)}
+.n-sa-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -10px rgba(236,72,153,.6)}
+.h-eyebrow{color:var(--cu);background:rgba(124,92,255,.1);border-color:rgba(124,92,255,.38)}
+.h-eyebrow i{background:var(--vio);animation:none}
+@media(max-width:1100px){.n-right .n-cta{display:none}}
+@media(max-width:768px){.n-right .n-ic{display:none}.n-sa-btn{font-size:.78rem;padding:.34rem .7rem}.n-right{display:flex!important}}
 </style>
 </head>
 <body class="loading">
@@ -1392,27 +1434,21 @@ html.lenis,html.lenis body{height:auto}
 
 <!-- NAV -->
 <nav id="nav" aria-label="Primary">
-  <div class="n-contact">
-    <div class="h-info">
-      <a href="tel:+15513476950"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.3 1.1.4 2.4.6 3.6.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg>(551) 347-6950</a>
-      <a href="mailto:abhishekvarma827@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>abhishekvarma827@gmail.com</a>
-      <a href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg>GitHub</a>
-      <a href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>LinkedIn</a>
-      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>San Jose, CA · Open to Relocation</span>
-    </div>
-    <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" class="btn-s n-cta">Resume</a>
-    <a href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D" class="btn-p n-cta">Get In Touch</a>
-  </div>
   <ul class="n-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#siliconages" class="n-sa">Silicon Ages</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#certs">Certifications</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
   </ul>
-  <div class="n-badge">Open to Work</div>
+  <div class="n-right">
+    <a class="n-ic" href="https://github.com/abhishekvarma827" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.4.5 0 5.9 0 12.5c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 24 12.5C24 5.9 18.6.5 12 .5z"/></svg></a>
+    <a class="n-ic" href="https://www.linkedin.com/in/abhishekvarma10/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
+    <a href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf" class="btn-s n-cta">Resume</a>
+    <a href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D" class="btn-p n-cta">Get in touch</a>
+    <a href="#siliconages" class="n-sa-btn">Silicon Ages</a>
+  </div>
 </nav>
 
 <!-- MAIN -->
@@ -1423,19 +1459,21 @@ html.lenis,html.lenis body{height:auto}
   <div class="hero-inner">
     <!-- LEFT: identity + contact + CTA -->
     <div class="hero-left">
+      <span class="h-eyebrow"><i></i>San Francisco, CA</span>
       <h1 class="h-name"><span class="first">ABHISHEK</span><span class="last">VARMA</span></h1>
       <div class="h-role"><span id="typEl"></span><span class="blink"></span></div>
       <div class="about-lead" id="about">
-        <h2 class="al-title">About <span class="hl">Myself</span></h2>
-        <p>Graduate specializing in <strong>VLSI &amp; Microelectronics</strong> at Illinois Institute of Technology (GPA 3.60/4.0), with 3+ years of experience spanning protocol verification, RTL design, physical design, and ML hardware acceleration.</p>
-        <p>Architect of end-to-end UVM verification environments for <strong>AMBA AHB, APB, AXI4, SPI, and UART</strong> protocols — achieving 99.8% functional coverage and 100% assertion closure. Hands-on tapeout experience executing a full <strong>RTL-to-GDS flow on SkyWater 130nm PDK</strong> via Yosys + OpenROAD, delivering a 25,030 standard-cell design clean at 50 MHz.</p>
-        <p>Currently on <strong>F-1 OPT status</strong>, authorized to work through June 2026 with STEM OPT extension eligibility.</p>
+        <p class="h-lead">I verify and build chips end to end: UVM environments that reach <strong>99.8% functional coverage</strong>, and an <strong>RTL-to-GDS tapeout</strong> of 25,030 cells on SkyWater 130nm.</p>
+        <p>M.A.Sc in VLSI &amp; Microelectronics from Illinois Tech (GPA 3.60/4.0), with 3+ years across AMBA protocol verification, RTL design, physical design and FPGA acceleration.</p>
       </div>
-      <a class="sa-mini" href="https://www.siliconages.com/" target="_blank" rel="noopener" aria-label="Visit Silicon Ages">
-        <div class="sa-die" data-sa-die="mini" aria-hidden="true"></div>
-        <span><span class="sa-mini-t">I also built <i>Silicon Ages</i></span><span class="sa-mini-s">Free chip design courses where your code animates as you type.</span></span>
-        <span class="sa-mini-go" aria-hidden="true">&#8599;</span>
-      </a>
+      <div class="h-cta">
+        <a class="btn-p" href="mailto:abhishekvarma827@gmail.com?subject=Opportunity%20for%20Abhishek%20Varma%20(VLSI%20%2F%20Verification)&amp;body=Hi%20Abhishek%2C%0A%0AI%20came%20across%20your%20VLSI%20%26%20Verification%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20%5BRole%5D%20opportunity%20at%20%5BCompany%5D.%0A%0ALooking%20forward%20to%20connecting.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D">Get in touch</a>
+        <a class="btn-s" href="#projects">See 18 projects</a>
+      </div>
+      <div class="h-worked">
+        <span class="hw-l">Worked at</span>
+        <span>Twinwing Labs</span><span>Community Dreams Foundation</span><span>Illinois Tech VLSI/SoC Lab</span><span>Aceic Design Technologies</span>
+      </div>
     </div>
     <!-- RIGHT rail: ASIC flow + metrics + focus + stack (middle column left clear for the 3D chip) -->
     <div class="hero-rail">
@@ -1479,13 +1517,14 @@ html.lenis,html.lenis body{height:auto}
           <div><dt>Now</dt><dd>Hardware Design &amp; Verification Engineer at <b>Twinwing Labs</b>, San Francisco</dd></div>
           <div><dt>Focus</dt><dd>UVM and SVA verification, RTL-to-GDS, low-latency FPGA</dd></div>
           <div><dt>Degree</dt><dd>M.A.Sc in VLSI &amp; Microelectronics, Illinois Tech</dd></div>
-          <div><dt>Status</dt><dd><span class="gl-ok">Open to work</span> F-1 OPT, STEM extension eligible</dd></div>
+          <div><dt>Status</dt><dd>F-1 OPT, STEM extension eligible</dd></div>
         </dl>
-        <div class="gl-btns">
-          <a class="btn-p" href="#projects">See projects</a>
-          <a class="btn-s" href="ASIC_Resume.pdf" download="Abhishek_Varma_Resume.pdf">Resume</a>
-        </div>
       </div>
+      <a class="sa-mini" href="https://www.siliconages.com/" target="_blank" rel="noopener" aria-label="Visit Silicon Ages">
+        <div class="sa-die" data-sa-die="mini" aria-hidden="true"></div>
+        <span><span class="sa-mini-t">I also built <i>Silicon Ages</i></span><span class="sa-mini-s">Free chip design courses where your code animates as you type.</span></span>
+        <span class="sa-mini-go" aria-hidden="true">&#8599;</span>
+      </a>
     </div>
   </div>
 </section>
@@ -1549,8 +1588,8 @@ html.lenis,html.lenis body{height:auto}
           <div class="ti-top"><h3 class="ti-role">Hardware Design &amp; Verification Engineer</h3><span class="ti-date">Jun 2026 – Present</span></div>
           <p class="ti-co">Twinwing Labs Inc · San Francisco, CA <a href="https://abhishekvarma827.github.io/HFT_FPGA_DEMO/" target="_blank" rel="noopener noreferrer" style="color:var(--cu);font-weight:700;text-decoration:none;margin-left:.3rem;">Live Demo ↗</a></p>
           <ul class="ti-ul">
-            <li>Build reusable UVM/cocotb testbenches in SystemVerilog for a low-latency HFT tick-to-trade datapath (NASDAQ ITCH → OUCH, 196,608-order hashed UltraRAM order book) — bit-exact golden-model equivalence, real NASDAQ-day replay, error injection, and a 33-step automated regression (accelerated with Claude Code) driving coverage closure</li>
-            <li>Package custom CDC IP (Gray-code async FIFOs, synchronizers) as 14 Vivado IP-XACT blocks across a 3-clock-domain architecture (156.25 / 250 / 100 MHz); run STA and close timing — fixing the −2.957 ns worst path at 250 MHz with zero-latency pipelining — ahead of synthesis and place-and-route</li>
+            <li>Build a low-latency FPGA tick-to-trade pipeline in SystemVerilog for the AMD Kria KR260: 10G Ethernet, MoldUDP64 feed handling, ITCH parsing, a 196,608-order hardware book, strategies, pre-trade risk and OUCH orders over hardware TCP, at 294.4 ns median wire to wire and 75 ns from ITCH byte to decision</li>
+            <li>Own the three-clock-domain design (156.25 / 200 / 100 MHz) with asynchronous packet FIFOs, close timing at 200 MHz on the K26 with 0 failing endpoints, and verify against real NASDAQ data in cycle-accurate simulation with cocotb and QuestaSim</li>
           </ul>
         </div>
       </div>
@@ -1578,14 +1617,14 @@ html.lenis,html.lenis body{height:auto}
 <section class="sec" id="projects">
   <div class="sec-inner" style="margin:0 auto">
     <div class="sec-hd">
-      <div class="sec-tag">03 &middot; 17 projects</div>
+      <div class="sec-tag">03 &middot; 18 projects</div>
       <h2 class="sec-title">Featured <span class="hl">Projects</span></h2>
     </div>
     <div class="proj-layout">
       <div class="proj-nav">
-        <div class="pn-title">17 Projects <span>· jump to</span></div>
-        <button class="pn-tab active" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
-        <button class="pn-tab" data-cat="hft"><span class="pn-label">FPGA · HFT</span><span class="pn-count">2</span></button>
+        <div class="pn-title">18 Projects <span>· jump to</span></div>
+        <button class="pn-tab" data-cat="verif"><span class="pn-label">Verification</span><span class="pn-count">4</span></button>
+        <button class="pn-tab active" data-cat="hft"><span class="pn-label">FPGA · HFT</span><span class="pn-count">3</span></button>
         <button class="pn-tab" data-cat="fpga"><span class="pn-label">FPGA Accelerators &amp; ML</span><span class="pn-count">3</span></button>
         <button class="pn-tab" data-cat="pd"><span class="pn-label">Physical Design</span><span class="pn-count">5</span></button>
         <button class="pn-tab" data-cat="tcad"><span class="pn-label">Device / TCAD</span><span class="pn-count">3</span></button>
@@ -1770,22 +1809,36 @@ html.lenis,html.lenis body{height:auto}
           <h3 class="pp-title">FPGA · High-Frequency Trading Accelerators</h3>
           <div class="pg">
 
-      <div class="pc feat wide">
-        <div class="pc-badge">★ Featured · FPGA · HFT</div>
-        <h3 class="pc-title">Multi-Symbol Level-3 Order Book Accelerator — NASDAQ ITCH on AMD Kria KR260</h3>
+      <div class="pc feat">
+        <div class="pc-badge">&#9733; Current work &middot; Twinwing Labs</div>
+        <h3 class="pc-title">Low-Latency FPGA Tick-to-Trade System: NASDAQ ITCH In, OUCH Orders Out</h3>
         <div class="pc-metrics">
-          <span class="pc-metric">Clock: <span>250 MHz</span></span>
-          <span class="pc-metric">Add-to-Top: <span>24 ns</span></span>
-          <span class="pc-metric">Orders: <span>196,608</span></span>
-          <span class="pc-metric">Replay: <span>14.4 M msg/s</span></span>
+          <span class="pc-metric">Wire to wire: <span>294.4 ns median</span></span>
+          <span class="pc-metric">ITCH byte to decision: <span>75 ns</span></span>
+          <span class="pc-metric">Timing on K26: <span>200 MHz met</span></span>
+          <span class="pc-metric">Order book: <span>196,608 orders</span></span>
         </div>
-        <p class="pc-desc">Designed and timing-closed a full-depth Level-3 order book in SystemVerilog tracking every live order of 4 stocks (AAPL/MSFT/NVDA/TSLA) from the NASDAQ ITCH feed — a shared 196,608-order store across 52 UltraRAMs with two-choice hashing, per-stock bid/ask price ladders, and a 3-level bitmap that finds the next price level in 5 cycles, with the top 4 levels per side held in registers. Pipelined the critical paths (price ÷100 in DSP blocks, registered RAM outputs) to 250 MHz on the K26 with 0 failing endpoints and 24 ns add-to-top-of-book latency; verified every message against a Python reference with cocotb/QuestaSim, replaying a full NASDAQ day (4,084,599 messages) on the KR260 with 0 mismatches at 14.4 M msg/s, plus an AXI-Lite replay path and a live ARM-served web dashboard.</p>
-        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">Kria KR260</span><span class="pc-tag">UltraRAM</span><span class="pc-tag">NASDAQ ITCH</span><span class="pc-tag">cocotb</span></div>
-        <a href="https://abhishekvarma827.github.io/fpga-L3-orderbook/" target="_blank" rel="noopener noreferrer" class="pc-link">Live Demo ↗</a>
+        <p class="pc-desc">A complete trading pipeline in SystemVerilog for the AMD Kria KR260: 10G Ethernet MAC, MoldUDP64 A/B feed handling, ITCH parsing, a hardware order book, strategy engine, pre-trade risk and OUCH orders over a hardware TCP session, all through one SFP+ port. Three clock domains (156.25 / 200 / 100 MHz) are joined by asynchronous packet FIFOs. Latency is measured in cycle-accurate RTL simulation replaying real NASDAQ AAPL data, and the full board build meets timing at 200 MHz with 0 failing endpoints.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">Kria KR260</span><span class="pc-tag">10G Ethernet</span><span class="pc-tag">ITCH / OUCH</span><span class="pc-tag">CDC</span></div>
+        <a href="https://abhishekvarma827.github.io/HFT_FPGA_DEMO/" target="_blank" rel="noopener noreferrer" class="pc-link">Open live demo &#8599;</a>
       </div>
 
       <div class="pc feat">
-        <div class="pc-badge">★ Featured · FPGA · HFT</div>
+        <div class="pc-badge">&#9733; Featured &middot; Proven on the board</div>
+        <h3 class="pc-title">Hardware Level-3 Order Book: 4 NASDAQ Stocks on the Kria KR260</h3>
+        <div class="pc-metrics">
+          <span class="pc-metric">Clock: <span>250 MHz</span></span>
+          <span class="pc-metric">Add to top of book: <span>24 ns</span></span>
+          <span class="pc-metric">Board replay: <span>0 mismatches</span></span>
+          <span class="pc-metric">Throughput: <span>14.4 M msg/s</span></span>
+        </div>
+        <p class="pc-desc">A full-depth NASDAQ ITCH order book in SystemVerilog that keeps every live order of AAPL, MSFT, NVDA and TSLA in one shared store of 196,608 orders across 52 UltraRAMs, with two-choice hashing and per-stock bid and ask price ladders. It meets timing at 250 MHz on the Zynq UltraScale+ K26 and replayed a full real trading day on the KR260 board: all 4,084,599 results matched a Python reference exactly. Verified with cocotb, QuestaSim and XSim.</p>
+        <div class="pc-tags"><span class="pc-tag">SystemVerilog</span><span class="pc-tag">Vivado</span><span class="pc-tag">Kria KR260</span><span class="pc-tag">UltraRAM</span><span class="pc-tag">NASDAQ ITCH</span><span class="pc-tag">cocotb</span></div>
+        <a href="https://abhishekvarma827.github.io/fpga-L3-orderbook/" target="_blank" rel="noopener noreferrer" class="pc-link">Open project report &#8599;</a>
+      </div>
+
+      <div class="pc">
+        <div class="pc-badge">FPGA · HFT</div>
         <h3 class="pc-title">FPGA Tick-to-Trade Engine — Nanosecond-Latency HFT Pipeline on Xilinx UltraScale+</h3>
         <div class="pc-metrics">
           <span class="pc-metric">Latency: <span>205 ns</span></span>
@@ -2535,7 +2588,7 @@ window.addEventListener('resize', () => {
   cam.aspect = innerWidth / innerHeight;
   cam.updateProjectionMatrix();
   composer.setSize(innerWidth, innerHeight);
-  if(bloom) bloom.resolution.set(innerWidth, innerHeight);
+  if(bloom) bloom.resolution.set(innerWidth/2, innerHeight/2);
   window.__scrollDirty = true;
 });
 
@@ -2702,16 +2755,45 @@ function drawRouting(ctx, sz){
 }
 
 function drawDieLayer(ctx, sz){
-  // clean package substrate: pale base, fine grid, ball grid outside the chip, gold seat for the chip
-  ctx.fillStyle='#f3f0fd';ctx.fillRect(0,0,sz,sz);
-  ctx.strokeStyle='rgba(124,92,255,.10)';ctx.lineWidth=1;
-  for(let i=32;i<sz;i+=32){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,sz);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(sz,i);ctx.stroke();}
-  const c=sz/2,h=sz*0.5/4.2*2.0;   // chip footprint (2.0 wide on a 4.2 substrate)
-  for(let x=44;x<sz-30;x+=30)for(let y=44;y<sz-30;y+=30){ if(Math.abs(x-c)<h+70&&Math.abs(y-c)<h+70)continue; ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle='rgba(233,180,76,.55)';ctx.fill(); }
-  ctx.strokeStyle='#e9b44c';ctx.lineWidth=5;ctx.strokeRect(c-h-8,c-h-8,h*2+16,h*2+16);
-  ctx.strokeStyle='rgba(124,92,255,.35)';ctx.lineWidth=3;ctx.setLineDash([14,10]);ctx.strokeRect(c-h-60,c-h-60,h*2+120,h*2+120);ctx.setLineDash([]);
-  ctx.strokeStyle='rgba(124,92,255,.5)';ctx.lineWidth=8;ctx.strokeRect(6,6,sz-12,sz-12);
-  return;
+  // package substrate: bump field under the chip, power rings, 4 fan-out bundles, vias, cap footprints, markings
+  const c = sz/2, U = sz/4.2, r = rng32(31), seat = 1.0*U;
+  const g = ctx.createLinearGradient(0, 0, sz, sz); g.addColorStop(0, '#d9d2fa'); g.addColorStop(1, '#c4bbf3');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, sz, sz);
+  ctx.strokeStyle = 'rgba(75,50,195,.10)'; ctx.lineWidth = 1;
+  for(let i = 16; i < sz; i += 16){ ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, sz); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(sz, i); ctx.stroke(); }
+  // fan-out bundles: 26 traces per side from the pad row out to edge lands, 45-degree escape
+  for(let side = 0; side < 4; side++){
+    ctx.save(); ctx.translate(c, c); ctx.rotate(side*Math.PI/2);
+    for(let i = 0; i < 26; i++){
+      const y0 = (i - 12.5)*14, yE = (i - 12.5)*33, x0 = 1.62*U, xb = x0 + 14 + Math.abs(i - 12.5)*2.2, xe = c - 46;
+      const col = i % 4 === 0 ? '#E9B44C' : (i % 2 ? '#6d5ae6' : '#e0569f');
+      ctx.strokeStyle = col; ctx.lineWidth = 2.6; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(xb, y0);
+      if(i % 6 === 3){ for(let k = 0; k < 3; k++) ctx.lineTo(xb + 6 + k*10, y0 + (k % 2 ? 6 : -6)); ctx.lineTo(xb + 40, y0); }
+      const bend = Math.min(xe - 12, xb + 44 + Math.abs(yE - y0)*.55); ctx.lineTo(bend, yE); ctx.lineTo(xe, yE); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(bend, yE, 4.2, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#E9B44C'; ctx.fillRect(xe, yE - 5, 26, 10);
+    }
+    // decoupling-cap footprints between the chip and the pad row
+    for(let i = 0; i < 9; i++){ const y = (i - 4)*46, x = 1.26*U; ctx.fillStyle = '#E9B44C'; ctx.fillRect(x - 9, y - 6, 6, 12); ctx.fillRect(x + 3, y - 6, 6, 12); ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 1.2; ctx.strokeRect(x - 12, y - 9, 24, 18); }
+    ctx.restore();
+  }
+  // power rings round the chip seat
+  ctx.strokeStyle = 'rgba(233,180,76,.9)'; ctx.lineWidth = 6; ctx.strokeRect(c - 1.12*U, c - 1.12*U, 2.24*U, 2.24*U);
+  ctx.strokeStyle = 'rgba(109,90,230,.75)'; ctx.lineWidth = 4; ctx.strokeRect(c - 1.4*U, c - 1.4*U, 2.8*U, 2.8*U);
+  // chip seat: dark field with the solder-bump grid the chip lands on
+  ctx.fillStyle = '#2a2670'; ctx.fillRect(c - seat, c - seat, seat*2, seat*2);
+  for(let x = c - seat + 12; x < c + seat - 4; x += 15) for(let y = c - seat + 12; y < c + seat - 4; y += 15){ ctx.beginPath(); ctx.arc(x, y, 3.4, 0, Math.PI*2); ctx.fillStyle = ((x + y) | 0) % 3 ? 'rgba(233,180,76,.9)' : 'rgba(201,160,255,.9)'; ctx.fill(); }
+  ctx.strokeStyle = '#E9B44C'; ctx.lineWidth = 4; ctx.strokeRect(c - seat, c - seat, seat*2, seat*2);
+  // corner cap arrays, fiducials, pin-1 mark, via stitching
+  [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx, sy]) => {
+    for(let i = 0; i < 3; i++) for(let j = 0; j < 3; j++){ const x = c + sx*(1.62*U + i*26), y = c + sy*(1.62*U + j*26); ctx.fillStyle = '#E9B44C'; ctx.fillRect(x - 9, y - 5, 6, 10); ctx.fillRect(x + 3, y - 5, 6, 10); }
+    ctx.beginPath(); ctx.arc(c + sx*(c - 34), c + sy*(c - 34), 11, 0, Math.PI*2); ctx.fillStyle = '#E9B44C'; ctx.fill(); ctx.beginPath(); ctx.arc(c + sx*(c - 34), c + sy*(c - 34), 20, 0, Math.PI*2); ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  ctx.fillStyle = '#E9B44C'; ctx.beginPath(); ctx.moveTo(c - 1.4*U, c - 1.4*U); ctx.lineTo(c - 1.4*U + 40, c - 1.4*U); ctx.lineTo(c - 1.4*U, c - 1.4*U + 40); ctx.fill();
+  for(let k = 0; k < 150; k++){ const x = 60 + r()*(sz - 120), y = 60 + r()*(sz - 120); if(Math.abs(x - c) < 1.45*U && Math.abs(y - c) < 1.45*U) continue; ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fill(); ctx.strokeStyle = 'rgba(75,50,195,.6)'; ctx.lineWidth = 1.4; ctx.stroke(); }
+  ctx.fillStyle = 'rgba(42,38,112,.85)'; ctx.font = '700 17px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
+  ctx.fillText('FCBGA-1936   SA130 PKG   REV C', c, 30); ctx.fillText('ABHISHEK VARMA  //  SKY130A  //  50 MHz', c, sz - 16);
+  ctx.strokeStyle = 'rgba(75,50,195,.75)'; ctx.lineWidth = 8; ctx.strokeRect(5, 5, sz - 10, sz - 10);
 }
 function drawDieLayerOld(ctx, sz){
   ctx.fillStyle='#fce4f0';ctx.fillRect(0,0,sz,sz);
@@ -3616,6 +3698,7 @@ function updatePcbLive(t, dt, on){
 }
 if(document.fonts && document.fonts.load){ document.fonts.load('12px "JetBrains Mono"').then(() => {
   const m = layers3d[0].mesh.material; m.map.dispose(); m.map = makeTex(drawSubstrate, 2048); m.needsUpdate = true; window.__scrollDirty = true;
+  const m2 = layers3d[2].mesh.material; m2.map.dispose(); m2.map = makeTex(drawDieLayer); m2.map.colorSpace = THREE.SRGBColorSpace; m2.needsUpdate = true;
 }).catch(() => {}); }
 
 /* ── PACKAGE BOND WIRES — gold wires from the lid's pad ring down to landing pads on the
@@ -3670,6 +3753,16 @@ const scanBar = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.03, 0.07), new THREE
 const scanCurtain = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 0.9), new THREE.MeshBasicMaterial({color:0x7c5cff, transparent:true, opacity:0, side:THREE.DoubleSide, depthWrite:false}));
 scene.add(scanBar, scanCurtain);
 
+/* ── SUBSTRATE PARTS — decoupling capacitors standing on the package substrate ── */
+layers3d[2].mesh.material.map.colorSpace = THREE.SRGBColorSpace; layers3d[2].mesh.material.map.needsUpdate = true;
+const subCapPos = [];
+[[1,0],[-1,0],[0,1],[0,-1]].forEach(([sx, sz]) => { for(let i = 0; i < 9; i++){ const o = (i - 4)*0.189; subCapPos.push(sx ? [sx*1.26, o, 1] : [o, sz*1.26, 0]); } });
+[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx, sz]) => { for(let i = 0; i < 3; i++) for(let j = 0; j < 3; j++) subCapPos.push([sx*(1.62 + i*0.107), sz*(1.62 + j*0.107), 0]); });
+const subCapMat = new THREE.MeshStandardMaterial({color:0xc9a25a, roughness:.5, metalness:.35, transparent:true, opacity:0});
+const subCaps = new THREE.InstancedMesh(new THREE.BoxGeometry(0.075, 0.035, 0.045), subCapMat, subCapPos.length);
+(() => { const d = new THREE.Object3D(); subCapPos.forEach(([x, z, rot], i) => { d.position.set(x, 0.018, z); d.rotation.y = rot ? Math.PI/2 : 0; d.updateMatrix(); subCaps.setMatrixAt(i, d.matrix); }); })();
+subCaps.frustumCulled = false; scene.add(subCaps);
+
 /* ── CLEAN-UP — older scene pieces switched off so the stack reads as board → package → chip ── */
 [layers3d[1], layers3d[3]].forEach(L => { L.mesh.visible = false; L.edges.visible = false; });
 layerConnectors.forEach(C => C.pillars.forEach(p => { p.mesh.visible = false; }));
@@ -3700,7 +3793,7 @@ const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, cam));
 let bloom = null;
 if(!lowPower){                                 // skip the expensive bloom pass on low-power devices
-  bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.22, 0.45, 0.92);
+  bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth/2, innerHeight/2), 0.22, 0.45, 0.92);
   composer.addPass(bloom);
 }
 composer.addPass(new OutputPass());
@@ -4218,6 +4311,8 @@ function animate(){
 
   updatePcbLive(t, dt, clamp((layers3d[0].lp - 0.9)/0.1, 0, 1) * clamp((curAssP - 0.5)/0.3, 0, 1));
 
+  subCaps.position.y = dL.mesh.position.y + dL.t/2; subCapMat.opacity = clamp((dL.lp - 0.8)/0.2, 0, 1);
+
   // Subtle life: cells shimmer softly, gold glints circle the pads, board edges breathe bottom to top
   const lidOn = clamp((lidL.lp - 0.9)/0.1, 0, 1);
   lidL.mesh.material[2].emissiveIntensity = 0.5 + 0.09*Math.sin(t*1.7)*motionK;
@@ -4308,7 +4403,8 @@ function animate(){
 
   // Only spend GPU when something is actually moving; freeze the last frame when the reader is settled.
   if(spd > 0.001 || fxBusy || window.__scrollDirty || signoffFlash > 0.001 || pageFinaleFlash > 0.001 || routeFlash > 0.001 || layers3d.some(L => L.flash > 0.001) || layerConnectors.some(C => C.flash > 0.001) || Math.abs((window.__targetSp||0) - assEase) > 0.0008 || Math.abs(heroSp() - buildEase) > 0.0008){
-    composer.render();
+    // while a section is pinned and its cards slide sideways the chip is mostly covered: draw it every other frame
+    if(!(horizPin && (horizTick & 1))) composer.render();
     window.__scrollDirty = false;
     idleR = 0;
   } else if(idleR < 3){
@@ -4509,7 +4605,7 @@ function setupTagReveal(){
 window.addEventListener('load', () => { setTimeout(setupProjScroll, 350); });
 function setupProjScroll(){
   // Category order: Verification → FPGA·HFT → FPGA Accelerators/ML → Physical Design → Device/TCAD
-  const CAT_ORDER = ['verif','hft','fpga','pd','tcad'];
+  const CAT_ORDER = ['hft','verif','fpga','pd','tcad'];   // current HFT work leads
   const navEl = document.querySelector('.proj-nav');
   const contentEl = document.querySelector('.proj-content');
   if(navEl && contentEl){
@@ -4530,7 +4626,7 @@ function setupProjScroll(){
   }));
 
   const desktop = window.innerWidth >= 900 && !matchMedia('(prefers-reduced-motion: reduce)').matches && window.gsap && window.ScrollTrigger;
-  if(!desktop){ setActive('verif'); return; }
+  if(!desktop){ setActive('hft'); return; }
   gsap.registerPlugin(ScrollTrigger);
 
   panels.forEach(panel => {
@@ -4561,7 +4657,7 @@ function setupProjScroll(){
     tl.to(pg, {x: () => -getDist(), ease:'none', duration: 1 - 2*DWELL}); // glide the cards
     tl.to({}, {duration: DWELL});                                        // hold at the end
   });
-  setActive('verif');
+  setActive('hft');
   ScrollTrigger.refresh();
 }
 
@@ -4662,6 +4758,7 @@ window.addEventListener('load', () => {
     });
     die.appendChild(el('span', 'sa-trace'));
     const big = die.dataset.saDie === 'big';
+    if(!big){ cells.forEach(c => c.classList.add('on')); return; }
     if(RM){ cells.forEach(c => c.classList.add('on')); if(big && litEl) litEl.textContent = cells.length + ' of ' + cells.length; return; }
     let n = 0, vis = false, timer = null;
     function step(){
